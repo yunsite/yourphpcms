@@ -1,0 +1,20 @@
+<include file="Home:header" />
+
+<div class="left">
+		<div class="pos">{%catpos} <a href="{:URL()}">{%home_font}</a> > <YP:catpos  catid="$catid" space=" > " /></div>
+		<div id="content">				
+			<h1>{$title}</h1>
+			<br>
+			<div class="content">{$content}</div>
+			<div id="pages" class="page">{$pages}</div>
+			<br>
+		</div>
+</div>
+
+<div class="right">
+	<include file="Home:right" />
+</div>
+
+
+
+<include file="Home:footer" />

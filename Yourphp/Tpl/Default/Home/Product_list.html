@@ -1,0 +1,26 @@
+<include file="Home:header" />
+
+<div class="left">
+		<div class="pos">{%catpos}: <a href="{:URL()}">{%home_font}</a> > <YP:catpos  catid="$catid" space=" > " /></div>
+		 
+		<div class="list">
+		
+		<volist name="list" id="r">
+		<dl class="img">
+		<dd class="pic"><span><a href="{$r.url}" target="_blank"><img src="{$r['thumb']|thumb}" align="absmiddle" ></a></span></dd>
+		<dt><a href="{$r.url}" target="_blank">{$r.title}</a></dt>
+		<dd>{%type}：{$Categorys[$r[catid]]['catname']}</dd><dd>{%Specification}：{$r.xinghao}</dd><dd>{%price}：<b>{$r.price}{%RMB}</b></dd>
+		</dl>
+		</volist>
+		</div>
+		
+		<div id="pages" class="page">{$pages}</div>
+		<br>
+</div>
+
+<div class="right">
+	<include file="Home:right" />
+</div>
+
+
+<include file="Home:footer" />

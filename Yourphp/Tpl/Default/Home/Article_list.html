@@ -1,0 +1,23 @@
+<include file="Home:header" />
+
+<div class="left">
+		<div class="pos">{%catpos}: <a href="{:URL()}">{%home_font}</a> > <YP:catpos  catid="$catid" space=" > " /></div>
+		<div class="list">
+		<ul class="txt">
+			<volist name="list" id="r">
+					<li><span class="date">[{$r.createtime|toDate=###,'Y-m-d'}]</span><a href="{$r.url}" target="_blank">{$r.title}</a></li>
+			</volist> 
+		</ul></div>
+
+		<div id="pages" class="page">{$pages}</div>
+		<br>
+</div>
+
+
+<div class="right">
+	<include file="Home:right" />
+</div>
+
+
+
+<include file="Home:footer" />
