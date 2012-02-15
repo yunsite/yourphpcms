@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html>
+<head>
+<title>{:L('message_title')}</title>
+<meta http-equiv="Content-Type" content="text/html; charset={:C('DEFAULT_CHARSET')}">
+<meta http-equiv='Refresh' content='{$waitSecond};URL={$jumpUrl}'>
+<load href ="__PUBLIC__/Css/style.css" />
+</head>
+<body>
+<!--{$msgTitle} -->
+<div class="showMsg" style="text-align:center">
+	<h5>{:L('message_title')}</h5>
+    <div class="content guery" style="display:inline-block;display:-moz-inline-stack;zoom:1;*display:inline; max-width:280px">{$message} {$error}</div>
+    <div class="bottom">
+	<present name="closeWin" >
+	{:L('msg_system_1')} <span style="color:blue;font-weight:bold">{$waitSecond}</span> {:L('msg_system_2')} <a href="{$jumpUrl}">{:L('close')}</a> {:L('click_this')}
+	</present>
+	<notpresent name="closeWin" >
+	{:L('msg_system_1')} <span style="color:blue;font-weight:bold">{$waitSecond}</span> {:L('msg_system_2')} <a href="{$jumpUrl}">{:L('click_this')}</a> {:L('jump')}
+	</notpresent>
+	</div>
+	
+<?php if ($dialog):?>
+<script type="text/javascript" src="./Public/Js/jquery.min.js"></script> 
+<script type="text/javascript" src="./Public/Js/jquery.artDialog.js?skin=default"></script> 
+<script type="text/javascript" src="./Public/Js/iframeTools.js"></script> 
+<script type="text/javascript" src="./Public/Js/my.js"></script> 
+<script type="text/javascript" src="./Public/Js/swfupload.js"></script> 
+<script style="text/javascript"> 
+ setTimeout(function(){ 
+ <?php if ($jumpUrl!=1):?>art.dialog.open.origin.location.href='{$jumpUrl}';<?php endif;?>
+ art.dialog.close(); 
+ },{:$waitSecond*1000}); 
+</script>
+<?php endif;?>
+
+<?php if ($script):?>
+<script style="text/javascript">{$script}</script>
+<?php endif;?>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<include file="Admin:header" />
+<style>
+
+.table-list {margin:20px 10px;}
+</style>
+
+ 
+
+<div class="table-list"> 
+<table width="100%" cellspacing="0">
+ 
+<form action="{:U($module_name.'/'.$action_name)}" method="get" name="myform"> 
+  <input type="hidden" name="g" value="Admin"> 
+  <input type="hidden" name="m" value="{$module_name}"> 
+  <input type="hidden" name="a" value="{$action_name}">
+<thead> 
+<tr> 
+<th align="center" width="150">{%chose_module}</th> 
+<th align="center" width="386">{%chose_category}</th> 
+<th align="center">{%chose_manage}</th> 
+</tr> 
+</thead> 
+<tbody  class="td-line"> 
+	<tr> 
+		<td align="center" rowspan="4"> 
+		<select name="moduleid" id="moduleid" size="2" style="margin:10px;height:200px;width:130px;" onclick="change_model(this.value)">
+		<option value='' selected>{%module_select}</option>
+		<volist name="module" id="vo">
+		<option value='{$vo.id}'>{$vo.title}</option>
+		</volist>
+		</td> 
+    </tr> 
+	<tr> 
+		<td align="center" rowspan="4"> 
+		<select name='catids[]' id='catids'  multiple="multiple"  style="height:200px;margin:10px;padding-right:4px;" title="{%category_alt}"> 
+		<option value='0' selected>{%category_select}</option> 
+		{$select_categorys}
+		</td>    
+    </tr>	
+	<tr> <td><div style="margin:9px;"><font color="red">{%create_pagesize_1} <input type="text" name="pagesize" value="<if condition="$action_name=='Updateurl'">50<else/>10</if>" size="4"> {%create_pagesize_2}</font></div></td> </tr>
+	<tr>	 
+
+      <td><input type="submit" style="margin:20px;" name="dosubmit" value="{%$action_name}" class="button" ></td>
+    </tr>
+	</tbody> 
+	</form> 
+</table> 
+ 
+</div>
+<script>
+function change_model(moduleid){
+ window.location.href = "{:U('Createhtml/'.$action_name)}&moduleid="+moduleid;
+}
+$("#moduleid").attr("value",'{.moduleid}');
+</script>
