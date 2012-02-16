@@ -51,12 +51,12 @@ class RegisterAction extends BaseAction
 		$_POST['last_logintime']=time();
 		$_POST['reg_ip']=get_client_ip();
 		$_POST['status']=$status;
-		$_POST['password'] = sysmd5($_POST['password']);
+		$authInfo['password'] = $_POST['password'] = sysmd5($_POST['password']);
 		$user=$this->dao;
 		if($data=$user->create()){
 			if(false!==$user->add()){
-				$uid=$user->getLastInsID();
-				$ru['role_id']=$_POST['groupid'];
+				$authInfo['id'] = $uid=$user->getLastInsID();
+				$authInfo['groupid'] = $ru['role_id']=$_POST['groupid'];
 				$ru['user_id']=$uid;
 				$roleuser=M('RoleUser');
 				$roleuser->add($ru);
@@ -73,6 +73,19 @@ class RegisterAction extends BaseAction
 					$this->display('Login_emailcheck');
 					exit;
 				}
+				
+				$yourphp_auth_key = sysmd5($this->sysConfig['ADMIN_ACCESS'].$_SERVER['HTTP_USER_AGENT']);
+				$yourphp_auth = authcode($authInfo['id']."-".$authInfo['groupid']."-".$authInfo['password'], 'ENCODE', $yourphp_auth_key);
+				
+
+				$authInfo['username'] = $_POST['username'];
+				$authInfo['email'] = $_POST['email'];
+				cookie('auth',$yourphp_auth,$cookietime);
+				cookie('username',$authInfo['username'],$cookietime);
+				cookie('groupid',$authInfo['groupid'],$cookietime);
+				cookie('userid',$authInfo['id'],$cookietime);
+				cookie('email',$authInfo['email'],$cookietime);
+
 				$this->assign('jumpUrl',$this->forward);
 				$this->success(L('reg_ok'));
 			}else{
