@@ -109,6 +109,7 @@ class OrderAction extends BaseAction
 		}elseif($do=='update'){
 			$data = $this->dao->find($id);
 			$data['number']=$num;
+			$data['price']=$data['product_price']*$data['number'];
 			$rs = $this->dao->save($data);
 			$res['data']= $rs ? 1 : 0 ;
 			echo json_encode($res); exit;
