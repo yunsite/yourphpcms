@@ -1,0 +1,99 @@
+<include file="Home:header"/>
+{__NOLAYOUT__}
+<load href="__PUBLIC__/Js/jquery.validate.js"/>
+<load href="../Public/images/order/order.css"/>
+
+		<div class="pos">{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> > <YP:catpos  catid="catid" space=" > " /></div>
+
+     		<div id="cart_box"><div style="float:right;line-height:110px;"><a href="{:URL('Home-Order/clear')}">{:L('CLEAR_ORDER')}</a></div>
+					<div id="buy_ico">&nbsp;</div>
+            		<div id="buy_tab">
+						<ul class="buy_0">
+							<li class="one">1.{:L('ORDER_ADD_CART')}</li>
+							<li class="two">2.{:L('ORDER_CONFIRM')}</li>
+							<li class="three">3.{:L('ORDER_DOSUBMIT')}</li>						
+						</ul>						
+					</div> 
+					<div class="c"></div>
+
+                    <div class="order_table">
+                        <table  class="order_table"   border="0" cellspacing='1' cellpadding='3' align="center">
+                          <tr align="center">
+							<th width="15%">{:L('Order_product_thumb')}</th>
+                            <th width="35%">{:L('Order_product_name')}</th>
+                            <th width="10%">{:L('Order_product_price')}</th>
+                            <th width="12%">{:L('Order_product_number')}</th>
+                            <th width="13%">{:L('Order_product_small_count')}（RMB）</th>
+                            <th>{:L('manage')}</td>
+                          </tr>
+					<if condition="empty($cart)">
+							 <tr align="center">
+							 <td colspan="6"  style="padding:10px;border:0;color:#FB0000;" align="center">{:L('Order_no_product')}</td>
+							 </tr>
+					<else/>
+						  <volist name="cart" id="vo">
+                          <tr align="center">
+							<td height="70" style="border-left:none;"><a href="{$vo.product_url}" target="_blank"><img src="{$vo['product_thumb']|thumb}" width="60" height="60"/></a></td>
+							<td>{$vo['product_name']}</td>
+							<td ><span id="price_{$vo['id']}">{$vo['product_price']}</span></td>
+							<td>
+							<if condition="$buy">
+							{$vo['num']}
+							<else/>					 
+							<div><input type="text" name="num" onchange="changeorder('num_{$vo['id']}','{$vo['moduleid']}','{$vo['id']}','update',changeok);" class="num" id="num_{$vo['id']}" value="{$vo['number']}" size="2"/></div>
+							</if>
+							</td>
+							<td ><span class="count_price" id="count_price_{$vo['id']}">{$vo['price']|number_format=###,2}</span></td>
+							<td><a href="javascript:void(0);" onclick="changeorder('num_{$vo['id']}','{$vo['moduleid']}','{$vo['id']}','del',changeok)">{:L('delete')}</a> <a href="{$vo.product_url}"  target="_blank">{:L('Order_view_product')}</a></td>
+						 </tr>
+						 </volist>
+					</if>
+						</table>
+                    </div>
+                    <div id="prototal" style="text-align:right;">
+      					<span>{:L('Order_product_total_number')}：</span><b id="totalnum">{$cart['totalnum']|intval}</b><span>，</span>
+                    	<span>{:L('Order_product_count')}：</span><b id="totalprice">{$cart['totalprice']|number_format=###,2}</b><span> RMB&nbsp;&nbsp;</span>
+                    </div>
+					<div class="c"></div> 
+
+				<div id="buy_button">
+				<a href="{$Categorys[$id]['url']}"><img src="../Public/images/order/goshop.jpg" /></a>
+				<if condition="!empty($cart)"><a href="./index.php?m=Order&a=checkout"><img src="../Public/images/order/buy.jpg" /></a></if>
+				</div>
+			<div class="c"></div>
+			<br>
+			</div>
+ 
+ 
+ 
+<script>
+function changeok(obj,moduleid,id,doit,data){
+	$('#'+obj).parent().css({ 'position': 'relative','overflow':'visible'});
+	$('#'+obj).parent().append('<div id="cart_buy_ok">{:L(update_ok)}!</div>');	
+	$('#cart_buy_ok').css({ display:'block',width:'60px',top: '-23px',position:'absolute',border:'2px solid #FFA040',background:'#FFF4E8',padding:'10px 30px' });
+	if(doit=='update'){
+		objnum = obj.split("_");
+		objnum =objnum[1];
+		var price= parseFloat($('#price_'+objnum).html());
+		var num = parseInt($('#num_'+objnum).val());
+		$('#count_price_'+objnum).html(price*num);
+	}
+	if(doit=='del'){
+		$('#'+obj).parent().parent().parent().remove();
+	}
+	countprice();
+	setTimeout(function(){  $('#cart_buy_ok').remove();},2000);
+} 
+
+function countprice(){
+		var countnum=0,totalprice=0;
+		$('.num').each(function(){var num = $(this).val();countnum=countnum + parseInt(num);});
+		$('.count_price').each(function(){var count_price = $(this).html();totalprice=totalprice + parseFloat(count_price);});
+		//count_price
+		$('#totalnum').html(countnum);
+		$('#totalprice').html(totalprice);
+}
+countprice();
+</script>
+
+<include file="Home:footer"/>

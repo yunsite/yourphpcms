@@ -1,0 +1,22 @@
+
+<style>
+.list ul.txt li {border:0;float:left;width:135px;}
+</style>
+<div class="left">
+		<div class="pos">{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> >  <a href="{:TAGURL()}">Tags</a> > </div>
+		<div class="list">
+		<ul class="txt">
+			<volist name="list" id="r">
+					<li><a href="{:TAGURL($r)}" target="_blank">{$r.name}</a></li>
+			</volist> 
+		</ul></div>
+
+		<div id="pages" class="page">{$pages}</div>
+		<br>
+</div>
+
+
+
+
+
+

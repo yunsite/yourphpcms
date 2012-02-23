@@ -1,0 +1,46 @@
+
+
+<style>.pay_desc a {color:#FB0000;}</style>
+<form  id="myform" name="myform" action="{:U('Payment/listorder')}" method="post">
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+      		<tr>
+			<th width="40">{:L('listorder')}</th>      
+			<th width="90">{:L('name')}</th> 
+			<th align="left">{:L('description')}</th>	
+			<th align="left" width="80">{:L('version')}</th>	
+			<th align="left" width="80">{:L('author')}</th>
+			<th width="110">{:L('manage')}</th>		
+      		</tr>
+					 
+
+      	</thead>
+      	<tbody>
+      		<volist name="list" id="vo" key="k">
+      		<tr>
+			<td align="center">{if isset($vo[id])}<input name='listorders[{$vo.id}]' type='text' size='3' value='{$vo.listorder}' class='input-text-c'>{else}0{/if}</td>     
+			<td align="center">{$vo['pay_name']}</td>    
+			<td class="pay_desc">{$vo['pay_desc']}</td>		 
+      		<td>{$vo['version']}</td>
+			<td>{$vo['author']}</td>
+      		<td align="center">
+			{if $vo['id']}
+			{if $vo['status']}<a href="{:U('Payment/status',array(id=>$vo['id'],status=>0))}"><font color="red">{:L('disable')}</font></a> {else}  <a href="{:U('Payment/status',array(id=>$vo['id'],status=>1))}"><font color="green">{:L('enable')}</font></a> {/if} | 
+			<a href="javascript:openwin('install','{:U('Payment/edit',array(id=>$vo['id']))}','{:L('install')}',600,440)">{:L('config')}</a> | 
+			<a href="javascript:confirm_delete('{:U('Payment/delete',array(id=>$vo['id']))}')">{:L('uninstall')}</a> 
+			{else}
+			<a href="javascript:openwin('install','{:U('Payment/add',array(code=>$vo['pay_code']))}','{:L('install')}',600,440)">{:L('install')}</a> 
+			{/if}
+      		</td>      		
+      		</tr> 
+
+      		</volist>
+      	</tbody>       
+      	</table>
+</div>
+
+
+  <div class="btn">  <input  type="button" class="button" name="dosubmit" value="{:L(listorder)}" onclick="myform.action='{:U($module_name.'/listorder')}';$('#myform').submit();" /></div>
+
+</form>

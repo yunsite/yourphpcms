@@ -1,0 +1,43 @@
+<div class="box"><div class="b1 catlist">
+<h3><span><a href="">{:L(more)}>></a></span><b>{$T[right_name_1]}</b><em>Product</em></h3>
+<YP:nav  catid="T[m_product_catid]" level="2" id="catlist" />
+</div></div>
+
+<div class="h10"></div>
+<div class="box"><div class="b1 contact">
+<h3><span><a href="">{:L(more)}>></a></span><b>{$T[right_name_2]}</b><em>contact</em></h3>
+<ul><yp:block pos="contact" /></ul>
+</div></div>
+
+
+
+<div class="h10"></div>
+<div class="box"><div class="b1 contact">
+<h3><span><a href="{:TAGURL()}">{:L(more)}>></a></span><b>{:L(tags)}</b><em>Tags</em></h3>
+<ul><yp:tags moduleid="moduleid" ><a href="{:TAGURL($r)}">{$r.name}</a>&nbsp; </yp:tags> </ul>
+</div></div>
+
+
+<div class="h10"></div>
+
+<div class="box"><div class="b1 links">
+<h3><span></span><b>{$right_name_3}</b><em>links</em></h3>
+<div class="h10"></div>
+	<ul class="pic">
+	<YP:link  typeid="2"  linktype="2">
+	<li><a href="{$r['siteurl']}" target="_blank" title="{$r['name']}"><img src="{$r['logo']}" alt="{$r['name']}"></a></li> 
+	</YP:link>
+	</ul>
+
+	<ul class="txt"> 
+	<YP:link linktype="1">
+	<li><a href="{$r['siteurl']}" target="_blank" title="{$r['name']}">{$r['name']}</a></li> 
+	</YP:link>
+	</ul>
+<div class="h10"></div>
+</div></div>
+
+
+
+<div class="c"></div>
+<div class="h10"></div>

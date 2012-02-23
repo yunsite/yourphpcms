@@ -1,0 +1,70 @@
+
+<table  class="search_table" width="100%">
+	<tr>
+		<td>
+			<form action="{:U('User/index')}" method="get">
+			<input type="hidden" name="g" value="{$Think.GROUP_NAME}" />
+			<input type="hidden" name="m" value="{$Think.MODULE_NAME}" />
+			<input type="hidden" name="a" value="{$Think.ACTION_NAME}" />			
+			{:L('user_select_option')}: <input type="text" name="keyword"  class="input-text" value="{$keyword}"/>
+			<select name="searchtype">
+			<option value="username" <eq name="searchtype" value="username">selected</eq>>{:L('username')}</option>
+			<option value="realname" <eq name="searchtype" value="realname">selected</eq>>{:L('realname')}</option>
+			<option value="id" <eq name="searchtype" value="id">selected</eq>>ID</option>
+			</select>
+			<select name="groupid">
+			<option value="">{:L('user_group')}</option>
+			<volist name="usergroup" id="row">
+			<option value="{$row['id']}" <eq name="groupid" value="$row['id']">selected="selected"</eq>>{$row['name']}</option>
+			</volist>
+			</select>
+			<input type="submit" value="{:L('chaxun')}"  class="button" />
+			<input type="reset" value="{:L('reset')}" class="button"  />
+			</form>
+		</td>
+		
+	</tr>
+</table>
+
+<form name="myform" action="{:U('User/deleteall')}" method="post">
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+      		<tr>
+      		<th width="20"><input type="checkbox"  id="check_box"  onclick="selectall('ids[]');" /></th>
+			<th width="40">ID</th>
+			<th align="left">{:L('username')}</th>	
+			<th width="110">{:L('user_group')}</th>
+			<th width="120">{:L('email')}</th>
+			<th width="150">{:L('user_reg_time')}</th>	
+			<th  width="30">{:L('status')}</th>
+			<th  width="120">{:L('manage')}</th>
+      		</tr>
+      	</thead>
+      	<tbody>
+      		<volist name="ulist" id="user" key="k">
+      		<tr>
+      		<td align="center"><input type="checkbox" name="ids[]" value="{$user['id']}" /></td>
+			<td align="center">{$user['id']}</td>
+      		<td>{$user['username']}</td>
+			<td align="center">{$usergroup[$user['groupid']]['name']}</td>
+      		<td>{$user['email']}</td>
+      		<td align="center">{$user['createtime']|date="Y-m-d H:m:s",###}</td>     		
+			<td align="center">
+      		<eq name="user['status']" value="1">
+      		{:L('enable')}
+      		<else />
+      		{:L('disable')}
+      		</eq>
+      		</td>
+			<td align="center"><a href="{:U('User/edit',array(id=>$user['id']))}">{:L('edit')}</a> | <a href="javascript:confirm_delete('{:U('User/delete',array(id=>$user['id']))}')">{:L('delete')}</a></td>      		
+      		</tr>
+      		</volist>
+      	</tbody>
+    </table>
+  
+    <div class="btn"><input type="submit" class="button" name="dosubmit" value="<?php echo L('delete')?>" /></div>  </div>
+</div>
+</form>
+
+<div id="pages" class="page">{$page}</div>

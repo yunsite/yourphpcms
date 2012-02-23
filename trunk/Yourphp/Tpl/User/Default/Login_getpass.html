@@ -1,0 +1,73 @@
+
+
+<load href="__PUBLIC__/Js/jquery.validate.js"/>
+<load href="__PUBLIC__/Js/jquery.form.js"/>
+
+
+<div class="main">
+	<h3>{:L(USER_GET_PASSWORD)}</h3>
+		<div class="block-msg">
+			<div id="sendmail_form">
+			<form method="post" id="myform" action="{:URL('User-Login/sendmail')}">
+			<table width="100%">
+			<tr>
+				<td width="160" align="right" height="35px">&nbsp;</td>
+				<td><div id="result"></div></td>
+			</tr>
+			<tr>
+				<td align="right" height="35px">{:L(user_username)}：</td>
+				<td><input type="text" id="username" name="username" class="input-text" /></td>
+			</tr>
+			<tr>
+				<td align="right" height="35px">{:L(EMAIL)}：</td>
+				<td><input type="text" id="email" name="email" class="input-text" validate="required:true,email:true, minlength:1, maxlength:40"  /></td>
+			</tr>
+
+			<tr>
+				<td align="right" height="35px">{:L(VERIFY)}：</td>
+				<td><input name="verifyCode" class="input-text"  class="inputbox" id="verifyCode"  size="6" value="" maxlength="4" /><img src="{:U('Home/Index/verify')}" onclick="javascript:resetVerifyCode();" class="checkcode" align="absmiddle"  title="{:L('resetVerifyCode')}" id="verifyImage"/></td>
+			</tr>
+
+			 
+			<tr>
+				<td>&nbsp;</td>
+				<td height="50px"><input type="hidden" name="ajax" value="1">
+				<INPUT TYPE="submit"  value="{:L('USER_GET_PASSWORD')}" class="button" ></td>
+			</tr>
+
+			</table>
+			</form>
+			</div>
+			<div id="sendmailok">尊敬的会员 <span id="send_username"></span>您好，重置密码信息已发送至您的邮箱 <span id="send_email"></span>，<br>请注意查收，密码修改请在72小时内完成。<br>如果没有收到密码重置邮件，请到垃圾邮箱中找找看，或者点击<a href="{:U('User/Login/getpass')}">重置密码</a>。
+
+</div>
+		</div>
+</div>
+<style>
+#sendmailok{display:none;padding:15px;line-height:24px;}
+#send_username ,#result ,#send_email{font-weight:bold;color:#FB0000;}
+</style>
+<script language="JavaScript">
+jQuery(document).ready(function($){
+	$('#myform').ajaxForm({
+		beforeSend:function(){
+			$('#result').html('<img src="__PUBLIC__/Images/msg_loading.gif">').show();;
+		 },
+		success:       complete,  // post-submit callback
+		dataType: 'json'
+	});
+});
+function complete(data){
+	if (data.status==1)
+	{
+		 $('#sendmail_form').hide();
+		 $('#sendmailok').show();
+		 $('#send_username').html(data.data.username);
+		 $('#send_email').html(data.data.email);
+	}else{
+		$('#result').html(data.info).show();
+	}
+}
+ 
+</script>
+

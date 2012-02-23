@@ -1,0 +1,72 @@
+
+<load href="../Public/js/jquery.jqzoom-core.js"/>
+<load href="../Public/css/jquery.jqzoom.css"/>
+
+<div class="left">
+		<div class="pos">{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> > <YP:catpos  catid="catid" space=" > " /></div>
+			<div id="content">
+			<h1>{$title}</h1>
+			<div class="p_box">
+
+				<div style="position:relative;">
+					  <a href="{$thumb}"  rel='gal1' id="zoom_box"  title="{$title}" >
+					  <img src="{$thumb|thumb}" class="big_small"  title="{$title}"  >
+					  </a>
+				</div>
+				<div id="zoom_list">
+					<a class="next" href="javascript:;" onclick="showpic('next')"></a>
+					<a class="pre" href="javascript:;" onclick="showpic('pre')"></a>
+
+
+					<div id="zoom_list_box">
+						<ul class="pic"  id="thumblist" >
+							<li><span><a  href='javascript:void(0);' rel="{ gallery: 'gal1', smallimage: '{$thumb|thumb}',largeimage: '{if  $thumb}{$thumb}{else}{$thumb|thumb}{/if}'
+							}"><img src='{$thumb|thumb}'></a></span></li>
+
+							<volist name="pics" id="r" >
+							{if  !empty($r[filepath])}<li><span><a  href='javascript:void(0);' rel="{ gallery: 'gal1', smallimage: '{$r[filepath]}',largeimage: '{$r[filepath]}'}"><img src="{$r['filepath']}" alt="{$r.filename}"></a></span></li>{/if}
+							</volist>
+						</ul>
+					</div>
+				</div>
+		</div>
+
+		<div class="p_info">
+		<dl>
+		<dt><label>{:L(Product_Name)}：</label>{$title}</dt>
+		<dt><label>{:L(Product_Number)}：</label>YP{$id|sprintf='%05d',###}</dt>
+		<dd><label>{:L(Product_Model)}：</label>{$xinghao}</dd>
+		<dd><label>{:L(Product_Price)}：</label><b>{$price}</b>{:L(RMB)}</dd>
+		<dd>&nbsp;</dd>
+		<dd class="buy_dd">{:L(Product_Quantity)}: &nbsp;<input type="text" id="buynum" size="3" name="num" value="1" /><br>
+		<a href="javascript:changeorder('buynum','{$moduleid}','{$id}','add',orderok);"><img src="../Public/images/order/addcart.jpg"></a>　<a href="./index.php?m=Feedback&a=index&id={$catid}&title={$title}"><img src="../Public/images/order/buyask.jpg"></a>
+		</dd>
+		</dl>
+		</div>
+		<div class="h10"></div>
+		<div class="p_tabs"><ul><li>{:L(Product_Description)}</li></ul></div>
+		<div class="h10"></div>
+
+		<div class="content">
+		{$content}
+		</div>
+		</div>
+		<br>
+</div>
+
+
+
+<script>
+
+function orderok(obj){
+	$('#'+obj).parent().css({'position': 'relative','overflow':'visible'});
+	$('#'+obj).parent().append('<div id="cart_buy_ok">{:L(add_ok)}<br><a href="{:URL('Home-Order/index?id='.$catid)}">{:L(View_Cart)}</a> <a href="javascript:void(0);" onclick="$(\'#cart_buy_ok\').remove();return false;">{:L(Continue_Shopping)}</a></div>');
+	$('#cart_buy_ok').css({display:'block',top:'0px',position:'absolute',border:'3px solid #FFA040',background:'#FFF4E8',padding:'10px 30px','text-align':'center' });
+	$('#cart_buy_ok a').css({padding:'3px 6px',margin:'2px 6px;',border:'1px solid #FFB870',background:'#FFDCB8'});
+}
+{if $thumb}
+$(function(){
+	$('a#zoom_box').jqzoom({ zoomList:'#zoom_list'});
+});
+{/if}
+</script><script language="JavaScript" src="__ROOT__/index.php?m={$module}&a=hits&id={$id}"></script> 

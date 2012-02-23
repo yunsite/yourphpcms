@@ -1,0 +1,109 @@
+
+<load href="../Public/js/yourphp.pics.js"/>
+
+<div class="left" style="width:920px;">
+		<div class="pos">{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> > <YP:catpos  catid="catid" space=" > " /></div>
+		<div id="content">
+		<h1>{$title}</h1>
+
+
+<div class="picviewbox">
+
+		<div id="toolBar">
+			<ul class="f_r">
+			<li class="comment" title="{:L(Picture_iwannComent)}"><a href="javascript:void(0)" target="_blank" id="iwannComent">{:L(Picture_comment)}(0)</a></li>
+			</ul>
+			<ul class="f_l">
+			<li class="full"><div  id="fullSwf"></div></li>
+			<li>|</li>
+			<li class="play" title="{:L(Picture_play_time)}">{:L(Picture_play)}</li>
+			<li>|</li>
+			<li class="save"><a href="javascript:void(0)" target="_blank" id="orgPic">{:L(Picture_orgpic)}</a></li>
+			<li>|</li>
+			<li>{:L(Picture_tips)}</li>
+			</ul>
+
+		</div>
+
+		<div class="bd">
+			<div id="playbox">
+				<div id="mouseOverleft" style="width:50%;position:absolute;left:0;">
+					<div class="pageLeft" style="display:none"><span><a href="javascript:void(0);" onfocus="this.blur()"></a></span></div>
+					<div class="pageLeft-bg" style="display:none"></div>
+				</div>
+				<div id="mouseOverright" style="width:50%;position:absolute;right:0;">
+					<div class="pageRight" style="display:none"><span><a href="javascript:void(0);" onfocus="this.blur()"></a></span></div>
+					<div class="pageRight-bg" style="display:none"></div>
+				</div>
+				<div id="end">
+					<a href="javascript:void(0)" class="close"></a>
+
+					<div class="end-inner">
+						<div class="this_pic"><span class="firstImg"></span></div>
+						<div class="f_l">
+							<h2></h2>
+							<ul>
+							<li class="button"><a href="javascript:void(0)" onfocus="this.blur()" id="replayPic"><span></span><em></em>{:L(Picture_replay)}</a></li>
+							</ul>
+						</div>
+						<div class="c"></div>
+
+						<div class="posit_pic">
+						<h3>{:L(Picture_other_list)}</h3>
+						<ul class="pic">
+						<YP:list   order="id desc" catid="$catid" limit="3">
+									<li><span><a href="{$r.url}" target="_blank" title="{$r.title}"><img src="{$r[thumb]|thumb}" alt="{$r.title}"></a></span><a href="{$r.url}" target="_blank">{$r.title|str_cut=###,9}</a></li>
+						</YP:list>
+						</ul></div>
+						 
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+		<div id="Main-C">
+		<div class="smallPic"> <a href="javascript:void(0);" onfocus="this.blur()" class="f_r" id="goright"></a>
+		<a href="javascript:void(0);" onfocus="this.blur()" class="f_l" id="goleft"></a>
+		<div class="f_l" id="SmallWarp">
+		<ul id="Smailllist" class="pic">
+				<li><span><a  href='javascript:void(0);'  title="{$title}"><img src='{$thumb|thumb}'  rel="{$thumb}" alt="{$title}"></a></span></li>
+				<volist name="pics" id="r" >
+				<li><span><a  href='javascript:void(0);' title="{$r['filename']}"><img src="{$r['filepath']}"  rel="{$r['filepath']}"  alt="{$r['filename']}"></a></span></li>
+				</volist>
+		</ul>
+
+		<a href="javascript:void(0)" onfocus="this.blur()" class="mask"></a>
+		</div>
+
+		</div>
+		<div class="scrollLine"><span class="scrollButton"></span></div>
+		</div>
+		</div>
+
+
+		<div class="h10"></div>
+		<div class="p_tabs"><ul><li>{:L(Picture_desc)}</li></ul></div>
+		<div class="h10"></div>
+
+		<div class="content">
+		{$content}
+		</div>
+		</div>
+		<br>
+
+</div>
+</div>
+
+
+
+<script language="JavaScript" src="__ROOT__/index.php?m={$module}&a=hits&id={$id}"></script> 
+
+<script>
+$(function(){
+		var title="{$title}",url="{$url}",createtime="{$createtime|toDate=###,'Y-m-d H:i'}",site_name="{$site_name}",site_url="{$site_url}",swfUrl= "../Public/images/picViewsFullScreenv1.0.0.1.0.swf";
+		hdPic({title:title,url:url,createtime:createtime,site_name:site_name,site_url:site_url,swfUrl:swfUrl});
+});
+
+</script>

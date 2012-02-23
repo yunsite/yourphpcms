@@ -1,0 +1,100 @@
+
+
+<form method='post'  id="form1" action="{:U('Config/dosite')}">
+<table width="100%"  cellpadding=0 cellspacing=0  class="table_form"> 
+
+
+<tr>
+    <th width="130">{:L('config_attach_maxsize')}</th>
+    <td><input type="text" class="input-text" name="attach_maxsize" id="attach_maxsize" size="10" value="{$attach_maxsize}"/> B </td>
+  </tr>
+  <tr>
+    <th width="130">{:L('config_attach_allowext')}</th>
+    <td><input type="text" class="input-text" name="attach_allowext" id="attach_allowextt" size="50" value="{$attach_allowext}"/></td>
+  </tr>
+
+
+  <tr>
+    <th>{:L('config_attach_watermark_enable')}</th>
+    <td>
+	  <input class="radio_style" name="watermark_enable" value="1"   <if condition="$watermark_enable == 1">  checked</if> type="radio"> {:L('open_select')}&nbsp;&nbsp;&nbsp;&nbsp;
+	  <input class="radio_style" name="watermark_enable" value="0"   <if condition="$watermark_enable == 0">  checked</if> type="radio"> {:L('close_select')}     </td>
+  </tr> 
+
+	  <tr>
+		<th width="130">{:L('config_attach_watemard_text')}</th>
+		<td><input type="text" class="input-text" name="watemard_text" id="watemard_text" size="30" value="{$watemard_text}"/></td>
+	  </tr>
+	<tr>
+		<th width="130">{:L('config_attach_watemard_text_size')}</th>
+		<td><input type="text" class="input-text" name="watemard_text_size" id="watemard_text_size" size="5" value="{$watemard_text_size}"/></td>
+	  </tr>
+	<tr>
+		<th width="130">{:L('config_attach_watemard_text_color')}</th>
+		<td><input type="text" class="input-text" name="watemard_text_color" id="watemard_text_color" size="10" value="{$watemard_text_color}"/>{:L('config_attach_watemard_text_color_tip')}</td>
+	  </tr>
+	<tr>
+		<th width="130">{:L('config_attach_watemard_text_face')}</th>
+		<td><input type="text" class="input-text" name="watemard_text_face" id="watemard_text_face" size="20" value="{$watemard_text_face}"/>{:L('config_attach_watemard_text_face_tip')}</td>
+	  </tr>
+
+
+
+   
+  <tr>
+    <th>{:L('config_attach_watermark_minwidth')}</th>
+    <td><input type="text" class="input-text" name="watermark_minwidth" id="watermark_minwidth" size="5" value="{$watermark_minwidth}" /> PX {:L('width')} <input type="text" class="input-text" name="watermark_minheight" id="watermark_minheight" size="5" value="{$watermark_minheight}" /> PX {:L('height')}
+     </td>
+  </tr>
+  <tr>
+    <th width="130">{:L('config_attach_watermark_img')}</th>
+    <td><input type="text" name="watermark_img" id="watermark_img" size="30" value="{$watermark_img}"/> {:L('config_attach_watermark_img_tip')}</td>
+  </tr> 
+   <tr>
+    <th width="130">{:L('config_attach_watermark_pct')}</th>
+    <td><input type="text" class="input-text" name="watermark_pct" id="watermark_pct" size="10" value="{$watermark_pct}" /> </td>
+  </tr> 
+   <tr>
+    <th width="130">{:L('config_attach_watermark_quality')}</th>
+    <td><input type="text" class="input-text" name="watermark_quality" id="watermark_quality" size="10" value="{$watermark_quality}" /> </td>
+  </tr>
+	<tr>
+    <th width="130">{:L('config_attach_watermark_pos_padding')}</th>
+    <td><input type="text" class="input-text" name="watermark_pospadding" id="watermark_pospadding" size="10" value="{$watermark_pospadding}" /> </td>
+  </tr>
+  
+
+   <tr>
+    <th width="130">{:L('config_attach_watermark_pos')}</th>
+    <td>
+		<table width="60%" class="radio-label"  cellpadding=0 cellspacing=0 >
+		  <tr>
+		   <td rowspan="3"><input class="radio_style" name="watermark_pos" value="10" type="radio" <if condition="$watermark_pos == 10">  checked</if> > {:L('config_attach_watermark_pos_rand')}</td>
+			<td><input class="radio_style" name="watermark_pos" value="1" type="radio" <if condition="$watermark_pos == 1">  checked</if>> {:L('config_attach_watermark_pos_1')}</td>
+			  <td><input class="radio_style" name="watermark_pos" value="2" type="radio" <if condition="$watermark_pos == 2">  checked</if> > {:L('config_attach_watermark_pos_2')}</td>
+			  <td><input class="radio_style" name="watermark_pos" value="3" type="radio" <if condition="$watermark_pos == 3">  checked</if> > {:L('config_attach_watermark_pos_3')}</td>
+		  </tr>
+		  <tr>
+			<td><input class="radio_style" name="watermark_pos" value="4" type="radio" <if condition="$watermark_pos == 4">  checked</if> > {:L('config_attach_watermark_pos_4')}</td>
+			  <td><input class="radio_style" name="watermark_pos" value="5" type="radio"  <if condition="$watermark_pos == 5">  checked</if>> {:L('config_attach_watermark_pos_5')}</td>
+			  <td><input class="radio_style" name="watermark_pos" value="6" type="radio" <if condition="$watermark_pos == 6">  checked</if>> {:L('config_attach_watermark_pos_6')}</td>
+			</tr>
+		  <tr>
+			<td><input class="radio_style" name="watermark_pos" value="7" type="radio" <if condition="$watermark_pos == 7">  checked</if>> {:L('config_attach_watermark_pos_7')}</td>
+			  <td><input class="radio_style" name="watermark_pos" value="8" type="radio" <if condition="$watermark_pos == 8">  checked</if>> {:L('config_attach_watermark_pos_8')}</td>
+			  <td><input class="radio_style" name="watermark_pos" value="9" type="radio"  <if condition="$watermark_pos == 9">  checked</if>> {:L('config_attach_watermark_pos_9')}</td>
+			</tr>
+			</table>
+	</td>
+	</tr>
+ 
+ 
+          
+  </table> 
+<div class="btn">
+<INPUT TYPE="submit"  value="{:L('save')}" class="button" >
+<input TYPE="reset"  value="{:L('reset')}" class="button">
+</div>
+</form>
+</div>
+ 

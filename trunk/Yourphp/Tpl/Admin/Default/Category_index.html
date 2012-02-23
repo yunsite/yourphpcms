@@ -1,0 +1,26 @@
+
+
+<form name="myform" action="{:U('Category/listorder')}" method="post">
+<div class="pad-lr-10">
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+            <th width="40">{:L('listorder')}</th>
+            <th width="40">catid</th>
+            <th>{:L('catname')}</th>
+			<th width="80">{:L('use_module')}</th>
+			<th width="40">{:L('ismenu')}</th>
+			<th width="30">{:L('fangwen')}</th>
+			<th width="220">{:L('manage')}</th>
+            </tr>
+        </thead>
+	<tbody>
+    {$categorys}
+	</tbody>
+    </table>
+  
+    <div class="btn"><input type="submit" class="button" name="dosubmit" value="{:L('listorder')}" /></div></div>
+</div>
+</div>
+</form></div>

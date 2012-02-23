@@ -1,0 +1,20 @@
+<include file="Public:header"/>
+<div id="member">
+	{if $module_name!='Login' && $module_name!='Register' } 
+	<include file="Public:menu" />
+	{/if}
+	{__CONTENT__}
+
+	<div id="user_footer">
+	<a href="/">{:L('HOME_FONT')}</a>
+	<YP:subcat  catid="0">
+		   |  <a href="{$r.url}">{$r.catname}</a>
+	</YP:subcat>
+	<br>
+	Powered by <a href="http://www.yourphp.cn">Yourphp {:VERSION} </a>  © 2011  
+	</div>
+</div>
+
+
+</body>
+</html>

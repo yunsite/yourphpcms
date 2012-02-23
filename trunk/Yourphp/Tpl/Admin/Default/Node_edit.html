@@ -1,0 +1,34 @@
+
+
+ <form id="myform" action="<if condition="$action_name=='edit'">{:U('Node/update')}<else />{:U('Node/insert')}</if>" method="post">
+      	<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+      	<tr>
+		<td>{:L('name')}</td><td><input type="text" class="input-text" name="name" value="{$udate['name']}" validate="required:true,en_num:true, minlength:2, maxlength:20" /></td>
+		</tr>
+		<tr>
+		<td>{:L('title')}</td><td><input type="text" name="title" class="input-text"   value="{$udate['title']}" validate="required:true,cn_username:true, minlength:2, maxlength:20" /></td>
+		</tr>
+		<tr>
+		<td>{:L('menu_parent_menu')}</td>
+		<td><SELECT class="medium bLeft" name="pid">
+		<option value="0">{:L('menu_top_menu')}</option>
+		{$nodes}
+		</SELECT></td>
+	</tr>
+		<tr>
+		<td>{:L('remark')}</td><td><textarea  id="remark" name="remark" rows="3" cols="40">{$udate['remark']}</textarea></td>
+		</tr>
+		<td>{:L('status')}</td>
+		<td>
+			{:L('enable')}<input type="radio" name="status" value="1" <eq name="udate['status']" value="1">checked="checked"</eq> />
+			{:L('disable')}<input type="radio" name="status" value="0" <eq name="udate['status']" value="0">checked="checked"</eq> />
+		</td>
+		</tr>
+		</table>
+		<div class="btn">	<if condition="$action_name=='edit'"><input type="hidden" id="id" name="id" value="{$udate['id']}" /></if>
+		<INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+		<input TYPE="reset"  value="{:L('cancel')}" class="button">
+<input type="hidden" name="forward" value="{$_SERVER['HTTP_REFERER']}" />
+		</div>
+</form></div>
+<!--Yourphp企业建站系统 www.yourphp.cn-->

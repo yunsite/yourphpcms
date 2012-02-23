@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<base href="{$site_url}/" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="robots" content="index, follow" />
+	<meta name="keywords" content="{$seo_keywords}" />
+	<meta name="description" content="{$seo_description}" />
+	<meta name="Copyright" content="Copyright (c) 2008 yourphp.cn" />
+	<meta name="author" content="{$site_name}--Powered by yourphp">
+	<meta name="generator" content="Yourphp 2.0" />
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<title>{$seo_title}-{$site_name}-Powered by Yourphp</title>
+	<link href="__ROOT__/index.php?m=Format&a=rss" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
+	<script src="__PUBLIC__/?f=__PUBLIC__/Js/jquery.min.js,__PUBLIC__/Js/swfobject.js,__PUBLIC__/Js/yourphp.nav.js,__PUBLIC__/Js/yourphp.js"></script>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/?f=../Public/css/style.css" />
+	<!--[if IE 6]>
+		<script src="__PUBLIC__/?f=__PUBLIC__/Js/DD_belatedPNG-min.js"  type="text/javascript" ></script>
+		<script type="text/javascript">
+		DD_belatedPNG.fix(' .scrollButton ,  a.mask , .smallPic a ');
+		</script>
+	<![endif]-->
+</head>
+<body>
+<link media="screen" type="text/css" href="/min/f=style.css" rel="stylesheet" />
+
+<div  class="warp" style="overflow:visible;">
+	<div id="header">
+	<div style="float:right;widht:240px;text-align:right;">
+
+		<div class="top_right">
+		
+		
+				<div id="login_div">
+						&nbsp;<a  id="login_url" href="{:URL('User-Login/index')}">{:L(LOGIN)}</a> | 
+						<a id="register_url" href="{:URL('User-Register/index')}"/>{:L(REGISTER)}</a>
+				</div>
+
+				<div id="logined_div" style="display:none;">
+					<div id="login_username" style="color:#FB0000;"></div>, {:L(welcome_return)} <a href="{:URL('User-Index/index')}">{:L(user_center)}</a> | <a  id="logout_url" href="{:URL('User-Login/logout')}">{:L(logout)}</a> 
+				</div>
+ 
+				<div id="buy_box">
+				&nbsp; | &nbsp;<a href="{:URL('Home-Order/index')}">{:L(Cart)}</a> | <a href="{:URL('User-Order/index')}">{:L(order_query)}</a> | 
+				<volist name="Lang" id="r">
+					 <a href="{:HOMEURL($r[mark])}"><img src="__PUBLIC__/Images/flag/{$r.flag}"></a> &nbsp;
+				</volist>
+				</div>
+				<!--<span>[<a href="javascript:void(0);" onClick="this.style.behavior='url(#default#homepage)';this.setHomePage('{$site_url}');return(false);" style="behavior: url(#default#homepage)">设为首页</a>]</span> <span>[<a href="javascript:window.external.addFavorite('{$site_url}','{$site_name}')">加入收藏</a>]</span> 
+				-->
+		</div>
+		<div class="topsearch"><form method="GET" action="index.php?">
+			<input type="hidden" id=""  name="m" value="Search"/>{if APP_LANG}<input type="hidden" name="l" value="{$l}" />{/if}
+			<input type="text" name="keyword" id="" class="input-text" value="{$keyword}" />
+			{:Form::select(array('field'=>'module','options'=>$search_module),$module)}
+			<input type="submit" class="button" value="{:L(search)}" />
+		</form></div>
+	</div>
+		<div class="logo"><a href="{$site_url}"><img src="{$logo}" alt="{$site_name}"></a></div>
+		<div id="nav" class="nav">
+		<YP:nav  catid="0" level="3"  home="1" />
+		</div>
+	</div>
+ 
+</div>
+<script type="text/javascript">
+var APP	 =	 '__APP__';
+var ROOT =	 '__ROOT__';
+var PUBLIC = '__PUBLIC__';
+yourphpnav.init({navid: "nav"});
+var nav = document.getElementById('nav_{$bcid}');nav.className=nav.className+" on";
+</script>
+<div class="warp"><div id="main">
+<div class="c"></div>
+
+
+<YP:flash flashid="1" />

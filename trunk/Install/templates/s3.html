@@ -1,0 +1,159 @@
+<?php include_once ('./templates/header.html'); ?>
+<script language="javascript" type="text/javascript">
+<!--
+	$(document).ready(function(){
+		$('#dbPwd').blur();
+		$(".table tr").each(function(){ $(this).children("td").eq(0).addClass("on");});
+		$("input[type='text']").addClass("input_blur").mouseover(function(){ $(this).addClass("input_focus");}).mouseout(function(){$(this).removeClass("input_focus");});
+		$(".table tr").mouseover(function(){ $(this).addClass("mouseover");}).mouseout(function(){$(this).removeClass("mouseover");	});
+	});
+ 
+ 
+	$.ajaxSetup ({ cache: false });
+	function TestDbPwd()
+	{
+
+		var dbHost = $('#dbHost').val();
+		var dbUser = $('#dbUser').val();
+		var dbPwd = $('#dbPwd').val();
+		var dbName = $('#dbName').val();
+		var dbPort = $('#dbPort').val();
+		data={'dbHost':dbHost,'dbUser':dbUser,'dbPwd':dbPwd,'dbName':dbName,'dbPort':dbPort};
+		var url =  "./index.php?step=3&testdbpwd=1";
+		$.ajax({
+			 type: "POST",
+			 url: url,
+			 data: data,
+			 beforeSend:function(){				 
+			 },
+			 success: function(msg){
+				 if(msg){
+					$('#pwd_msg').html("数据库配置正确");
+					$('#dosubmit').attr("disabled",false);
+					$('#dosubmit').removeAttr("disabled");				
+					$('#dosubmit').removeClass("nonext");
+				}else{
+					$('#dosubmit').attr("disabled",true);
+					$('#dosubmit').addClass("nonext");
+					$('#pwd_msg').html("数据库链接配置失败");	
+				}
+			},
+			complete:function(){
+			},
+			error:function(){
+				$('#pwd_msg').html("数据库链接配置失败");						
+			}
+		});
+	}
+	
+
+-->
+</script>
+
+
+<div class="right">
+	<h2>Step <?php echo $step;?> of 5 </h2>
+
+	<h1>数据库设定</h1>
+	 
+<form id="myform" action="index.php?step=4" method="post" name="form1">
+	<table   border="0" align="center" cellpadding="0" cellspacing="0" class="table">
+
+
+		<tr>
+            <td width="170"><strong>网站类型</strong></td>
+            <td width="410"><input type="radio" name="lang" value="1"  checked /> 多语网站 &nbsp;<input type="radio" name="lang" value="0" /> 单语网站 </td>
+        </tr>
+    
+        <tr>
+            <td width="170"><strong>数据库主机：</strong></td>
+            <td width="410"><input name="dbHost" type="text" id="dbHost" value="localhost" size="30" />
+            <small>(一般为localhost)</small></td>
+        </tr>
+        <tr>
+          <td><strong>数据库端口：</strong></td>
+          <td><input name="dbPort" type="text" id="dbPort" value="3306" size="10" /></td>
+        </tr>
+        <tr>
+            <td><strong>数据库名称：</strong></td>
+            <td>
+                <input name="dbName" type="text" id="dbName" value="yourphp" size="20" />
+			</td>
+        </tr>
+	    <tr>
+            <td><strong>数据库用户：</strong></td>
+            <td><input name="dbUser" type="text" id="dbUser" value="root" size="20" /></td>
+        </tr>
+        <tr>
+            <td><strong>数据库密码：</strong></td>
+            <td>
+            <input name="dbPwd" type="text" id="dbPwd" size="20"  onblur="TestDbPwd()" />
+            <span id='pwd_msg'></span>            </td>
+        </tr>
+        <tr>
+            <td><strong>数据表前缀：</strong></td>
+            <td><input name="dbPrefix" type="text" id="dbPrefix" value="yourphp_" size="20" />
+                    <small>(如无特殊需要,请不要修改)</small></td>
+        </tr>
+	</table>
+	
+	<h1>管理员帐号</h1>
+	<table   border="0" align="center" cellpadding="0" cellspacing="0" class="table">
+		
+        <tr>
+            <td width="170"><strong>用户名：</strong></td>
+            <td width="410">
+                <input name="username" type="text" id="username" value="yourphp" size="20"  validate=" required:true, minlength:5, maxlength:80,"  title="标题必填5-20个字"  />
+            </td>
+        </tr>
+        <tr>
+            <td><strong>密　码：</strong></td>
+            <td><input name="password" type="password"  style="padding:4px" id="password" value="yourphp" size="20"  validate=" required:true, minlength:5, maxlength:80,"  title="标题必填5-20个字"  /></td>
+        </tr>
+	</table>
+	
+	<h1>其他设置</h1>
+
+
+	
+	<table  border="0" align="center" cellpadding="0" cellspacing="0" class="table">
+        <tr>
+            <td width="170"><strong>网站名称：</strong></td>
+            <td width="410">
+                <input name="site_name" type="text" id="site_name" value="Yourphp网站内容管理系统" size="30" />
+            </td>
+        </tr>
+        <tr>
+            <td><strong> 网站域名：</strong></td>
+            <td><input name="site_url" type="text" value="http://<?php echo $domain ?>" id="site_url" size="30" /></td>
+        </tr>
+        <tr>
+            <td><strong>关键词(keywords)：</strong></td>
+            <td>
+                <input name="seo_keywords" type="text" id="seo_keywords" value="Yourphp网站内容管理系统" size="30" />
+            </td>
+        </tr>
+        <tr>
+            <td><strong> 描述(description)：</strong></td>
+            <td><textarea id="seo_description" name="seo_description" rows="5" cols="60" size="30">Yourphp网站管理系统,是一款完全开源免费的PHP+MYSQL系统.核心采用了Thinkphp框架等众多开源软件,同时核心功能也作为开源软件发布</textarea></td>
+        </tr>
+        <tr>
+            <td><strong>管理员邮箱：</strong></td>
+            <td><input name="site_email" type="text" id="site_email" value="admin@yourphp.cn" size="30" /></td>
+        </tr>
+	</table>
+ 
+	<div class="butbox">
+		<input type="button" class="inputButton" value=" 上一步 " onclick="history.back();" style="margin-right:20px" />
+		<input name="dosubmit" type="submit" class="inputButton nonext" id="dosubmit" value=" 下一步 " disabled  />
+	</div>
+	</form>
+
+</div>
+
+
+</div>
+<div class="power">Powered by <a href="">Yourphp</a></div>
+</div></div>
+</body>
+</html>

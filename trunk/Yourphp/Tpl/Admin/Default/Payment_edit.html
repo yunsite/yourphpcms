@@ -1,0 +1,95 @@
+
+
+
+<style>#nav{display:none;}</style>
+
+<form name="myform" id="myform" action="<if condition="$action_name=='add'">{:U($module_name.'/insert')}<else />{:U($module_name.'/update')}</if>" method="post">
+
+
+<fieldset><legend>{:L(basic_config)}</legend> 
+<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+<tr> 
+<td  width="100">{:L(payment_mode)}：</td> 
+<td>{$vo.pay_name}</td> 
+</tr> 
+<tr> 
+<td  width="120">{:L(name)}：</td> 
+<td><input type="text" name="pay_name" value="{$vo.pay_name}" class="input-text" id="pay_name"  validate="required:true,cn_username:true, minlength:2, maxlength:20" /></td> 
+</tr> 
+<tr> 
+<td>{:L(description)}：</td> 
+<td> 
+{:$Form->editor(array('field'=>'pay_desc','setup'=>array('toolbar'=>'desc','flashupload'=>'0','height'=>'150')),$vo[pay_desc])}
+
+</td> 
+</tr> 
+<tr> 
+<td  width="120">{:L(listorder)}：</td> 
+<td><input type="text" name="listorder" value="{$vo[listorder]|intval}" class="input-text" id="listorder" size="3" /></td> 
+</tr> 
+<tr> 
+<td  width="120">{:L(online)}：</td> 
+<td>{if $vo.is_online}{:L(yes)}{else}{:L(no)}{/if}</td> 
+</tr> 
+<tr> 
+<td  width="120">{:L(pay_factorage)}：</td> 
+<td id="pay_fee"><input name="pay_fee_type"  value="0" type="radio" {if !$vo[pay_fee_type]}checked{/if}> {:L(pay_method_rate)}&nbsp;&nbsp;&nbsp;<input name="pay_fee_type" value="1" type="radio"   {if $vo[pay_fee_type]}checked{/if}> {:L(pay_method_fix)}&nbsp;&nbsp;&nbsp; </td> 
+</tr> 
+<tr><td></td> 
+<td> 
+<div id="rate" {if $vo[pay_fee_type]}class="hidden"{/if}> 
+{:L(pay_rate)}<input type="text" size="3" class="input-text"  value="{$vo.pay_fee}" name="pay_rate">&nbsp;%&nbsp;&nbsp;&nbsp;&nbsp;{:L(pay_method_rate_desc)}</div> 
+<div id="fix"  {if !$vo[pay_fee_type]}class="hidden"{/if}> 
+{:L(pay_fix)}<input type="text" name="pay_fix" class="input-text"  size="3" value="{$vo.pay_fee}">&nbsp;&nbsp;&nbsp;&nbsp; {:L(pay_method_fix_desc)}</div> 
+</td> 
+</tr> 
+</table> 
+</fieldset> 
+
+ 
+ 
+
+<fieldset><legend>{:L(parameter_config)}</legend> 
+	<table width="100%" class="table_form"> 
+		<volist name="vo[config]" id="r">
+		{if $r['type']=='text'}
+		 <tr> 
+		  <td>{:L($r[name])}</td>
+			<td> 
+				<input type="text"  class="input-text" name="pay_config[{$r.name}]" id="{$r.name}" value="{$r.value}" size="40" /> 
+			</td> 
+		 </tr> 
+		 {else}
+		 <tr> 
+		  <td>{:L($r[name])}</td>
+			<td>
+			{:Form::select(array('field'=>'pay_config['.$r[name].']','options'=>$r[option]),$r[value])}
+			</td> 
+		 </tr> 
+		 {/if}
+		</volist>
+	</table> 
+</fieldset>
+	<input type="hidden" name="isajax" value="1" />
+	<input type="hidden"  name="id" value="{$vo.id}" /> 
+	<input type="hidden"  name="pay_code" value={$vo.pay_code} /> 
+	<input type="hidden"  name="is_cod" value={$vo.is_cod} /> 
+	<input type="hidden"  name="is_online" value={$vo.is_online} /> 
+	<input name="dosubmit" type="submit" value="1" class="hidden" id="dosubmit"> 
+</form> 
+</div></div> 
+<script>
+$(document).ready(function() {
+	$("#pay_fee input[type='radio']").click( function () {
+		if($(this).val()== 0){
+			$("#rate").removeClass('hidden');
+			$("#fix").addClass('hidden');
+			$("#rate input").val('0');
+		} else {
+			$("#fix").removeClass('hidden');
+			$("#rate").addClass('hidden');
+			$("#fix input").val('0');
+		}	
+	});
+});
+</script>

@@ -1,0 +1,68 @@
+<?php include_once ('./templates/header.html'); ?>
+
+
+<script language="javascript" type="text/javascript">
+<!--
+	$(document).ready(function(){
+		$(".table tr").each(function(){ $(this).children("td").eq(0).addClass("on");});
+		$("input[type='text']").addClass("input_blur").mouseover(function(){ $(this).addClass("input_focus");}).mouseout(function(){$(this).removeClass("input_focus");});
+		$(".table tr").mouseover(function(){ $(this).addClass("mouseover");}).mouseout(function(){$(this).removeClass("mouseover");	});
+	});
+-->
+</script>
+ 
+	<div class="right">
+		<h2>Step <?php echo $step;?> of 5 </h2>
+
+		<h1>正在安装</h1>
+	 
+		<div id="setupinfo">正在开始安装...<br></div>
+		
+		<div class="butbox">
+		<input type="button" class="inputButton" value=" 上一步 " onclick="window.location.href='index.php?step=3';" style="margin-right:20px" />
+		<input name="dosubmit" type="submit" class="inputButton nonext" id="dosubmit" value=" 下一步 " disabled  />
+	</div>
+	</div>
+</div>
+<div class="power">Powered by <a href="">Yourphp</a></div>
+</div></div>
+
+<script language="javascript" type="text/javascript">
+var n=0;
+var data = <?php echo json_encode($_POST);?>;
+$.ajaxSetup ({ cache: false });
+function reloads(n) {
+		var url =  "./index.php?step=4&install=1&n="+n;
+		$.ajax({
+			 type: "POST",		
+			 url: url,
+			 data: data,
+			 dataType: 'json',
+			 beforeSend:function(){
+			 },
+			 success: function(msg){
+				if(msg.n=='999999'){
+					$('#dosubmit').attr("disabled",false);
+					$('#dosubmit').removeAttr("disabled");				
+					$('#dosubmit').removeClass("nonext");
+					 setTimeout('gonext()',2000);
+				}
+				if(msg.n){
+					$('#setupinfo').append(msg.msg);				
+					reloads(msg.n);
+				}else{
+					 //alert('指定的数据库不存在，系统也无法创建，请先通过其他方式建立好数据库！');
+					 alert(msg.msg);
+				}			 
+			}
+		});
+}
+function gonext(){
+	window.location.href='index.php?step=5';
+}
+$(document).ready(function(){
+		reloads(n);
+})
+</script>
+</body>
+</html>

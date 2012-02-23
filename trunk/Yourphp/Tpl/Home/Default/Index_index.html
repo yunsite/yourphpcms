@@ -1,0 +1,24 @@
+<div class="left" style="border:none;">
+
+	<div class="icontact"><yp:block pos="about" /></div>
+
+	<div class="h10"></div>
+	<div class="iProduct">
+	<h2><span><a href="{$Categorys[$T[m_product_catid]]['url']}">{:L(more)}>></a></span><b>{$Categorys[$T[m_product_catid]]['catname']}</b></h2>
+	<ul class="pic">
+		<YP:list order="id desc" catid="T[m_product_catid]" limit="10">
+				<li><span><a href="{$r.url}" target="_blank"><img src="{$r['thumb']|thumb}"></a></span><a href="{$r.url}" target="_blank">{$r.title}</a></li>
+		</YP:list> 
+	</ul></div>
+
+
+	<div class="h10"></div>
+	<div class="inews">
+	<h2><span><a href="{$Categorys[$T[m_news_catid]]['url']}">{:L(more)}>></a></span><b>{$Categorys[$T[m_news_catid]]['catname']}</b></h2>
+	<div class="ilist"><ul class="txt">
+		<YP:list name="Article" order="id desc" catid="T[m_news_catid]" limit="12">
+			<li><a href="{$r.url}" target="_blank">{$r[title]|str_cut=###,40}</a></li>
+		</YP:list> 
+		</ul>
+	</div></div>
+</div>

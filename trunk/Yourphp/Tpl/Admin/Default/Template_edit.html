@@ -1,0 +1,20 @@
+
+	<form name="myform"  id="myform"  action="{:U($module_name.'/edit')}" method="post">
+	<table cellpadding=0 cellspacing=0 class="table_form"width="100%">
+      <tr>
+        <td width="120">{:L('filename')}</td>
+        <td>
+		<input type="text"   class="input-text"  validate="required:true, minlength:2, maxlength:30"   name="file" value="{$filename}" <if condition="$action_name=='edit'">readonly="readonly"</if>/>
+		<if condition="$action_name=='add'"><input type="radio" name="type" value="html" checked />{:L(file_type_html)} <input type="radio"  name="type" value="css" /> {:L(file_type_css)} <input type="radio"  name="type" value="js"/>{:L(file_type_js)}</if>
+		</td>
+      </tr>
+      	<tr>
+		<td>{:L('content')}</td>
+		<td><textarea id="content"  name="content"  style="width:95%; height:400px" validate="required:true, minlength:4" ></textarea></td>
+		</tr>
+	</table>
+	<div class="btn">
+		<INPUT TYPE="submit"  name="dosubmit" value="{:L('dosubmit')}" class="button" >
+		<input TYPE="reset"  value="{:L('cancel')}" class="button">
+	</div>
+	</form>

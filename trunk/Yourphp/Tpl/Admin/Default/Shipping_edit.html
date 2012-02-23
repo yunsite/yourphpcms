@@ -1,0 +1,106 @@
+
+
+
+
+<form name="myform" id="myform" action="<if condition="$action_name=='add'">{:U($module_name.'/insert')}<else />{:U($module_name.'/update')}</if>" method="post">
+
+
+<table  cellpadding=0 cellspacing=0 class="table_form" width="100%">
+<tr> 
+<td  width="120">配送方式名称：</td> 
+<td><input type="text" class="input-text" name="name" value="{$vo.name}"  validate="required:true,minlength:1, maxlength:40" /></td> 
+</tr> 
+<tr> 
+<td>类型：</td> 
+<td><input type="checkbox" id="type" name="type" value="1"  class="input_checkbox" />货到付款 </td> 
+</tr> 
+<tr> 
+<td>重量设置：</td> 
+<td> 
+<select name="first_weight" id="first_weight">
+							<option label="500克" value="500">500克</option>
+							<option label="1公斤" value="1000" selected="selected">1公斤</option>
+							<option label="1.2公斤" value="1200">1.2公斤</option>
+							<option label="2公斤" value="2000">2公斤</option>
+							<option label="5公斤" value="5000">5公斤</option>
+							<option label="10公斤" value="10000">10公斤</option>
+							<option label="20公斤" value="20000">20公斤</option>
+							<option label="50公斤" value="50000">50公斤</option>
+						</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 续重单位 &nbsp;
+
+						<select name="second_weight" id="second_weight">
+							<option label="500克" value="500">500克</option>
+							<option label="1公斤" value="1000" selected="selected">1公斤</option>
+							<option label="1.2公斤" value="1200">1.2公斤</option>
+							<option label="2公斤" value="2000">2公斤</option>
+							<option label="5公斤" value="5000">5公斤</option>
+							<option label="10公斤" value="10000">10公斤</option>
+							<option label="20公斤" value="20000">20公斤</option>
+							<option label="50公斤" value="50000">50公斤</option>
+						</select>
+</td> 
+</tr> 
+
+<tr> 
+<td>保价设置：</td> 
+<td> 
+<input type="checkbox" id="is_insure" name="is_insure" class="input_checkbox"   value="1"/>支持物流保价
+</td> 
+</tr> 
+
+<tr id="is_insure_box"> 
+<td>&nbsp;</td> 
+<td> 
+费率 <input type="text" id="insure_fee" name="insure_fee" value="{$vo.insure_fee}" class="input-text" size="3"/>%          最低保价费<input type="text" id="insure_low_price" name="insure_low_price" value="{$vo.insure_low_price}" class="input-text" size="3"/> *该项必填且只允许填写数字金额
+</td> 
+</tr> 
+
+<tr> 
+<td>配送费用：</td> 
+<td>首重费用 <input type="text" id="first_price" class="input-text" value="{$vo.first_price}" size="3"  validate="required:true,minlength:1, maxlength:40"/>元            续重费用<input type="text" id="second_price" class="input-text" value="{$vo.second_price}" size="3"  validate="required:true,minlength:1, maxlength:40"/> 元  </td> 
+</tr>
+
+<tr> 
+<td>{:L(description)}：</td> 
+<td><textarea id="description" name="description" rows="4" cols="50">{$vo.description}</textarea>
+</td> 
+</tr> 
+
+
+<tr> 
+<td>{:L(listorder)}：</td> 
+<td><input type="text" name="listorder" value="{$vo[listorder]|intval}" class="input-text" id="listorder" size="3" /></td> 
+</tr> 
+<tr>
+<td>状态：</td> 
+<td> <input name="status"  value="0" type="radio" {if !$vo[status]}checked{/if}>  {:L(disable)}&nbsp;&nbsp;&nbsp;<input name="status" value="1" type="radio"   {if $vo[status]}checked{/if}>  {:L(enable)} </td> 
+</tr> 
+</table> 
+<if condition="$vo[id]!=''"><input TYPE="hidden" name="id" value="{$vo.id}"></if>
+
+{if $_GET['isajax']}
+	<input type="hidden" name="isajax" value="1" />
+	<input name="dosubmit" type="submit" value="1" class="hidden" id="dosubmit"> 
+{else}
+	<div class="btn">	
+	<INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+	<input type="hidden" name="forward" value="{$_SERVER['HTTP_REFERER']}" />
+	<input TYPE="reset"  value="{:L('reset')}" class="button">
+	</div>
+{/if}
+<script>
+$(document).ready(function() {
+	$("#is_insure").click( function () {
+		if($(this).val()== 0){
+			$("#is_insure_box").hide();
+			$("#insure_fee").val('');
+			$("#insure_low_price").val('');
+		} else {
+			$("#is_insure_box").show();
+		}	
+	});
+});
+</script>
+</div>
+
+</body></html>

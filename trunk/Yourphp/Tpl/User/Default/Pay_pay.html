@@ -1,0 +1,58 @@
+ 
+ 
+	<div class="right">
+		 
+			<h5 class="title"><b>在线充值</b></h5>
+			 
+					<form method='post'  id="myform" action="{:U('User/Pay/index')}"> 
+						<table width="100%" cellspacing="0" class="table_form">
+							<tr>
+							   <th width="80">余额：</th>        
+							   <td style="padding:0 0 0 10px"><font style="color:#F00; font-size:22px;font-family:Georgia,Arial; font-weight:700">{$vo['amount']}</font> 元</td>
+							</tr>
+							 <tr>
+							<th>充值金额：</th>
+							<td><input name="price" type="text" id="price" size="8" value="" class="input-text">&nbsp;元<span id="msgid"></span></td>
+							 </tr>
+						  <tr>
+							   <th>充值方式：</th>
+							   <td>     <select id="pay_type" name="paytype">
+										<option value="0">请选择</option>
+										<option value="1">银行转帐</option>
+										
+									   </select> </td>
+							 </tr>
+						  <tr>		
+							<th>E-mail：</th>
+							   <td><input name="email" type="text" id="email" size="30" value="{$vo['email']}"  class="input-text"/></td>
+							 </tr>
+							 <tr>
+							   <th>姓 名：</th>
+							   <td><input name="username" type="text" id="contactname" size="30" value="{$vo['username']}"  class="input-text"/></td>
+							 </tr>
+							 <tr>
+							   <th>电 话：</th>
+							   <td><input name="telephone" type="text" id="telephone" size="30"  class="input-text" value="{$vo['telephone']}"/> 格式：010-88888888或13888888888<span id="msgid1" ></span></td>
+							 </tr>
+							 
+							 <tr>
+							   <th>备  注：</th>
+							   <td><textarea name="usernote"  id="usernote" rows="5" cols="50" value=></textarea></td>
+							 </tr>
+							 <tr>
+							   <th>{:L('verify')}：</th>
+							   <td><input name="verifyCode" class="input-text"  class="inputbox" id="verifyCode"  size="6" value="" maxlength="4" /><img src="{:U('Home/Index/verify')}" onclick="javascript:resetVerifyCode();" class="checkcode" align="absmiddle"  title="{:L('resetVerifyCode')}" id="verifyImage"/></td>
+							 </tr>
+							 <tr>
+							   <td></td>
+							   <td colspan="2"><label>
+								 <input type="submit" name="dosubmit" id="dosubmit" value="确 定" class="button"/>
+								 </label></td>
+							 </tr>
+						   </table>
+ 
+					</form>
+
+		 
+	</div>
+ 
