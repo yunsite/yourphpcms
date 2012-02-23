@@ -1,0 +1,20 @@
+
+<form id="myform" name="myform" action="{:U('Menu/listorder')}" method="post">
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+            <th width="40">{:L('listorder')}</th>
+            <th width="20">id</th>
+            <th>{:L('menu_name')}</th>
+			<th width="40">{:L('status')}</th>
+			<th width="170">{:L('manage')}</th>
+            </tr>
+        </thead>
+	<tbody>
+    <?php echo $select_categorys;?>
+	</tbody>
+    </table>  
+    <div class="btn"><input type="submit" class="button" name="dosubmit" value="<?php echo L('listorder')?>" /></div>  </div>
+</div>
+</form></div>

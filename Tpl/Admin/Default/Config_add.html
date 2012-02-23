@@ -1,0 +1,25 @@
+
+<form id="myform" name="myform" method='post' action="{:U('Config/insert')}">
+<table cellpadding=0 cellspacing=0 width="100%" class="table_form" >
+ 
+<tr>
+	<th style="width:140px;">{:L('var_name')}:</th>
+	<td><input type="text" class="input-text"  name="varname" value=""   validate=" required:true, english:true, minlength:2, maxlength:20,"  > </td>
+</tr>
+ 
+ <tr>
+	<th>{:L('var_info')}:</th>
+	<td><input type="text"  class="input-text"  name="info" value="" validate=" required:true, cn_username:true, minlength:2, maxlength:20," ></td>
+</tr>
+
+<tr>
+	<th>{:L('var_value')}:</th>
+	<td><input type="text"  class="input-text" name="value" value="" size=50  ></td>
+</tr>
+</table>
+<div class="btn"><input type="hidden" id="groupid" name="groupid" value="1"/>
+<INPUT TYPE="submit"  value="{:L('save')}" class="button" >
+<input TYPE="reset"  value="{:L('reset')}" class="button">
+</div>
+</form>
+</div>

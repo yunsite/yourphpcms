@@ -1,0 +1,49 @@
+
+
+
+<form name="myform" id="myform" action="" method="post">
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+      		<tr>
+      		<th width="20"><input type="checkbox"  id="check_box"  onclick="selectall('ids[]');" /></th>
+			<th width="30">{:L('listorder')}</th>
+			<th width="40">ID</th>
+			<th width="110" align="center">{:L(LANG_NAME)}</th>
+			<th align="left">{:L(LANG_MARK)}</th>		
+			<th align="left"  width="50">{:L(LANG_FLAG)}</th>
+			<th align="center"  width="40">{:L(STATUS)}</th>
+			<th width="180"   align="center">{:L('manage')}</th>
+      		</tr>
+      	</thead>
+      	<tbody>
+      		<volist name="list" id="vo" key="k">
+      		<tr>
+      		<td align="center"><input type="checkbox" name="ids[]" value="{$vo['id']}" /></td>
+			<td width="40" align='center'><input name='listorders[{$vo.id}]' type='text' size='3' value='{$vo.listorder}' class='input-text-c'></td>
+			<td align="center">{$vo['id']}</td>
+      		<td align="center">{$vo['name']}</td>
+			<td align="left">{$vo['mark']}</td>
+      		<td align="left"><if condition="!empty($vo['flag'])"><img src="./Public/Images/flag/{$vo['flag']}"></if>&nbsp;</td>
+			<td align="center"><eq name="vo['status']" value="1">
+      		{:L('yes')}
+      		<else />
+      		{:L('no')}
+      		</eq></td>
+			<td align="center">
+			<a href="{:U('Lang/edit',array(id=>$vo['id']))}">{:L('edit')}</a> | <a href="javascript:confirm_delete('{:U('Lang/delete',array(id=>$vo['id']))}')">{:L('delete')}</a></td>      		
+      		</tr>
+      		</volist>
+      	</tbody>
+    </table>
+  
+		<div class="btn">
+		<input type="button" class="button" name="dosubmit" value="<?php echo L('delete')?>" onclick="myform.action='{:U($module_name.'/deleteall')}';return onfirm_deleteall()"/>
+		<input type="button" class="button" name="dosubmit" value="<?php echo L('listorder')?>" onclick="myform.action='{:U($module_name.'/listorder')}';$('#myform').submit();"/> </div>  
+	</div>
+</div>
+</form>
+
+<div id="pages" class="page">{$page}</div>
+ 
+</body></html>

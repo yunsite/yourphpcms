@@ -1,0 +1,40 @@
+
+<form name="myform" action="{:U('Module/listorder')}" method="post">
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+      		<tr>      		 
+			<th width="40">ID</th>
+			<th width="90" align="left" >{:L('module_name')}</th>
+			<th width="90" align="left" >{:L('module_table')}</th>
+			<th width="300" align="left" >{:L('module_description')}</th>
+			<th width="240">{:L('manage')}</th>			 
+      		</tr>
+      	</thead>
+      	<tbody>
+      		<volist name="list" id="vo" key="k">
+      		<tr>      		
+			<td align="center">{$vo['id']}</td>
+      		<td>{$vo['title']}</td>
+      		<td>{$vo['name']}</td>
+      		<td>{$vo['description']}</td> 	
+      		<td align="center">
+			<a href="{:U('Field/index',array(moduleid=>$vo['id']))}">{:L('module_field')}</a> | 
+			<a href="{:U('Module/edit',array(id=>$vo['id']))}">{:L('edit')}</a>		| 
+			<if condition="$vo[status]==1">
+				<a href="{:U('Module/status',array(id=>$vo['id'],status=>0))}"><font color="green">{:L('enable')}</font></a>
+			<else />				
+				<a href="{:U('Module/status',array(id=>$vo['id'],status=>1))}"><font color="red">{:L('disable')}</font></a>	
+			</if>
+		 | <if condition="$vo['issystem']">
+		 <font color="#CFCFCF">{:L('delete')}</font>
+		 <else />
+		 <a href="{:U('Module/delete',array(id=>$vo['id']))}"  onclick="return confirm('{:L('module_real_uninstall')}')">{:L('delete')}</a>
+		</if>
+		 </td>      		
+      		</tr>
+      		</volist>
+      	</tbody>
+    </table>
+</div>
+</form></div>

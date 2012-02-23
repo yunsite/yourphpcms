@@ -1,0 +1,18 @@
+
+
+<div class="left">
+		<div class="pos">{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> > <a href="{:TAGURL()}">Tags</a> > <a href="{:TAGURL($data)}">{$data.name}</a></div>
+		<div class="list">
+		<ul class="txt">
+			<volist name="list" id="r">
+					<li><span class="date">[{$r.createtime|toDate=###,'Y-m-d'}]</span><a href="{$r.url}" target="_blank">{$r.title}</a></li>
+			</volist> 
+		</ul></div>
+
+		<div id="pages" class="page">{$pages}</div>
+		<br>
+</div>
+
+
+
+

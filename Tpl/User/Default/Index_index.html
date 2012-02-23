@@ -1,0 +1,57 @@
+ 
+ 
+	<div class="right">
+			<div class="col-1 nobg">
+				<h5 class="title"><b>{:L(user_login_info)}：</b></h5>
+				 
+				<div class="content">
+					<div class="col-left himg">
+						<a   href="{:U('User/Index/avatar')}"><img src="{$vo['avatar']}" width="60" height="60" onerror="this.src='./Public/Images/nophoto.gif'"></a>
+					</div>
+					<div class="col-auto">
+						<h5>
+						 {$vo['username']}  
+						（{$vo['email']}）</h5>
+						<p class="blue">
+						{:L(user_group)}：{$Role[$vo['groupid']]['name']}，
+						{:L(user_amount)}：<font style="color:#F00; font-size:22px;font-family:Georgia,Arial; font-weight:700">{$vo['amount']}</font> {:L(RMB)}，
+						{:L(user_point)}：<font style="color:#F00; font-size:12px;font-family:Georgia,Arial; font-weight:700">{$vo['point']}</font> {:L(point)}				</p>
+					</div>
+				</div>
+			</div>
+ 
+		<div class="h10"></div>
+		<div class="col-1 ">
+			<h5 class="title"><b>{:L(user_all_info)}：</b></h5>
+			<div class="content">
+					<table width="100%" cellspacing="0" class="table_form">
+						<tr>
+							<th width="120">{:L(username)}：</th>        
+							<td> {$vo['username']}</td>
+						</tr>
+						<tr>
+							<th width="120">{:L(user_group)}：</th>        
+							<td> {$Role[$vo['groupid']]['name']}  </td>
+						</tr>
+						<tr>
+							<th width="120">{:L(user_reg_time)}：</th>        
+							<td>{$vo['createtime']|toDate}</td>
+						</tr>
+						<tr>
+							<th width="120">{:L(user_last_login_time)}：</th>        
+							<td>{$vo['last_logintime']|toDate}</td>
+						</tr>
+						<tr>
+							<th width="120">{:L(user_reg_ip)}：</th>        
+							<td>{$vo['reg_ip']}</td>
+						</tr>
+						<tr>
+							<th width="120">{:L(user_last_login_ip)}：</th>        
+							<td>{$vo['last_ip']}</td>
+						</tr>
+					</table>
+			</div>
+		</div>
+	</div>
+ 
+

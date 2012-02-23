@@ -1,0 +1,33 @@
+
+<div class="main">
+	<h3>{:L(USER_REGISTER)}</h3>	 
+		<div class="block-msg">
+		<form id="myform"  method="post" action="{:U('User/Register/doreg')}" >
+		<table width="100%">
+		<tr>
+			<td align="right" width="240" height="35px">{:L(user_username)}：</td>
+			<td><input type="text" id="username" name="username" class="input-text" validate="required:true,en_num:true,remote: '{:U('User/Register/checkusername')}' , minlength:5, maxlength:20"/></td>
+		</tr>
+
+		<tr><td align="right" width="240" height="35px">{:L(password)}：</td><td><input type="password" class="input-text"  name="password" id="password" validate=" required:true, minlength:5, maxlength:20"></td></tr>
+		<tr><td align="right" width="240" height="35px">{:L(USER_repassword)}：</td><td><input type="password" class="input-text"  name="repassword" validate=" required:true,equalTo: '#password', minlength:5, maxlength:20"></td></tr>
+
+		<tr>
+			<td align="right" height="35px">{:L(email)}：</td>
+			<td><input type="text" id="email" name="email" class="input-text" validate="required:true,email:true,remote: '{:U('User/Register/checkEmail')}' , minlength:1, maxlength:40"/></td>
+		</tr>
+
+		{if  $member_config['member_login_verify']}
+		 <tr>
+		   <td  align="right" height="35px">{:L('verify')}：</td>
+		   <td><input name="verifyCode" class="input-text"  class="inputbox" id="verifyCode"  size="6" value="" maxlength="4" /><img src="{:U('Home/Index/verify')}" onclick="javascript:resetVerifyCode();" class="checkcode" align="absmiddle"  title="{:L('resetVerifyCode')}" id="verifyImage"/></td>
+		</tr>
+		{/if}
+		<tr>
+			<td>&nbsp;</td><input type="hidden" id="forward" name="forward" value="{$forward}"/>
+			<td height="50px"><input type="submit" class="button" value="{:L(USER_REGISTER)}" /></td>
+		</tr>
+		</table>
+		</form>
+		</div>	 
+</div>

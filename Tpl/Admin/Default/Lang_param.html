@@ -1,0 +1,21 @@
+
+
+
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+      		<tr>      		 
+			<th align="left">{:L(LANG_NAME)}</th>
+			<th width="180"   align="center">{:L('manage')}</th>
+      		</tr>
+      	</thead>
+      	<tbody>
+      		<volist name="files" id="vo" key="k">
+      		<tr>
+      		<td>{$vo['filename']} ({$vo['name']})</td>	 
+			<td align="center"><a href="{:U('Lang/editparam',array(id=>$id,file=>$vo['filename']))}">{:L('edit')}</a> </td>      		
+      		</tr>
+      		</volist>
+      	</tbody>
+    </table>
+</div>

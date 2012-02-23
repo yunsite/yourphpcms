@@ -1,0 +1,61 @@
+<include file="Home:header"/>
+{__NOLAYOUT__}
+<load href="../Public/images/order/order.css"/>
+		<div class="pos">{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> > <YP:catpos  catid="catid" space=" > " /></div>
+ 
+ 
+
+     		<div id="cart_box">					
+                    <div class="order_table">
+					<span style="float:right;padding:5px;">{:L('ORDER_ADD_TIME')}:{$cart['createtime']|toDate=###,'Y-m-d H:i:s'}</span> <span style="float:left;padding:5px;color:#FB0000;">{:L('ORDER_SN')}:{$cart['sn']}</span>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+                          <tr align="center">
+							<th width="15%">{:L('Order_product_thumb')}</th>
+                            <th width="35%">{:L('Order_product_name')}</th>
+                            <th width="10%">{:L('Order_product_price')}</th>
+                            <th width="12%">{:L('Order_product_number')}</th>
+                            <th width="13%">{:L('Order_product_small_count')}（RMB）</th>
+                            <th>{:L(manage)}</td>
+                          </tr>
+						  <if condition="empty($cart['productlist'])">
+							 <tr align="center">
+							 <td colspan="6"  style="padding:10px;border:0;color:#FB0000;" align="center">{:L('Order_no_product')}!</td>
+							 </tr>
+						  <else/>
+						  <volist name="cart['productlist']" id="vo">
+                          <tr align="center">
+							<td height="70" style="border-left:none;"><img src="{$vo['thumb']|thumb}" width="60" height="60"/></td>
+							<td>{$vo['title']}</td>
+							<td>{$vo['price']}</td>
+							<td>
+							{$vo['num']}
+							</td>
+							<td ><span class="count_price" id="count_price_{$vo['id']}">{$vo['countprice']|number_format=###,2}</span></td>
+							<td><a href="{$vo['url']}"  target="_blank" class="del">{:L('Order_view_product')}</a></td>
+						 </tr>
+						 </volist>
+						 </if>
+						</table>
+                    </div>
+                    <div id="prototal">
+      					<span>{:L('Order_product_number')}：</span><span id="totalnum">{$cart['totalnum']|intval}</span><span> ，</span>
+                    	<span>{:L('Order_product_count')}</span><span id="totalprice">{$cart['totalprice']|number_format=###,2}</span><span> RMB&nbsp;&nbsp;</span>
+                    </div>
+					<div class="c"></div>
+					<div class="order_userinfo">
+                        <h2>{:L('Order_address_info')}</h2>
+                        <ul>
+                        	<li><span>{:L('Order_address_consignee')}：</span>{$cart['realname']} </li>
+							<li><span>{:L('Order_address_tel')}：</span>{$cart['tel']} </li>
+							<li><span>{:L('Order_address_mobile')}：</span>{$cart['mobile']}</li>
+							<li><span>{:L('Order_address_email')}：</span>{$cart['email']}</li>
+							<li><span>{:L('Order_address_address')}：</span>{$cart['address']} </li>
+							<li><span>{:L('Order_address_zipcode')}：</span>{$cart['zipcode']} </li>
+						</ul>
+                    </div>
+					<div class="c"></div>
+			</DIV	>
+ 
+ 
+
+<include file="Home:footer"/>

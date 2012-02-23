@@ -1,0 +1,68 @@
+ 
+ 
+	<div class="right">
+		 
+			<h5 class="title"><b>{:L(user_order_query)}</b></h5>
+			 
+					<table  class="search_table" width="100%">
+							<tr>
+								<td class="search">
+									<form action="{:URL($module_name.'/index')}" method="get">
+									<input type="hidden" name="g" value="User" />
+									<input type="hidden" name="m" value="{$Think.MODULE_NAME}" />
+									<input type="hidden" name="a" value="{$Think.ACTION_NAME}" />	
+
+									<input id="title" type="text" class="input-text" name="sn" value="{$Think.get.sn}" />
+									<input type="hidden" id="searchtype" name="searchtype" value="sn"/> 
+									<input type="submit" value="{:L('query')}"  class="button" />
+									</form>
+								</td>
+								
+							</tr>
+						</table>
+
+						<form name="myform" id="myform" action="" method="post">
+
+						<div class="table-list">
+							<table width="100%" cellspacing="0">
+								<thead> 
+									<tr> 
+								 
+									<th width="140" align="left">{:L('order_sn')}</th> 
+									<th width="70" align="left">{:L('ORDER_PRICE')}</th>
+									<th  align="left">{:L('ORDER_createtime')}</th> 
+									<th  align="left">{:L('Order_payment_type')}</th>
+									<th width="160" align="center">{:L('order_status')}</th> 
+									</tr> 
+								</thead> 
+								<tbody>
+									<volist name="list" id="vo" key="k">
+									<tr>
+									<td><a href="{:URL('User-Order/show',array(id=>$vo['id']))}">{$vo.sn} </a> </td>
+									<td><font color="red">{$vo.order_amount|number_format=###,2}{:L(RMB)}</font></td>
+									<td>{$vo['add_time']|toDate=###,'Y-m-d H:i:s'}</td>
+									<td>{$vo['pay_name']}</td>	
+									<td align="center">
+									{:L("order_status_".$vo[status])} | {:L("pay_status_".$vo[pay_status])} |  {:L("shipping_status_".$vo[shipping_status])} 
+									</td>      		
+									</tr>
+									</volist>
+								</tbody>
+							</table>
+ 
+
+
+						   
+						</form></div>    
+
+						<div id="pages" class="page">{$page}</div>
+						<script>
+						$("#catid").attr("value",'{$catid}');
+						function confirm_deleteall(){
+							art.dialog.confirm("{:L('real_delete')}", function(){ $('#myform').submit();});
+						}
+						</script>
+
+		 
+	</div>
+ 
