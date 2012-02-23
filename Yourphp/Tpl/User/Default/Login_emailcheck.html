@@ -1,0 +1,14 @@
+
+<div class="main">
+	{if  $send_ok}
+		<h3>{:L(REG_OK)}</h3>	 
+		<div class="block-msg">
+		{$username},{:L(HAS_SEND_EMAIL_OK)}<strong>{$email}</strong>,{:L(LOGIN_EMAIL_TO_REGISTER)}
+		</div>
+	{else}
+		<h3>{:L(resend_checke_mail)}</h3>	 
+		<div class="block-msg">
+		{:L(NO_PASS_EMAIL_CHECK)}<a href="{:U('User/Login/emailcheck?resend=1')}">{:L(resend_checke_mail)}</a>.
+		</div>	
+	{/if}
+</div>

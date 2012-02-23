@@ -1,0 +1,31 @@
+
+
+<div class="left">
+		<div class="pos">{:L(catpos)}<a href="{:URL()}">{:L(home_font)}</a> > <YP:catpos  catid="catid" space=" > " /> {:L(SEARCH_RESULTS)}</div>
+ 
+
+		<div style="margin:12px;background:#EFEFEF;padding:10px;">
+		<form method="GET" action="index.php?">
+			<input type="hidden" id=""  name="m" value="Search"/>{if  APP_LANG}<input type="hidden" name="l" value="{:LANG_NAME}" />{/if}
+			<input type="text" name="keyword" id="" class="input-text" value="{$keyword}" />
+			{:Form::select(array('field'=>'module','options'=>$search_module),$module)}
+			<input type="submit" class="button" value="{:L(SEARCH)}" />
+		</form>
+		</div>
+
+		<div class="list">
+		<ul class="txt">
+			<volist name="list" id="r">
+					<li><span class="date">[{$r.createtime|toDate=###,'Y-m-d'}]</span><a href="{$r.url}" target="_blank">{$r.title}</a></li>
+			</volist> 
+		</ul></div>
+
+		<div id="pages" class="page">{$pages}</div>
+		<br>
+</div>
+
+
+
+
+
+

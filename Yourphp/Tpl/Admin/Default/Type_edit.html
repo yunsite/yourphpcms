@@ -1,0 +1,31 @@
+
+
+<form method='post' name="myform" id="myform" action="<if condition="$action_name=='add'">{:U($module_name.'/insert')}<else />{:U($module_name.'/update')}</if>">
+<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+<tr>
+	<td width="140">{:L('menu_parent_menu')}:</td>
+	<td><SELECT   name="parentid">
+	<if condition="empty($select_type)"><option value="0">{:L('menu_top_menu')}</option></if>
+	{$select_type}
+	</SELECT></td>
+</tr>
+<tr>
+	<td>{:L('name')}:</td>
+	<td><input type="text" class="input-text"  name="name" id="name" value="{$vo.name}"  validate="required:true,cn_username:true, minlength:2, maxlength:20"></td>
+</tr>
+<tr>
+	<td>{:L('description')}:</td>
+	<td><TEXTAREA   name="description" rows="5" cols="57">{$vo.description}</textarea></td>
+</tr>
+</table>
+<div class="btn"><input type="hidden" name="keyid" id="keyid" value="{$keyid}" />
+<if condition="$vo[typeid]!=''"><input TYPE="hidden" name="typeid" value="{$vo.typeid}"></if>
+<input type="hidden" name="forward" value="{$_SERVER['HTTP_REFERER']}" />
+<INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+<input TYPE="reset"  value="{:L('reset')}" class="button">
+</div>
+</form>
+</div>
+
+
+</body></html>

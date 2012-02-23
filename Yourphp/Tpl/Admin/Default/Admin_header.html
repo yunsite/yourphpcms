@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={:C('DEFAULT_CHARSET')}" />
+<title>{:L('welcome')}</title>
+<link rel="stylesheet" type="text/css" href="./Public/Css/style.css" /> 
+<script type="text/javascript" src="./Public/Js/jquery.min.js"></script> 
+<script type="text/javascript" src="./Public/Js/jquery.artDialog.js?skin=default"></script> 
+<script type="text/javascript" src="./Public/Js/iframeTools.js"></script>
+<script type="text/javascript" src="./Public/Js/jquery.form.js"></script> 
+<script type="text/javascript" src="./Public/Js/jquery.validate.js"></script> 
+<script type="text/javascript" src="./Public/Js/MyDate/WdatePicker.js"></script> 
+<script type="text/javascript" src="./Public/Js/jquery.colorpicker.js"></script> 
+<script type="text/javascript" src="./Public/Js/my.js"></script> 
+<script type="text/javascript" src="./Public/Js/swfupload.js"></script> 
+
+<script language="JavaScript">
+<!--
+var ROOT =	 '__ROOT__';
+var URL = '__URL__';
+var APP	 =	 '__APP__';
+var PUBLIC = '__PUBLIC__';
+function confirm_delete(url){
+	art.dialog.confirm("{:L('real_delete')}", function(){location.href = url;});
+}
+//-->
+</script>
+</head>
+<body>
+<div id="loader" >{:L('load_page')}</div>
+<div id="result" class="result none"></div>
+<div class="mainbox">
+
+<if condition="empty($_GET['isajax'])">
+
+	<div id="nav" class="mainnav_title">
+
+	<div id="lang">
+	<if condition="APP_LANG">
+		<?php
+		parse_str($_SERVER['QUERY_STRING'],$urlarr);
+		unset($urlarr[l]);
+		$url='index.php?'.http_build_query($urlarr);
+		?>
+		<volist name="Lang" id="langvo">
+			<a href="{$url}&l={$langvo.mark}" <if condition="$langvo[mark]==$_SESSION['YP_lang']"> class="on"</if>>{$langvo.name}</a>
+		</volist>
+	</if>
+	</div>
+	<ul><a href="{:U($nav[bnav][model].'/'.$nav[bnav][action],$nav[bnav][data])}">{$nav.bnav.name}</a>|
+	<volist name="nav.nav" id="vonav">
+
+	<if condition="$vonav[data][isajax]">
+	<a href="javascript:void(0);" onclick="openwin('{$vonav[action]}','{:U($vonav[model].'/'.$vonav[action],$vonav[data])}','{$vonav.name}',600,440)">{$vonav.name}</a>|
+	<else />
+	<a href="{:U($vonav[model].'/'.$vonav[action],$vonav[data])}">{$vonav.name}</a>|
+	</if>
+	</volist></ul>
+	</div>
+	<script>
+	//|str_replace=__ROOT__.'/index.php','',###
+	var onurl ='{$_SERVER["REQUEST_URI"]}';
+	jQuery(document).ready(function(){
+		$('#nav ul a ').each(function(i){
+		if($('#nav ul a').length>1){
+			var thisurl= $(this).attr('href');
+			thisurl = thisurl.replace('&menuid={:cookie("menuid")}','');
+			if(onurl.indexOf(thisurl) == 0 ) $(this).addClass('on').siblings().removeClass('on');
+		}else{
+			$('#nav ul').hide();
+		}
+		});
+		if($('#nav ul a ').hasClass('on')==false){
+		$('#nav ul a ').eq(0).addClass('on');
+		}
+	});
+	</script>
+</if>

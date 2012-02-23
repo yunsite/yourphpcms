@@ -1,0 +1,129 @@
+
+<load href="./Public/Js/jquery.form.js"/>
+<load href="./Public/Js/MyDate/WdatePicker.js"/>
+<load href="./Public/Js/jquery.colorpicker.js"/>
+<script type="text/javascript" src="./Public/Js/jquery.artDialog.js?skin=default"></script>
+<if condition="empty($_GET[parenthost])"><load href="./Public/Js/iframeTools.js"/></if>
+<load href='../Public/Css/member.css' />
+<load href="__PUBLIC__/Js/my.js"/>
+<load href="__PUBLIC__/Js/swfupload.js"/>
+
+<script language="JavaScript">
+<!--
+var URL = '__URL__';
+var APP	 =	 '__APP__';
+var PUBLIC = '__PUBLIC__';
+function confirm_delete(url){
+	art.dialog.confirm("{:L('real_delete')}", function(){location.href = url;});
+}
+//-->
+</script>
+ 
+ 
+	<div class="right">
+			<h5 class="title"><b>{:L(USER_POST)}{:L(MANAGE)}</b></h5>
+			 
+			<table  class="search_table" width="100%">
+				<tr>
+					<td class="search">
+						<form action="{:U($module_name.'/index')}" method="get">
+						<input type="hidden" name="g" value="{$Think.GROUP_NAME}" />
+						<input type="hidden" name="m" value="{$Think.MODULE_NAME}" />
+						<input type="hidden" name="a" value="{$Think.ACTION_NAME}" />
+						<input type="hidden" id="moduleid" name="moduleid" value="{$moduleid}" />
+						<input id="title" type="text" class="input-text" name="keyword" value="{$Think.get.keyword}" />
+						<select name="searchtype">
+						<if condition="$fields['name']"><option value="title" <eq  name="searchtype" value='name'>selected="selected"</eq>>{:L('name')}</option></if>
+						<if condition="$fields['title']"><option value="title" <eq name="searchtype" value='title'>selected="selected"</eq>>{:L('title')}</option></if>
+						<if condition="$fields['username']"><option value="username" <eq name="searchtype" value="username">selected="selected"</eq>>{:L('username')}</option></if>
+						<if condition="$fields['keywords']"><option value="keywords" <eq  name="searchtype" value='keywords' >selected="selected"</eq>>{:L('keywords')}</option></if>
+						<option value="id" <eq name="searchtype" value='id'>selected="selected"</eq>>ID</option>
+						</select>
+						<if condition="$fields['catid']">
+						<select id="catid" name="catid">
+						<option value="">{:L('select_category')}</option>
+						{$select_categorys}
+						</select>
+						</if>
+
+						<if condition="$fields['typeid']">
+						<select id="typeid" name="typeid">
+						<option value="">{:L('select_typeid')}</option>
+						<volist name="Type" id="row">
+						<if condition="$row['parentid']==$fields['typeid']['setup']['default']"><option value="{$row['typeid']}" <eq name="typeid" value="$row['typeid']">selected="selected"</eq>>{$row['name']}</option></if>
+						</volist>
+						</select>
+						</if>
+
+ 
+						<select id="status" name="status">
+						<option value="">{:L('status')}</option>
+						<option value="0" <if condition="isset($status) && $status ==0">selected="selected"</if>>{:L(noshenhe)}</option>
+						<option value="1" <if condition="isset($status) && $status ==1">selected="selected"</if>>{:L(isshenhe)}</option>
+						</select>
+
+
+						<select id="order" name="order">
+						<option value="listorder" <eq name="order" value="listorder">selected="selected"</eq>>{:L('listorder')}</option>
+						<option value="{$pkid}" <eq name="order" value="$pkid">selected="selected"</eq>>ID{:L('listorder')}</option>
+						<if condition="$fields['hits']"><option value="hits" <eq name="order" value="hits">selected="selected"</eq>>{:L('hits')}{:L('listorder')}</option></if>
+						</select>
+
+						<select name="sort">
+							<option value="asc" <if condition="$sort =='asc'">selected="selected"</if>>{:L('order_by_asc')}</option>
+							<option value="desc" <if condition="$sort =='desc'">selected="selected"</if>>{:L('order_by_desc')}</option>
+						</select>
+
+						 
+						<input type="hidden" id="menuid" name="menuid" value="{$_GET['menuid']}"/>
+						<input type="submit" value="{:L('chaxun')}"  class="button" />
+						</form>
+					</td>
+
+				</tr>
+			</table>
+
+			<form name="myform" id="myform" action="" method="post">
+
+			<div class="table-list">
+				<table width="100%" cellspacing="0">
+					<thead>
+						<tr>
+						<th width="40">ID</th>
+						<th>{:L('title')}</th>
+					    <th width="120" align="center">{:L('createtime')}</th>
+						<th width="72">{:L('manage')}</th>
+						</tr>
+					</thead>
+					<tbody>
+						<volist name="list" id="vo" key="k">
+						<tr>
+						<td align="center">{$vo['id']}</td>
+						<td><if condition="$vo['catid']">[<font color="green">{$categorys[$vo['catid']]['catname']}</font>]</if> <a href="{$vo.url}" <if condition="$vo['title_style']!=''">style ="{$vo['title_style']}"</if> target="_blank">{$vo['title']} </a>
+						<if condition="$vo['thumb']!=''"><img src="./Public/Images/admin_image.gif"></if>
+						<if condition="$vo['posid']!=0"><img src="./Public/Images/admin_elite.gif"></if></td>
+						<td align="center">{$vo['createtime']|todate="Y-m-d H:i:s"}</td>
+						<td align="center">
+						{if  $vo['status']}<font color="green">{:L(status_ok)}</font>{else}
+						<a href="{:U($module_name.'/edit',array(moduleid=>$moduleid,id=>$vo['id']))}">{:L('edit')}</a> 
+						{/if}
+						</td>
+						</tr>
+						</volist>
+					</tbody>
+				</table>
+ 
+				</form></div>
+
+				<div id="pages" class="page">{$page}</div>
+				<script>
+				$("#catid").attr("value",'{$catid}');
+				function confirm_deleteall(){
+					art.dialog.confirm("{:L('real_delete')}", function(){ $('#myform').submit();});
+				}
+				</script>
+
+
+	</div>
+ 
+

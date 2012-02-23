@@ -1,0 +1,33 @@
+
+
+
+<form name="myform" id="myform" action="<if condition="$action_name=='add'">{:U($module_name.'/insert')}<else />{:U($module_name.'/update')}</if>" method="post">
+<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+	<tr>
+		  <td width="120"><font color="red">*</font>{:L(LANG_NAME)}</td>
+		  <td><input type="text" id="name" name="name" value="{$vo.name}" class="input-text"  validate="required:true,cn_username:true, minlength:2, maxlength:20"/></td>
+	</tr>
+	<tr>
+		  <td width="120"><font color="red">*</font>{:L(LANG_MARK)}</td>
+		  <td><input type="text" id="mark" name="mark" value="{$vo.mark}" class="input-text"  validate="required:true,en_num:true, minlength:2, maxlength:20"/> </td>
+	</tr>
+	<tr>
+		  <td>{:L(LANG_FLAG)}</td>
+		  <td><input type="text" id="flag" name="flag" value="{$vo.flag}" class="input-text"/></td>
+	</tr>
+
+	<tr>
+		  <td>{:L(STATUS)}</td>
+		  <td>{:Form::radio(array('field'=>'status','options'=>array('1'=>L('yes'),'0'=>L('no'))),$vo['status'])}</td>
+	</tr>
+	 
+ 
+</table>
+<div  class="btn">
+<if condition="$vo['id']!=''"><input TYPE="hidden" name="id" value="{$vo.id}"></if>
+<INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+<input TYPE="reset"  value="{:L('cancel')}" class="button">
+</div>
+</form>
+</div>
+</body></html>

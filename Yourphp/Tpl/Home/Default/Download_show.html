@@ -1,0 +1,28 @@
+
+
+<div class="left">
+		<div class="pos">{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> > <YP:catpos  catid="catid" space=" > " /></div>
+		<div id="content">
+		<h1>{$title}</h1>
+ 
+		<div class="down_info"><ul>
+		<li><label>{:L(Down_size)}:</label>{$size}</li>
+		<li><label>{:L(Down_ext)}:</label>{$ext}</li>
+		<li><label>{:L(Down_hits)}:</label><span id="hits">&nbsp;</span>{:L(ci)}</li>
+		<li><label>{:L(Down_download)}:</label><span id="downs">&nbsp;</span>{:L(ci)}</li>
+		<li><label>{:L(Down_url)}:</label><a href="__ROOT__/index.php?m={$module_name}&a=down&id={$id}">{:L(Download)}</a></li>
+		<li><label>{:L(Down_time)}:</label>{$createtime|toDate=###,'Y-m-d'}</li>
+		</ul></div>
+		<div class="h10"></div>
+		<div class="p_tabs"><ul><li>{:L(Down_desc)}</li></ul></div>
+		<div class="h10"></div>
+
+		<div class="content">
+		{$content}
+		</div>
+		</div>
+		<br>
+</div>
+ 
+
+<script language="JavaScript" src="__ROOT__/index.php?m={$module_name}&a=hits&id={$id}"></script>

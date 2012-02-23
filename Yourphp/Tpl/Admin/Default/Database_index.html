@@ -1,0 +1,41 @@
+
+	<form id="myform" name="myform" method="post" action="">
+	<div class="table-list">
+       <table cellpadding=0 cellspacing=0  width="100%">
+	   <thead>
+		<tr>
+        <th style="width:4%">选择</th>
+		 <th align="left" style="width:20%">名称</th>
+              <th align="left" style="width:15%">类型</th>
+              <th align="left" style="width:15%">字符集</th>
+              <th align="left" style="width:8%">记录数</th>              
+              <th align="left" style="width:8%">碎片</th>
+			  <th align="left" style="width:8%">大小</th>
+		</tr>
+		</thead> 
+		<tbody>
+		<volist name="dataList" id="vo">
+		<tr>
+		<td><input type="checkbox" name="tables[]" value="{$vo.Name}" id="{$vo.Name}"> </td>
+        <td>{$vo.Name}</td>
+        <td>{$vo.Engine}</td>
+        <td>{$vo.Collation}</td>
+        <td>{$vo.Rows}</td>       
+        <td>{$vo.Data_free|byte_format}</td>
+		 <td>{$vo.Data_length|byte_format}</td>
+		</tr>
+		</volist>
+		</tbody>
+		</table> 
+		</div>
+		<div class="btn">
+			<input type="checkbox" value="" id="check_box" onclick="selectall('tables[]');">全选&nbsp;&nbsp;
+			<input type="button" class="button"  name="" value="修复" onclick="myform.action='{:U($module_name.'/docommand?do=repair')}';$('#myform').submit();" >
+			<input type="button" class="button"  name="" value="优化" onclick="myform.action='{:U($module_name.'/docommand?do=optimze')}';$('#myform').submit();">
+			<input type="button"  class="button"  name="" value="检查" onclick="myform.action='{:U($module_name.'/docommand?do=check')}';$('#myform').submit();">
+			<input type="button"  class="button"  name="" value="分析" onclick="myform.action='{:U($module_name.'/docommand?do=analyze')}';$('#myform').submit();" >       
+			 <input type="button"  class="button"  name="" value="结构" onclick="myform.action='{:U($module_name.'/docommand?do=show')}';$('#myform').submit();">
+			 <input type="button" class="button"  name="" value="执行备份" onclick="myform.action='{:U($module_name.'/backup')}';$('#myform').submit();">
+			<span style="float:right;color:#FB0000">数据库大小：{$totalSize|byte_format}</span>
+		</div>  
+	</form>

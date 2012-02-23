@@ -1,0 +1,27 @@
+
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.artDialog.js?skin=default"></script>
+<if condition="empty($_GET[parenthost])"><load href="__PUBLIC__/Js/iframeTools.js"/></if>
+ 
+<load href="__PUBLIC__/Js/my.js"/>
+<load href="__PUBLIC__/Js/swfupload.js"/>
+ 
+ 
+	<div class="right">
+		 
+			<h5 class="title"><b>{:L(user_edit_info)}</b></h5>
+			 
+					<form method='post'  id="myform" action="{:URL('User-Index/avatar')}">
+					<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+					
+		<div class="avatar_box"  ><div id="avatar_aid_box" style="display:none;"></div>
+		<a href="javascript:swfupload('avatar_uploadfile','avatar','{:L(uploadfiles)}',0,1,0,1,'jpeg,jpg,png,gif',3,0,'{$yourphp_auth}',yesdo,nodo)"><img src="<if condition="!empty($vo['avatar'])">{$vo['avatar']}<else/>__PUBLIC__/Images/nophoto.gif</if>" id="avatar_pic" ></a><br> <input type="button" value="{:L(clean_avatar)}" onclick="javascript:clean_thumb('avatar');" class="button" /><input type="hidden"  id="avatar" name="avatar"  value="{$vo['avatar']}" /></div>
+					</table>
+					<div class="btn">
+					<input TYPE="hidden" name="id" value="{$vo.id}">
+					<INPUT TYPE="submit" name="dosubmit"  value="{:L('dosubmit')}" class="button" >
+					<input TYPE="reset"  value="{:L('cancel')}" class="button">
+					</div>
+					</form>
+		 
+	</div>
+ 

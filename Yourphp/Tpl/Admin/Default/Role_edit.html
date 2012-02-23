@@ -1,0 +1,86 @@
+
+
+ <form id="myform" action="<if condition="$action_name=='edit'">{:U('Role/update')}<else />{:U('Role/insert')}</if>" method="post">
+      	<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+      	<tr>
+		<td width="120">{:L('user_group')}{:L('name')}</td>
+		<td><input type="text" name="name" class="inputbox" class="input-text"  value="{$vo['name']}"  validate="required:true,cn_username:true,  minlength:2, maxlength:20"/></td>
+		</tr>
+		<tr>
+		<td>{:L('user_is_enable')}</td>
+		<td>
+		{:L('yes')}<input type="radio" name="status" value="1" <eq name="vo['status']" value="1">checked="checked"</eq> />
+		{:L('no')}<input type="radio" name="status" value="0" <eq name="vo['status']" value="0">checked="checked"</eq> />
+		</td>
+		</tr>
+			<tr>
+			<td>{:L('role_prve')}</td> 
+			<td>
+				<span class="ik lf" style="width:120px;">
+					<input type="checkbox" class="input_checkbox" name="allowpost" value="1"{if $vo['allowpost']} checked{/if}/>
+					{:L(role_allowpost)}				</span>
+				<span class="ik lf" style="width:120px;">
+					<input type="checkbox" class="input_checkbox" name="allowpostverify" value="1"{if $vo['allowpostverify']} checked{/if}/>
+					{:L(role_allowpostverify)}					</span>
+				<span class="ik lf" style="width:120px;">
+					<input type="checkbox" class="input_checkbox" name="allowupgrade" value="1"{if $vo['allowupgrade']} checked{/if} />
+					{:L(role_allowupgrade)}	 
+				</span>
+				<span class="ik lf" style="width:120px;">
+					<input type="checkbox" class="input_checkbox" name="allowsendmessage" value="1"{if $vo['allowsendmessage']} checked{/if} / >
+					{:L(role_allowsendmessage)}	
+				</span>
+				<span class="ik lf" style="width:120px;">
+					<input type="checkbox" class="input_checkbox" name="allowattachment" value="1"{if $vo['allowattachment']} checked{/if}/>
+					{:L(role_allowattachment)}	
+				</span>
+				<span class="ik lf" style="width:120px;">
+					<input type="checkbox" class="input_checkbox" name="allowsearch" value="1"{if $vo['allowsearch']} checked{/if}/>
+					{:L(role_allowsearch)}	 
+				</span>
+			</td>
+ 
+		</tr>
+ 
+		<tr>
+			<td width="80">{:L(role_update)}	</td> 
+			<td>
+				<span class="ik lf" style="width:120px;">
+					{:L(role_price_d)}:
+					<input type="text" name="price_d" class="input-text" value="{$vo['price_d']}" size="6"  validate="required:true,number:true">	
+				</span>
+				<span class="ik lf" style="width:120px;">
+					{:L(role_price_m)}:
+					<input type="text" name="price_m" class="input-text" value="{$vo['price_m']}" size="6" validate="required:true,number:true">
+				</span>
+				<span class="ik lf" style="width:120px;">
+					{:L(role_price_y)}:
+					<input type="text" name="price_y" class="input-text" value="{$vo['price_y']}" size="6" validate="required:true,number:true">
+				</span>
+			</td>
+		</tr>
+		<tr>
+			<td width="80">{:L(role_maxmessagenum)}</td> 
+			<td><input type="text" name="maxmessagenum" class="input-text" id="maxmessagenum" value="{$vo['maxmessagenum']|intval}" size="8" validate="required:true,number:true"></td>
+		</tr>
+		<tr>
+			<td width="80">{:L(role_maxpostnum)}</td> 
+			<td><input type="text" name="maxpostnum" class="input-text" id="maxpostnum" size="8" value="{$vo['maxpostnum']|intval}" validate="required:true,number:true"></td>
+		</tr>
+
+
+
+		<tr>
+		<td>{:L('remark')}</td>
+		<td>
+		<textarea rows="5" cols="30" name="remark">{$vo['remark']}</textarea>
+		</td>
+		</tr>
+		</table>
+		<div class="btn">
+		<if condition="$action_name=='edit'"><input type="hidden" id="id" name="id" value="{$vo['id']}" /></if>
+		<INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+		<input TYPE="reset"  value="{:L('cancel')}" class="button">
+		</div>
+      </form>
+</div>

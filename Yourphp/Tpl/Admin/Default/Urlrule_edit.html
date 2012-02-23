@@ -1,0 +1,52 @@
+
+
+<form name="myform" id="myform" action="<if condition="$action_name=='add'">{:U($module_name.'/insert')}<else />{:U($module_name.'/update')}</if>" method="post">
+<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+	<tr>
+		  <td width="120">{:L('URL_MAKE_HTML')}
+		  </td>
+		  <td>
+			{:Form::radio(array('field'=>'ishtml','options'=>array('1'=>L('yes'),'0'=>L('no'))),$vo['ishtml'])}
+		  </td>
+	</tr>
+	<tr>
+		  <td width="120"><font color="red">*</font>{:L(URL_SHOW)}{:L(URL_example)}</td>
+		  <td>
+			<input type="text" id="showexample" name="showexample"   size="50" class="input-text"  value="{$vo['showexample']}" validate="required:true,minlength:2, maxlength:200" />{:L(examples)}:news/show/1.html
+		  </td>
+	</tr>
+	<tr>
+		  <td><font color="red">*</font>{:L(URL_SHOW)}{:L(URL_RULE)}</td>
+		  <td><input type="text" id="showurlrule" name="showurlrule"   size="50" class="input-text"  value="{$vo['showurlrule']}"  validate="required:true,minlength:2, maxlength:200" /> {:L(examples)}:<literal>{$catdir}/show/{$id}.html</literal>
+		  </td>
+	</tr>
+	<tr>
+		  <td>{:L(URL_SHOW_VAR)}</td>
+		  <td>{:L(URL_SHOW_README)}
+		  </td>
+	</tr>
+	 <tr>
+		  <td width="120"><font color="red">*</font>{:L(URL_LIST)}{:L(URL_example)}</td>
+		  <td>
+			<input type="text" id="listexample" name="listexample"   size="50" class="input-text" value="{$vo['listexample']}" validate="required:true,minlength:2, maxlength:200" />{:L(examples)}:news/
+		  </td>
+	</tr>
+	<tr>
+		  <td><font color="red">*</font>{:L(URL_LIST)}{:L(URL_RULE)}</td>
+		  <td><input type="text" id="listurlrule" name="listurlrule"   size="50" class="input-text" value="{$vo['listurlrule']}" validate="required:true,minlength:2, maxlength:200" /> {:L(examples)}:<literal>{$catdir}</literal>
+		  </td>
+	</tr> 
+	<tr>
+		  <td>{:L(URL_LIST_VAR)}</td>
+		  <td>{:L(URL_LIST_README)}
+		  </td>
+	</tr>
+</table>
+<div  class="btn">
+<if condition="$vo['urlruleid']!=''"><input TYPE="hidden" name="urlruleid" value="{$vo.urlruleid}"></if>
+<INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+<input TYPE="reset"  value="{:L('cancel')}" class="button">
+</div>
+</form>
+</div>
+</body></html>

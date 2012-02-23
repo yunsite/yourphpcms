@@ -1,0 +1,18 @@
+
+
+<div class="left">
+		<div class="pos">{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> > <YP:catpos  catid="catid" space=" > " /></div>
+		<div class="down_list">
+			<volist name="list" id="vo" key="k">
+			<dl class="img">
+			<dt><a href="{$vo.url}" target="_blank">{$vo.title}</a></dt>
+			<dd class="desc">{:L(Down_desc)}:{$vo.description}</dd>
+			<dd class="ext">{:L(Down_ext)}:{$vo.ext} &nbsp;&nbsp;&nbsp;&nbsp;{:L(Down_size)}:{$vo.size}</dd>
+			</dl>
+			</volist>
+		</div>
+		 <div id="pages" class="page">{$pages}</div>
+		<br>
+</div>
+
+

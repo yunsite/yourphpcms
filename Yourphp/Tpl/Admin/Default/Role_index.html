@@ -1,0 +1,37 @@
+
+
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+      		<tr>
+			<th width="40">ID</th>
+			<th align="left">{:L('user_group')}{:L('name')}</th>
+			<th align="left">{:L('remark')}</th>
+			<th width="60">{:L('status')}</th>
+			<th width="220">{:L('manage')}</th>
+      		</tr>
+      	</thead>
+      	<tbody>
+      		<volist name="list" id="role" key="k">
+      		<tr>
+			<td align="center">{$role['id']}</td>
+      		<td>{$role['name']}</td>
+      		<td>{$role['remark']}</td>
+			<td align="center">
+      		<eq name="role['status']" value="1">
+      		{:L('enable')}
+      		<else />
+      		{:L('disable')}
+      		</eq>
+      		</td>
+      		<td align="center">
+			<a href="{:U('Role/edit',array(id=>$role['id']))}">{:L('edit')}</a> |
+			<a href="javascript:confirm_delete('{:U('Role/delete',array(id=>$role['id']))}')">{:L('delete')}</a> |
+      		<a href="javascript: openwin(\'license\',\'{:U('Access/index',array(rid=>$role[id]))}\','{:L('license')}',500,500);">{:L('license')}</a> |
+      		<a href="{:U('User/index',array(groupid=>$role['id']))}">{:L('user_list')}</a>
+      		</td>
+      		</tr>
+      		</volist>
+      	</tbody>
+      	</table>
+</div>

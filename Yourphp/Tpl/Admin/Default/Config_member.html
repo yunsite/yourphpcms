@@ -1,0 +1,29 @@
+
+<form method='post'  id="form1" action="{:U('Config/dosite')}">
+<table cellpadding=0 cellspacing=0 width="100%" class="table_form" >
+
+
+<volist name="member_config" id="vo">
+
+
+{if $vo[varname] =='member_getpwdemaitpl' || $vo[varname]=='member_emailchecktpl'}
+<tr>
+	<th width="140">{$vo.info}:</th>
+	<td><textarea id="{$vo[varname]}" rows="5" cols="50">{$vo['value']|htmlspecialchars}</textarea></td>
+</tr>
+{else}
+<tr>
+	<th width="140">{$vo.info}:</th>
+	<td>{:Form::radio(array('field'=>$vo[varname],'options'=>array('1'=>L('yes'),'0'=>L('no'))),$vo['value'])}</td>
+</tr>
+{/if}
+
+</volist>
+
+</table>
+<div class="btn">
+<INPUT TYPE="submit"  value="{:L('save')}" class="button" >
+<input TYPE="reset"  value="{:L('reset')}" class="button">
+</div>
+</form>
+</div>

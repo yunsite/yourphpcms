@@ -1,0 +1,57 @@
+
+
+<load href="__PUBLIC__/Js/jquery.validate.js"/>
+
+<div class="left">
+		<div class="pos">{:L(catpos)}<a href="{:URL()}">{:L(home_font)}</a> > <YP:catpos  catid="catid" space=" > " /></div>
+
+<style>
+#content {margin:0;line-height:22px;}
+
+</style>
+
+
+		<div class="guestbook_list">
+			<volist name="list" id="vo" key="k">
+			<dl>
+				<dt><span>{$vo.createtime|toDate=###,'Y-m-d H:i:s'}</span>{:L(name)}:{$vo.username} - {$vo.title}</dt>
+				<dd class="g_content">
+				{$vo.content}
+				</dd>
+				{if  $vo['reply_content']}<dt>{:L(admin_reply)}:</dt><dd class="reply_content">{$vo['reply_content']}</dd>{/if}
+			</dl>
+			</volist>
+		</div>
+		<div id="pages" class="page">{$pages}</div>
+
+		<div class="post_box">
+		<h5>{:L(submit_book)}</h5>
+		<form name="myform" id="myform" action="{:URL('User-Post/insert')}" method="post">
+ 		<table cellpadding=0 cellspacing=0 class="table_form"  >
+		<input type="hidden"  name="catid" value="{$catid}" />
+		<input type="hidden"  name="moduleid" value="{$moduleid}" />
+		<input type="hidden"  name="lang" value="{$langid}" />
+		<volist name="fields" id="r">
+		<if condition="!empty($r['status']) && $r['ispost']">
+			<tr>
+				<td width="100" align="right">{if  $r['required']}<font color="red">*</font>{/if} {if  APP_LANG}{:L($r[field])}{else}{$r.name}{/if}</td>
+				<td id="box_{$r['field']}">
+				{$r|getform=$form,###}
+				</td>
+			</tr>
+		</if>
+		</volist>
+		<tr>
+				<td width="100"></td>
+				<td><INPUT TYPE="submit"  value="{:L(dosubmit)}" class="button" >
+		<input TYPE="reset"  value="{:L(cancel)}" class="button"></td>
+				</tr>
+		</table>
+		</form>
+		</div>
+ 
+
+		<br>
+</div>
+
+

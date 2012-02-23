@@ -1,0 +1,107 @@
+
+<form method='post'   id="myform"  action="{:U('Config/dosite')}">
+<table cellpadding=0 cellspacing=0 width="100%" class="table_form" >
+
+	<tr>
+		<th style="width:120px;">{:L('PAGE_LISTROWS')}:</th>
+		<td><input name="PAGE_LISTROWS" type="text"  class="input-text" size="5" id="PAGE_LISTROWS" value="{$PAGE_LISTROWS}"></td>
+	</tr>
+
+	<tr>
+		<th>{:L('URL_MODEL')}:</th>
+		<td>{:Form::select(array('field'=>'URL_MODEL','options'=>$urlmodelarr,'setup'=>array('onchange'=>'urlrule(this.value)')),$URL_MODEL)}
+		</td>
+	</tr>
+
+	<tr id="urlrule">
+		<th>{:L('URL_Urlrule')}:</th>
+		<td>{:Form::select(array('field'=>'URL_URLRULE','options'=>$Urlrule),$URL_URLRULE)}</td>
+	</tr>
+
+
+	<tr>
+	  <th>{:L('URL_PATHINFO_DEPR')}:</th>
+	  <td><input name="URL_PATHINFO_DEPR" type="text" class="input-text" id="URL_PATHINFO_DEPR" value="{$URL_PATHINFO_DEPR}" size="20" /></td>
+	  </tr>
+	<tr>
+		<th>{:L('URL_HTML_SUFFIX')}:</th>
+		<td><input name="URL_HTML_SUFFIX" type="text" class="input-text" id="URL_HTML_SUFFIX" value="{$URL_HTML_SUFFIX}"></td>
+	</tr>
+
+	<tr>
+		<th>{:L('TOKEN_ON')}:</th>
+		<td>{:Form::select(array('field'=>'TOKEN_ON','options'=>$openarr),$TOKEN_ON)} 
+		</td>
+	</tr>
+	<tr>
+		<th>{:L('TOKEN_NAME')}:</th>
+		<td><input name="TOKEN_NAME" type="text" class="input-text"  id="TOKEN_NAME" value="{$TOKEN_NAME}">
+		
+		</td>
+	</tr>
+	<tr>
+		<th>{:L('TMPL_CACHE_ON')}:</th>
+		<td>{:Form::select(array('field'=>'TMPL_CACHE_ON','options'=>$openarr),$TMPL_CACHE_ON)}
+		</td>
+	</tr>
+	<tr>
+		<th>{:L('TMPL_CACHE_TIME')}:</th>
+		<td><input name="TMPL_CACHE_TIME" type="text" id="TMPL_CACHE_TIME" value="{$TMPL_CACHE_TIME}"> </td>
+	</tr>
+	<tr>
+		<th>{:L('HTML_CACHE_ON')}:</th>
+		<td>{:Form::select(array('field'=>'HTML_CACHE_ON','options'=>$openarr),$HTML_CACHE_ON)}</td>
+	</tr>
+	<tr>
+		<th>{:L('HTML_CACHE_TIME')}:</th>
+		<td><input name="HTML_CACHE_TIME" type="text" class="input-text"  id="HTML_CACHE_TIME" value="{$HTML_CACHE_TIME}"> </td>
+	</tr>
+	<tr>
+		<th>{:L('HTML_READ_TYPE')}:</th>
+		<td>{:Form::select(array('field'=>'HTML_READ_TYPE','options'=>$readtypearr),$HTML_READ_TYPE)}
+		</td>
+	</tr>
+	<tr>
+		<th>{:L('HTML_FILE_SUFFIX')}:</th>
+		<td><input name="HTML_FILE_SUFFIX" type="text" class="input-text"  id="HTML_FILE_SUFFIX" value="{$HTML_FILE_SUFFIX}">
+		
+		</td>
+	</tr>
+	<tr>
+		<th>ADMIN_ACCESS:</th>
+		<td><input name="ADMIN_ACCESS" type="text"  class="input-text" size="40" id="ADMIN_ACCESS" value="{$ADMIN_ACCESS}"> </td>
+	</tr>
+	<tr>
+		<th>{:L('HOME_ISHTML')}:</th>
+		<td>{:Form::select(array('field'=>'HOME_ISHTML','options'=>$openarr),$HOME_ISHTML)}</td>
+	</tr>
+	<tr>
+		<th>{:L('COOKIE_PATH')}:</th>
+		<td><input name="COOKIE_PATH" type="text" class="input-text" id="COOKIE_PATH" value="{$COOKIE_PATH}"> </td>
+	</tr>
+	<tr>
+		<th>{:L('COOKIE_DOMAIN')}:</th>
+		<td><input name="COOKIE_DOMAIN" type="text" class="input-text" id="COOKIE_DOMAIN" value="{$COOKIE_DOMAIN}"> </td>
+	</tr>
+	<tr>
+		<th>{:L('DEFAULT_LANG')}:</th>
+		<td>{:Form::select(array('field'=>'DEFAULT_LANG','options'=>$Lang,'options_key'=>'key,name'),$DEFAULT_LANG)}</td>
+	</tr>
+</table>
+<div class="btn">
+<INPUT TYPE="submit"  value="{:L('save')}" class="button" >
+<input TYPE="reset"  value="{:L('reset')}" class="button">
+</div>
+</form>
+</div>
+<script>
+function urlrule(m){
+ 
+	if(m==1 || m==2){
+	$('#urlrule').show();
+	}else{
+	$('#urlrule').hide();
+	}
+}
+urlrule({$URL_MODEL});
+</script>

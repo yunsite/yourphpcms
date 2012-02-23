@@ -1,0 +1,61 @@
+
+
+<script>
+
+
+function edittpl(){ 
+	var file= $('#tpl').val();
+	url = "{:U('Slide/edittpl')}&tpl="+file
+	openwin("edittpl",url,"{:L(EDIT_TPL)}",addoption,700,550,true);
+}
+function addoption(iframeWin, topWin){
+		art.dialog({ time: 1,content: '{:L(edit_ok)}'});
+}
+ 
+</script>
+
+<form name="myform" id="myform" action="<if condition="$action_name=='add'">{:U($module_name.'/insert')}<else />{:U($module_name.'/update')}</if>" method="post">
+<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+	<tr>
+		  <td width="120"><font color="red">*</font>{:L(name)}</td>
+		  <td><input type="text" id="name" name="name" value="{$vo.name}" class="input-text"  validate="required:true,cn_username:true, minlength:2, maxlength:20"/></td>
+	</tr>
+
+	<tr>
+		  <td>{:L(tpl)}</td>
+		  <td>{:Form::select(array('field'=>'tpl','options'=>$Tpl,'options_key'=>'value,filename'),$vo['tpl'])} <a href="javascript:void(0);" onclick='edittpl();'>{:L(EDIT_TPL)}</a></td>
+	</tr>
+ <!--
+	<tr>
+		  <td>{:L(xmlfile)}</td>
+		  <td><input type="text" id="xmlfile" name="xmlfile" value="{$vo.xmlfile}" class="input-text"/></td>
+	</tr>
+	-->
+	<tr>
+		  <td>{:L(width)}</td>
+		  <td><input type="text" id="width" name="width" value="{$vo.width}" class="input-text" validate="required:true,number:true, minlength:1, maxlength:20"/></td>
+	</tr>
+	<tr>
+		  <td>{:L(height)}</td>
+		  <td><input type="text" id="height" name="height" value="{$vo.height}" class="input-text" validate="required:true,number:true, minlength:1, maxlength:20"/></td>
+	</tr>
+	<tr>
+		  <td>{:L(num)}</td>
+		  <td><input type="text" id="height" name="num" value="{$vo.num}" class="input-text" /></td>
+	</tr>
+	<tr>
+		  <td>{:L(STATUS)}</td>
+		  <td>{:Form::radio(array('field'=>'status','options'=>array('1'=>L('enable'),'0'=>L('disable'))),$vo['status'])}</td>
+	</tr>
+	 
+ 
+</table>
+<div  class="btn">
+<if condition="$vo['id']!=''"><input TYPE="hidden" name="id" value="{$vo.id}"></if>
+<INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+<input TYPE="reset"  value="{:L('cancel')}" class="button">
+</div>
+</form>
+</div>
+
+</body></html>

@@ -1,0 +1,43 @@
+
+
+
+<form name="myform" id="myform" action="" method="post">
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+      		<tr>
+			<th width="40">ID</th>
+			<th align="left">{:L(NAME)}</th>	
+			<th  width="60" align="left">{:L(width)}</th>
+			<th  width="60" align="left">{:L(height)}</th>
+			<th  width="60" align="center">{:L(STATUS)}</th>
+			<th width="180"   align="center">{:L('manage')}</th>
+      		</tr>
+      	</thead>
+      	<tbody>
+      		<volist name="list" id="vo" key="k">
+      		<tr>
+			<td align="center">{$vo['id']}</td>
+      		<td align="left">{$vo['name']}</td>
+      		<td align="left">{$vo['width']}</td>
+			<td align="left">{$vo['height']}</td>
+			<td align="center"><eq name="vo['status']" value="1">
+      		{:L('enable')}
+      		<else />
+      		{:L('disable')}
+      		</eq></td>
+			<td align="center">
+			<a href="{:U('Slide/picmanage',array(fid=>$vo['id']))}">{:L('PICMANAGE')}</a> | 
+			<a href="{:U('Slide/edit',array(id=>$vo['id']))}">{:L('edit')}</a> | <a href="javascript:confirm_delete('{:U('Slide/delete',array(id=>$vo['id']))}')">{:L('delete')}</a></td>      		
+      		</tr>
+      		</volist>
+      	</tbody>
+    </table>
+  
+		 
+</div>
+</form>
+
+<div id="pages" class="page">{$page}</div>
+ 
+</body></html>

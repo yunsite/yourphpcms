@@ -1,0 +1,40 @@
+
+<load href="__PUBLIC__/Js/jquery.form.js"/>
+<load href="__PUBLIC__/Js/MyDate/WdatePicker.js"/>
+<load href="__PUBLIC__/Js/jquery.colorpicker.js"/>
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.artDialog.js?skin=default"></script>
+<if condition="empty($_GET[parenthost])"><load href="__PUBLIC__/Js/iframeTools.js"/></if>
+<load href="__PUBLIC__/Js/my.js"/>
+<load href="__PUBLIC__/Js/swfupload.js"/>
+<load href="__PUBLIC__/Xheditor/xheditor-1.1.10-zh-cn.min.js"/>
+ 
+	<div class="right">
+		 
+			<h5 class="title"><b>{:L(USER_POST)}</b></h5>
+			 
+					<div id="msg"></div>
+					<form name="myform" id="myform" action="<if condition="$action_name=='add'">{:U($module_name.'/insert')}<else />{:U($module_name.'/update')}</if>" method="post">
+					<div id="filelist" class="hide"></div>
+					<div class="error"><ul></ul></div>
+					<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+					<volist name="fields" id="r">
+						<tr>
+							<td width="80" style="width:80px;">{if  $r['required']}<font color="red">*</font>{/if}{if  APP_LANG}{:L($r[field])}{else}{$r.name}{/if}</td>
+							<td id="box_{$r['field']}">
+							{$r|getform=$form,###}
+							</td>
+						</tr>
+					</volist>
+
+					</table>
+					<div id="bootline"></div>
+					<div id="btnbox" class="btn"><input type="hidden" id="moduleid" name="moduleid" value="{$moduleid}" />
+					<if condition="$vo['id']!=''"><input TYPE="hidden" name="id" value="{$vo.id}"></if>
+					<input type="hidden"  name="lang" value="{$langid}" />
+					<INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+					<input TYPE="reset"  value="{:L('cancel')}" class="button">
+					</div>
+					</form>
+		 
+	</div>
+ 

@@ -1,0 +1,73 @@
+
+
+<form name="myform" id="myform" action="<if condition="$action_name=='add'">{:U($module_name.'/insert')}<else />{:U($module_name.'/update')}</if>" method="post">
+
+<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+
+	<tr>
+		  <td width="120"><font color="red">*</font>{:L(module_name)}
+		  </td>
+		  <td>
+			<input type="text" id="title" name="title" value="{$vo.title}" size="20" class="input-text required" minlength="2"    maxlength="30"  title="{:L(module_tip_title)}" />
+		  </td>
+	</tr>
+	<tr>
+		  <td width="120"><font color="red">*</font>{:L(module_table)}
+		  </td>
+		  <td>
+			<input type="text" id="name" name="name" <if condition="$action_name=='edit'">disabled="disabled"</if> value="{$vo.name}" size="20" class="input-text"  validate="required:true, english:true,remote: '{:U($module_name.'/insert?isajax=1')}' ,minlength:2, maxlength:30" />
+		  </td>
+	</tr>
+	<tr>
+		  <td>{:L(module_listfields)}
+		  </td>
+		  <td><input type="text" id="listfields" name="listfields"  class="input-text" size="55" value="<if condition="empty($vo['listfields'])">*<else />{$vo.listfields}</if>" /> {:L(examples)}:id,title,url,catid
+		  </td>
+	</tr>
+	<tr>
+		  <td>{:L(module_issearch)}
+		  </td>
+		  <td>{:Form::radio(array('field'=>'issearch','options'=>array('1'=>L('yes'),'0'=>L('no'))),$vo['issearch'])}</td>
+		  </td>
+	</tr>
+
+	<tr>
+		  <td>{:L(module_ispost)}
+		  </td>
+		  <td>{:Form::radio(array('field'=>'ispost','options'=>array('1'=>L('yes'),'0'=>L('no'))),$vo['ispost'])}</td>
+		  </td>
+	</tr>
+
+	<tr>
+		<td>{:L('postgroup')}</td>
+		<td>{:Form::checkbox(array('field'=>'postgroup','options'=>$Role,'options_key'=>'key,name'),$vo['postgroup'])}</td>
+	</tr>
+
+
+	<tr>
+		  <td>{:L(module_description)}
+		  </td>
+		  <td><textarea id="description" name="description" rows=4"" cols="55">{$vo.description}</textarea>
+		  </td>
+	</tr>
+
+<if condition="$action_name=='add'">
+	<tr>
+		  <td>{:L(module_table_type)}
+		  </td>
+		  <td><input type="radio" name="emptytable" value="1"   /> {:L(module_empty_table)} <input  type="radio"  name="emptytable" value="0"  checked /> {:L(module_news_table)}
+		  </td>
+	</tr>
+	<input type="hidden" id="type" name="type" value="{$_GET[type]}"/>
+</if>
+</table>
+<div  class="btn">
+<if condition="$vo['id']!=''"><input TYPE="hidden" name="id" value="{$vo.id}"></if>
+<INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+<input TYPE="reset"  value="{:L('cancel')}" class="button">
+</div>
+</form>
+
+</div>
+
+</body></html>

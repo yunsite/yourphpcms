@@ -1,0 +1,32 @@
+
+<form method='post'  id="form1" action="{:U('Config/dosite')}">
+<table cellpadding=0 cellspacing=0 width="100%" class="table_form" >
+<volist name="site_config" id="vo">
+
+<if condition="$vo[varname]=='seo_description'">
+<tr>
+	<th width="140">{$vo.info}:</th>
+	<td><textarea id="" rows="4" cols="60"   name="{$vo.varname}">{$vo.value}</textarea> {$vo.varname} </td>
+</tr>
+<else />
+<tr>
+	<th width="140">{$vo.info}:</th>
+	<td><input type="text" class="input-text"  name="{$vo.varname}" value="{$vo.value}" size="40">{$vo.varname} </td>
+</tr>
+</if>
+</volist>
+
+<volist name="user_config" id="vo">
+<tr>
+	<th width="140">{$vo.info}:</th>
+	<td><input type="text" class="input-text"  name="{$vo.varname}" value="{$vo.value}" size="40"><a href="{:U('Config/delete&id='.$vo[id])}"><font color="red">{:L(delete)}</font></a> &nbsp;{$vo.varname} </td>
+</tr>
+</volist>
+
+</table>
+<div class="btn">
+<INPUT TYPE="submit"  value="{:L('save')}" class="button" >
+<input TYPE="reset"  value="{:L('reset')}" class="button">
+</div>
+</form>
+</div><!--Yourphp企业网站管理系统-->

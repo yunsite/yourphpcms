@@ -1,0 +1,67 @@
+
+
+<form name="myform" id="myform" action="{:U($module_name.'/'.$action_name)}" method="post">
+<table cellpadding=0 cellspacing=0 id="param" class="table_form" width="100%"> 
+
+	<tr>
+		  <td width="120">{:L(param_name)}</td>
+		  <td >{:L(param_value)}</td>
+	</tr>
+	<volist name="list" id="vo" key="k">
+	<tr class="asf">
+		  <td width="120">{$key}</td>
+		  <td class="da"><input type="text" id="{$key}" name="{$key}" value="{$vo|htmlspecialchars}" class="input-text" /><a href="javascript:void(0);" onclick="deletethis(this);">{:L(delete)}</a></td>
+	</tr>
+	</volist>
+
+ 
+</table>
+<div id="bootline"></div>
+<div id="btnbox" class="btn">
+<INPUT TYPE="submit"  name="dosubmit" value="{:L('dosubmit')}" class="button" ><input type="button" value="{:L(add_tpl_param)}" class="button" onclick="addparam();" />
+<input TYPE="reset"  value="{:L('cancel')}" class="button"> 
+</div>
+</form>
+</div>
+
+
+<script>
+$.ajaxSetup ({ cache: false });
+function deletethis(obj){
+$(obj).parent().parent().remove();
+}
+function addparam(){
+	var dialog = art.dialog({
+		title: '{:L(add_tpl_param)}',
+		content:'<p>{:L(param_name)}：<input id="key"  style="width:15em; padding:4px" /></p><p>{:L(param_value)}：<input id="value"  style="width:15em; padding:4px" /></p>',
+		fixed: true,
+		ok: function () {
+			var key = document.getElementById('key');
+			var value = document.getElementById('value');
+    		var topWin = art.dialog.top;
+			if (key.value  !== '' && value.value  !== '' ) {
+				var data =  { "key":key.value,"value":value.value };
+				var url =  "{:U($module_name.'/'.$action_name.'?isajax=1')}";
+				$.ajax({  type: "POST",url: url,data: data  });
+
+				topWin.$('#param').append('<tr>  <td width="120">'+key.value+'</td> <td><input type="text"   name="'+key.value+'" value="'+value.value+'" class="input-text" /><a href="javascript:void(0);" onclick="deletethis(this);">{:L(delete)}</a></td></tr>');
+				art.dialog({
+					time: 1,
+					content: '{:L(add_ok)}！'
+				});
+			} else {
+				art.dialog({
+					time: 1,
+					content: '{:L(value_empty)}'
+				});
+				return false;
+			};
+		},
+		cancel: true
+	});
+}
+
+
+
+</script>
+</body></html>

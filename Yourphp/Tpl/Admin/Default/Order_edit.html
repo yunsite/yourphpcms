@@ -1,0 +1,175 @@
+
+<load href="./Public/Js/yourphp.js"/>
+ 
+
+
+
+{if $do=='address'}
+
+<fieldset><legend>{:L('Order_address_info')}</legend> 
+
+ <form  id="myform" name="myform" action="{:U('Order/edit?do='.$do)}" method="post">
+		<table class="table_form"  cellspacing='1' cellpadding='3' >
+			<tr><th width="125"> {:L('Order_address_area')}：</th><td> <div id="areaselect"> 
+			 <select name="province" id="province" onchange="area_change(this.value, 1,'province','city','area');" class="ddlbox" ><option value="0">{:L('Order_select_province')}</option>
+			 </select>
+			 <select name="city" onchange="area_change(this.value, 2,'province','city','area');" id="city" class="ddlbox" >
+			 <option value="0">{:L('Order_select_city')}</option>
+			</select>
+			<select name="area" onchange="area_change(this.value, 3,'province','city','area');" id="area" class="ddlbox" >
+			<option value="0">{:L('Order_select_area')}</option>
+			</select><font color="red">*</font>
+ 
+		<script>area_change(0, 0,'province','city','area','{$order.province}','{$order.city}','{$order.area}');</script></td></tr>
+
+			<tr><th  width="125" >{:L('Order_address_consignee')}： </th><td><input name="consignee" class="input-text" id="consignee"type="text" size="50" value="{$order.consignee}" /><font color="red">*</font></td></tr>
+			<tr><th  width="125" >{:L('Order_address_address')}： </th><td><input   name="address" class="input-text"  id="address" type="text" size="50"  value="{$order.address}" /><font color="red">*</font> </td></tr>									
+			<tr><th  width="125" >{:L('Order_address_mobile')}： </th><td><input name="mobile" class="input-text"  id="mobile" type="text" size="50"  value="{$order.mobile}"/><font color="red">*</font></td></tr>
+			<tr><th  width="125" >{:L('Order_address_tel')}：</th><td><input name="tel" class="input-text"  id="tel"  type="text" size="50"  value="{$order.tel}" /></td></tr>
+			<tr><th  width="125" >{:L('Order_address_email')}： </th><td><input name="email" class="input-text"  id="email"type="text" size="50"  value="{$order.email}"/></td></tr>
+			<tr><th  width="125" >{:L('Order_address_zipcode')}： </th><td><input name="zipcode" class="input-text"  id="zipcode" type="text" size="50"  value="{$order.zipcode}"/></td></tr>
+ 
+		</table>
+		<input type="hidden" name="id" value="{$order.id}">
+		<input name="dosubmit" type="submit" value="1" class="hidden" id="dosubmit">								
+</form>
+</fieldset>
+
+{elseif $do=='data'}
+
+<fieldset><legend>{:L('Order_product_info')}</legend> 
+
+ <form  id="myform" name="myform" action="{:U('Order/edit?do='.$do)}" method="post">
+		<table class="table_form"  cellspacing='1' cellpadding='3' background="#EFEFEF" width="100%">
+		<volist name="order_data" id="vo">
+		 <tr><td width="50"><input name="data_id[]" type="hidden" value="{$vo['id']}" /><img src="{$vo['product_thumb']|thumb}" alt="{$vo['product_name']}" width="50" height="50"/></td><td>{$vo['product_name']}</td><td width="80"><input type="text" name="product_price[]" class="input-text" size="5" value="{$vo['product_price']}"></td><td width="40"><input type="text" name="number[]" class="input-text" size="5" value="{$vo['number']}"> </td><td width="80">{$vo['price']|number_format=###,2}</td><td width="40"><a href="{:U('Order/edit?do='.$do.'&delete=1&data_id='.$vo['id'].'&id='.$order[id])}">{:L('delete')}</a></td></tr>
+		 </volist>
+		  <tr><td colspan="5" align="right">{:L('Order_product_count')}：</td><td><b style="color:#FB0000;">{$order.amount}</b></td></tr>
+
+		</table>
+		<input type="hidden" name="id" value="{$order.id}">
+		<input name="dosubmit" type="submit" value="1" class="hidden" id="dosubmit">								
+</form>
+</fieldset>
+
+{elseif $do=='money'}
+
+
+<fieldset><legend>{:L('Order_payment_info')}</legend> 
+<form  id="myform" name="myform" action="{:U('Order/edit?do='.$do)}" method="post">
+		<table class="table_form"  cellspacing='1' cellpadding='3' width="100%" >
+			 
+			<tr>
+			<th  width="125" >{:L('Order_product_amount')}： </th><td>{$order.amount}</td>
+			<th  width="125" >{:L('Order_amount')}： </th><td>{$order.order_amount}</td>
+			</tr>
+
+			<tr>
+			<th  width="125" >{:L('Order_invoice_fee')}： </th><td>{$order.invoice_fee|number_format=###,2}</td>
+			<th  width="125" >{:L('Order_pay_fee')}： </th><td>{$order.pay_fee|number_format=###,2}</td>
+			</tr>
+
+			<tr>
+			<th  width="125" >{:L('Order_shipping_fee')}： </th><td>{$order.shipping_fee|number_format=###,2}</td>
+			<th  width="125" >{:L('Order_insure_fee')}：</th><td>{$order.insure_fee|number_format=###,2}</td>			
+			</tr>
+			
+			<tr>
+			<th  width="125" >{:L('Order_discount')}： </th><td><input type="text" id="discount" name="discount" onchange="order_amount()" size="10" value="{$order.discount|number_format=###,2}"></td>
+			<th  width="125" >{:L('Order_count_amount')}：</th><td><b id="order_amount" style="color:#FB0000;font-size:14px;">{$order.order_amount}</b></td>		
+			</tr>
+ 
+		</table>
+		<input type="hidden" name="id" value="{$order.id}">
+		<input name="dosubmit" type="submit" value="1" class="hidden" id="dosubmit">								
+</form>
+</fieldset>
+<script>
+function order_amount(){
+	var order_amount = {$order.order_amount};
+	var discount = $('#discount').val();
+	$('#order_amount').html(order_amount-discount);
+}
+</script>
+
+{elseif $do=='payment'}
+
+
+<fieldset><legend>{:L('Order_payment_type')}</legend> 
+<form  id="myform" name="myform" action="{:U('Order/edit?do='.$do)}" method="post">
+		<table class="table_form"  cellspacing='1' cellpadding='3' width="100%" >
+			 <volist name="payment" id="r">
+				<tr><td width="150"> <input type="radio" class="input_radio" name="pay_id" {if $r['id']==$order['pay_id']} checked{/if} value="{$r.id}"/> {$r.pay_name} 
+				</td><td>{:L('Order_payment_fee')}：{$r.pay_fee}{if  !$r[pay_fee_type]}%{/if}
+				</td></tr>
+			</volist>					
+			 
+		</table>
+		<input type="hidden" name="id" value="{$order.id}">
+		<input name="dosubmit" type="submit" value="1" class="hidden" id="dosubmit">								
+</form>
+</fieldset>
+
+{elseif $do=='shipping'}
+
+<fieldset><legend>{:L('Order_shipping_info')}</legend> 
+<form  id="myform" name="myform" action="{:U('Order/edit?do='.$do)}" method="post">
+		<div class="shipping_input">
+			<input type="hidden" id="shipping_name" name="shipping_name" />
+			<input type="hidden" id="shipping_fee"  name="shipping_fee" />
+			<input type="hidden" id="insure_fee" name="insure_fee" />
+			<input type="hidden" id="isinsure" name="isinsure" />
+		</div>
+	 
+		<table class="table_form"   cellspacing='1' cellpadding='3' width="100%" >
+			<volist name="shipping" id="r">
+			<tr><td><input type="radio" class="input_radio" id="shipping_{$r.id}"   {if $r['id']==$order['shipping_id']} checked{/if} name="shipping_id" value="{$r.id}" />{$r.name} &nbsp;  {:L('Order_shipping_fee')}：￥{$r.first_price} &nbsp;  {:L('Order_shipping_second_price')}：￥{$r.second_price}
+			{if $r[is_insure]} &nbsp;  &nbsp;  <input type="checkbox" class="input_radio insure" id="insure_{$r.id}" name="insure_{$r.id}" {if  $r['id']==$order['shipping_id'] && $order['insure_fee']>0} checked{/if} value="1"/>{:L('Order_shipping_is_insure')}：{$r.insure_fee}% {if $r[insure_low_price]} {:L('Order_shipping_low_price')}{$r.insure_low_price}{:L(rmb)}{/if} {/if}
+			</td></tr>
+			</volist> 
+		</table>
+
+		<input type="hidden" name="id" value="{$order.id}">
+		<input name="dosubmit" type="submit" value="1" class="hidden" id="dosubmit">								
+</form>
+</fieldset>
+
+
+{elseif $do=='shipping_sn'}
+
+<fieldset><legend>{:L('Order_shipping_sn')}</legend> 
+<form  id="myform" name="myform" action="{:U('Order/edit?do='.$do)}" method="post">		 
+	 
+		<table class="table_form"   cellspacing='1' cellpadding='3' width="100%" >		 
+			<tr><th width="120">{:L('Order_shipping_sn')}：</th><td> <input type="text" name="shipping_sn" size="40" class="input-text" id="shipping_sn" value="{$order.shipping_sn}">
+			</td></tr>
+		</table>
+
+		<input type="hidden" name="id" value="{$order.id}">
+		<input name="dosubmit" type="submit" value="1" class="hidden" id="dosubmit">								
+</form>
+</fieldset>
+
+
+{elseif $do=='shipping_show'}
+
+<fieldset><legend>{:L('Order_shipping_info_1')}</legend> 
+<form  id="myform" name="myform" action="{:U('Order/edit?do='.$do)}" method="post">
+		 
+	 
+		<table class="table_form"   cellspacing='1' cellpadding='3' width="100%" >
+		 
+			<tr><td>{:L('Order_shipping_sn')}：{$order.shipping_sn}</td></tr>
+			<tr><td> &nbsp;</td></tr>
+		 
+		</table>
+
+		<input type="hidden" name="id" value="{$order.id}">
+		<input name="dosubmit" type="submit" value="1" class="hidden" id="dosubmit">								
+</form>
+</fieldset>
+{else}
+{/if}
+ 
+
+<!--Yourphp企业建站系统 www.yourphp.cn-->

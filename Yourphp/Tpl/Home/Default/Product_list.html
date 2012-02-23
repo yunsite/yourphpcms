@@ -1,0 +1,23 @@
+
+
+<div class="left">
+		<div class="pos">{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> > <YP:catpos  catid="catid" space=" > " /></div>
+		 
+		<div class="list">
+		
+		<volist name="list" id="r">
+		<dl class="img">
+		<dd class="pic"><span><a href="{$r.url}" target="_blank"><img src="{$r['thumb']|thumb}" align="absmiddle" ></a></span></dd>
+		<dt><a href="{$r.url}" target="_blank">{$r.title}</a></dt>
+		<dd>{:L(type)}：{$Categorys[$r[catid]]['catname']}</dd><dd>{:L(Specification)}：{$r.xinghao}</dd><dd>{:L(price)}：<b>{$r.price}{:L(RMB)}</b></dd>
+		</dl>
+		</volist>
+		</div>
+		
+		<div id="pages" class="page">{$pages}</div>
+		<br>
+</div>
+
+
+
+
