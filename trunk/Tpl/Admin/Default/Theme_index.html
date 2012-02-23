@@ -1,0 +1,24 @@
+
+
+<style>
+.table-list  {margin:10px;}
+.table-list ul.pic {}
+.table-list ul.pic li.use {background:#EFEFEF;}
+.table-list ul.pic li {float:left;position:relative;margin:10px 20px;_margin:10px 12px;width:200px;}
+.table-list ul.pic li span { width:202px;height:222px;}
+.table-list ul.pic li span a {border:1px solid #eee;width:200px;height:220px;*font-size: 220px;}
+.table-list ul.pic li img  {width:200px;height:220px;}
+.table-list ul.pic li  b {display:block;line-height:20px;height:20px;font-weight:normal;width:200px;overflow:hidden;text-align:left;}
+.table-list ul.pic li  em {position:absolute;right:0;bottom:20px;}
+.table-list ul.pic li b a {float:right;}
+</style>
+<div class="table-list">
+
+<ul class="pic">
+ 
+<volist name="themes" id="vo">
+<li><span><a href="{:U($module_name.'/chose?theme='.$vo[name])}"><img src="{$vo.preview}"></a></span><b><if condition="$vo['use']==1"><i style="float:right;color:#FB0000">已使用</i><else/><a href="{:U($module_name.'/chose?theme='.$vo[name])}">未使用</a></if>{:L(name)}:{$vo.name}</b></li>
+</volist>
+</ul>
+</div>
+ 

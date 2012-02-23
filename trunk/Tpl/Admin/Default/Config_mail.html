@@ -1,0 +1,92 @@
+
+
+<form method='post'  id="form1" action="{:U('Config/dosite')}">
+<table width="100%"  cellpadding=0 cellspacing=0  class="table_form"> 
+  <tr> 
+    <th width="120">{:L('config_mail_md')}</th> 
+    <td class="y-bg"> 
+     <input name="mail_type"   value="1" onclick="showsmtp(this)" type="radio"  <if condition="$mail_type == 1">  checked</if>> {:L('config_mail_smtp')}    
+	 <input name="mail_type"  value="2" onclick="showsmtp(this)" type="radio"  <if condition="$mail_type == 2">  checked</if>  <?php if(substr(strtolower(PHP_OS), 0, 3) == 'win') echo 'disabled'; ?>/> {:L('config_mail_mailfun')} 
+	 <input name="mail_type"   value="3" onclick="showsmtp(this)" type="radio"  <if condition="$mail_type == 3">  checked</if>> sendmail
+	</td>
+  </tr> 
+  <tbody id="smtpconfig" style=""> 
+  <tr> 
+    <th>{:L('config_mail_server')}</th> 
+    <td class="y-bg"><input type="text" class="input-text" name="mail_server" id="mail_server" size="30" value="{$mail_server}"/></td> 
+  </tr>  
+  <tr> 
+    <th>{:L('config_mail_port')}</th> 
+    <td class="y-bg"><input type="text" class="input-text" name="mail_port" id="mail_port" size="30" value="{$mail_port}"/></td> 
+  </tr> 
+  <tr> 
+    <th>{:L('config_mail_from')}</th> 
+    <td class="y-bg"><input type="text" class="input-text" name="mail_from" id="mail_from" size="30" value="{$mail_from}"/></td> 
+  </tr>   
+  <tr> 
+    <th>{:L('config_mail_auth')}</th> 
+    <td class="y-bg"> 
+    <input name="mail_auth" id="mail_auth" value="1" type="radio" <if condition="$mail_auth == 1">  checked</if>> {:L('open_select')}	<input name="mail_auth" id="mail_auth" value="0" type="radio" <if condition="$mail_auth == 0">  checked</if> > {:L('close_select')}</td> 
+  </tr> 
+ 
+	  <tr> 
+	    <th>{:L('config_mail_user')}</th> 
+	    <td class="y-bg"><input type="text" class="input-text" name="mail_user" id="mail_user" size="30" value="{$mail_user}"/></td> 
+	  </tr> 
+	  <tr> 
+	    <th>{:L('config_mail_password')}</th> 
+	    <td class="y-bg"><input type="password" class="input-text" name="mail_password" id="mail_password" size="30" value="{$mail_password}"/></td> 
+	  </tr> 
+ 
+ </tbody> 
+
+<tbody id="sendmailconfig" style=""> 
+ <!-- <tr> 
+    <th>{:L('config_mail_sendmail')}</th> 
+    <td class="y-bg"><input type="text" class="input-text" name="mail_sendmail" id="mail_sendmail" size="30" value="{$mail_sendmail}"/></td> 
+  </tr> -->  
+ </tbody> 
+
+  <tr> 
+    <th>{:L('config_mail_test')}</th> 
+    <td class="y-bg"><input type="text" class="input-text" name="mail_to" id="mail_to" size="30" value=""/> <input type="button" class="button" onClick="javascript:test_mail();" value="{:L('config_mail_testsed')}"></td> 
+  </tr>           
+  </table> 
+<div class="btn">
+<INPUT TYPE="submit"  value="{:L('save')}" class="button" >
+<input TYPE="reset"  value="{:L('reset')}" class="button">
+</div>
+</form>
+</div>
+<script>
+function showsmtp(obj){
+ 
+	if(obj){
+	var issmtp  = $(obj).val();
+	}else{
+	var issmtp = $("input[name=mail_type][checked]").val();
+	}
+	
+	if(issmtp==1){
+		$('#smtpconfig').show();
+		$('#sendmailconfig').hide();
+	}else if(issmtp==3){
+		$('#smtpconfig').hide();
+		$('#sendmailconfig').show();
+	}else{
+		$('#smtpconfig').hide();
+		$('#sendmailconfig').hide();
+	}
+}
+function test_mail(){
+
+ 	var mail_type =  $("input[name=mail_type][checked]").val();
+ 
+
+    $.post('{:U("Config/testmail")}&mail_to='+$('#mail_to').val(),{mail_type:mail_type,mail_sendmail:$('#mail_sendmail').val(),mail_server:$('#mail_server').val(),mail_port:$('#mail_port').val(),mail_user:$('#mail_user').val(),mail_password:$('#mail_password').val(),mail_auth:$('#mail_auth').val(),mail_auth:$('#mail_auth').val(),mail_from:$('#mail_from').val()}, function(data){
+	alert(data.info);
+	},"json");
+
+}
+showsmtp();
+</script>

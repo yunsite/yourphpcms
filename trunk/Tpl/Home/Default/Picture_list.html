@@ -1,0 +1,16 @@
+
+
+<div class="left">
+		<div class="pos">{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> > <YP:catpos  catid="catid" space=" > " /></div>
+		<div class="list pic_list"><ul class="pic">
+			<volist name="list" id="vo" key="k">
+			<li><span><a href="{$vo.url}"><img src="{$vo.thumb}"></a></span><a href="{$vo.url}" target="_blank">{$vo.title}</a></li>
+			</volist>
+		</ul></div>
+		 <div id="pages" class="page">{$pages}</div>
+		<br>
+</div>
+
+
+
+

@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<base href="{$site_url}/" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="robots" content="index, follow" />
+	<meta name="keywords" content="{$seo_keywords}" />
+	<meta name="description" content="{$seo_description}" />
+	<meta name="Copyright" content="Copyright (c) 2008 yourphp.cn" />
+	<meta name="author" content="{$site_name}--Powered by yourphp">
+	<meta name="generator" content="Yourphp 2.0" />
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<title>{$seo_title}-{$site_name}-Powered by Yourphp</title>
+	<link href="__ROOT__/index.php?m=Format&a=rss" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
+	<script src="__PUBLIC__/?f=__PUBLIC__/Js/jquery.min.js,__PUBLIC__/Js/jquery.validate.js"></script>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/?f=../Public/css/member.css" />
+</head>
+<body>
+
+
+<div id="user_header"> <div class="box">
+	<div class="logined">{if  $_COOKIE['YP_username']}{$_COOKIE['YP_username']}{else}{:L(guest)}{/if} ,{:L(welcome_return)}  |  <a href="{:URL('User-Login/index?forward=')}{$forward|urlencode}">{:L(user_login)}</a> | <a href="{:URL('User-Register/index?forward=')}{$forward|urlencode}" target="_top" />{:L(REGISTER)}</a></div>
+	<div class="logo"><img src="http://www.yourphp.cn/Public/Images/logo.gif"></div>
+</div></div>

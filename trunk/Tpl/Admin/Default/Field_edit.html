@@ -1,0 +1,166 @@
+
+
+<script>
+$('#nav ul a ').removeClass('on');
+$('#nav ul').append('<a href="{:U("Field/index",array(moduleid=>$_GET[moduleid]))}" class="edit">{:L(field_manage)}</a> | <a href="{:U("Field/add",array(moduleid=>$_GET[moduleid]))}" class="add">{:L(field_add)}</a> |');
+<if condition="$action_name=='add'"> $('#nav ul a.add ').addClass('on');</if>
+<if condition="$action_name=='edit'"> $('#nav ul a.edit ').addClass('on');</if>
+
+
+
+$.ajaxSetup ({ cache: false });
+function field_setting(type)
+{
+
+	if(type=='verify'){
+		$('#field_tr').hide();
+		$('#field').val('verifyCode');
+		$('#name').val('验证码');
+		$('#pattern').val('en_num');
+		$('#minlength').val('4');
+		$('#maxlength').val('4');
+		   
+		$('#required').attr("checked",true);
+		$('#ispost_1').attr("checked",true);
+
+	}else{
+		$('#field_tr').show(); 
+	}
+    var data =  {$vo["setup"]|json_encode};
+    var url =  "{:U('Field/add')}&isajax=1&moduleid={$moduleid}&type="+type;
+    $.ajax({
+         type: "POST",
+         url: url,
+         data: data,
+		 beforeSend:function(){
+			$('#field_setup').html('<img src="./Public/Images/msg_loading.gif">');
+		 },
+         success: function(msg){
+			$('#field_setup').html(msg);
+         },
+		 complete:function(){
+		 },
+		 error:function(){
+		 }
+    });
+}
+</script>
+
+
+
+<form name="myform" id="myform" action="<if condition="$action_name=='add'">{:U($module_name.'/insert')}<else />{:U($module_name.'/update')}</if>" method="post">
+<input type="hidden" id="moduleid" name="moduleid" value="{$moduleid}"/>
+<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+
+	<tr>
+		  <td width="140"><font color="red">*</font>{:L(field_type)}</td>
+		  <td>
+		  <select id="type" name="type" class="required" id="type" minlength="1" onchange="javascript:field_setting(this.value);" <if condition="$action_name=='edit'">disabled</if>>
+		  <option value='' >请选择字段类型</option>
+		  <option value="catid">栏目</option>
+		  <option value="title">标题</option>
+		  <option value="typeid">类别</option>
+		  <option value="text" >单行文本</option>
+		  <option value="textarea" >多行文本</option>
+		  <option value="editor" >编辑器</option>
+		  <option value="select" >下拉列表</option>
+		  <option value="radio" >单选按钮</option>
+		  <option value="checkbox" >复选框</option>
+		  <option value="image" >单张图片</option>
+		  <option value="images" >多张图片</option>
+		  <option value="file" >单文件上传</option>
+		  <option value="files" >多文件上传</option>
+		  <option value="number" >数字</option>
+		  <option value="datetime" >日期和时间</option>
+		  <option value="posid" >推荐位</option>
+		  <option value="groupid" >会员组</option>
+		  <option value="linkage" >联动菜单</option>
+          <option value="template" >模板选择</option>
+		  <option value="verify" >验证码</option>
+		  </select>
+		  </td>
+	</tr>
+
+	<tr id="field_tr">
+		  <td width="140"><font color="red">*</font>{:L(field_field)}</td>
+		  <td><input type="text" id="field" name="field" value="{$vo.field}" class="input-text"
+		  <if condition="$action_name=='add'"> validate="required:true, english:true,remote: '{:U($module_name.'/insert?isajax=1&moduleid='.$_GET['moduleid'])}' ,minlength:2, maxlength:20" </if>  /> </td>
+	</tr>
+	<tr>
+		  <td width="140"><font color="red">*</font>{:L(field_name)} </td>
+		<td><input type="text" id="name" name="name" value="{$vo.name}" class="input-text required" minlength="2"    maxlength="30" /> </td>
+	</tr>
+
+	<tr>
+		  <td width="140">{:L(field_setup)}</td>
+		  <td id="field_setup">
+
+		  </td>
+	</tr>
+
+	<tr>
+		  <td width="140">{:L(field_class)}</td>
+		  <td><input type="text" id="class" name="class" value="{$vo.class}" size="10" class="input-text" /></td>
+	</tr>
+	<tr>
+		  <td width="140">{:L(field_required)}</td>
+		  <td><input type="radio" id="required" name="required" value="1"<if condition="$vo[required]==1">  checked</if>>是  <input type="radio" name="required" value="0" <if condition="$vo[required]==0">  checked</if>> 否
+
+		  </td>
+	</tr>
+	<tr>
+		  <td width="140">{:L(field_pattern)}
+		  </td>
+		  <td>{:Form::select(array('field'=>'pattern','options'=>$field_pattern),$vo[pattern])}
+
+		 </td>
+	</tr>
+	<tr>
+		  <td width="140">{:L(field_lange)}</td>
+		  <td>
+			最小 <input type="text" id="minlength" name="minlength" value="{$vo.minlength}" size="2" class="input-text" /> 最大 <input type="text" id="maxlength" name="maxlength" value="{$vo.maxlength}" class="input-text" size="2" />个字符
+		  </td>
+	</tr>
+	<tr>
+		  <td width="140">{:L(field_errormsg)}</td>
+		  <td>
+			<input type="text" id="errormsg" name="errormsg" value="{$vo.errormsg}" class="input-text"  size="50" />
+		  </td>
+	</tr>
+	<tr>
+		  <td width="140">{:L(field_post)}</td>
+		  <td>
+		  {:Form::radio(array('field'=>'ispost','options'=>$options),$vo[ispost])}
+		  </td>
+	</tr>
+
+		<tr>
+		  <td width="140">{:L(field_unpost_group)}</td>
+		  <td>
+		  {:Form::checkbox(array('field'=>'unpostgroup','options'=>$usergroup,'setup'=>array('labelwidth'=>'90')),$vo[unpostgroup])}
+		  </td>
+	</tr>
+
+
+
+</table>
+<div  class="btn">
+<if condition="$vo['id']!=''">
+<input type="hidden" name="type" value="{$vo.type}" />
+<input type="hidden" name="oldfield" value="{$vo.field}" />
+<input TYPE="hidden" name="id" value="{$vo.id}">
+</if>
+<INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+<input TYPE="reset"  value="{:L('cancel')}" class="button">
+</div>
+</form>
+
+</div>
+
+
+<script>
+$('#type').val('{$vo[type]}');
+field_setting('{$vo[type]}');
+
+</script><!--Yourphp企业建站系统 www.yourphp.cn-->
+</body></html>

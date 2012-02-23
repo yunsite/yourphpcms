@@ -1,0 +1,239 @@
+
+
+<script>
+$('#nav ul a ').removeClass('on');
+<if condition="!empty($_GET['type'])">
+$('#nav ul a ').eq(3).addClass('on');
+</if>
+<if condition="$action_name=='add' && empty($_GET['type'])">
+$('#nav ul a ').eq(1).addClass('on');
+</if>
+</script>
+
+<form name="myform"  id="myform"  action="<if condition="$action_name=='add'">{:U('Category/insert')}<else />{:U('Category/update')}</if>&iscreatehtml=1" method="post">
+
+
+<div id="tabs" style="margin-top:10px;">
+	<div class="title"><ul style="margin-left:30px;"><li class="on"><a href="javascript:void(0);">{:L(base_setup)}</a></li>
+	<li style="margin-left:10px;"><a href="javascript:void(0);">{:L(seo_setup)}</a></li>
+</ul></div>
+
+<div class="content_2">
+	<div class="tabbox" style="display:block;">
+		<table cellpadding=0 cellspacing=0 class="table_form"width="100%"><tr>
+		<td width="20%">{:L('chose_module')}</td>
+        <td width="80%" class="box_thumb">
+
+		<load href="./Public/Js/swfupload.js"/>
+		<div class="thumb_box" style ="margin-top:-7px;left:340px;"><div id="image_aid_box"></div>
+		<a href="javascript:swfupload('image_uploadfile','image','{:L(uploadfiles)}',1,1,0,1,'jpeg,jpg,png,gif',3,0,'{$yourphp_auth}',yesdo,nodo)"><img src="<if condition="!empty($vo['image'])">{$vo['image']}<else/>./Public/Images/admin_upload_thumb.png</if>" id="image_pic" ></a><br> <input type="button" value="{:L('clean_thumb')}" onclick="javascript:clean_thumb('image');" class="button" /><input type="hidden"  id="image" name="image"  value="{$vo['image']}" /></div>
+		{:Form::select(array('field'=>'moduleid','options'=>$module+array('0'=>array('id'=>0,'title'=>L('Module_url'))),'options_key'=>'id,title','setup'=>array('onchange'=>'changetemplate(this.value)')),$vo['moduleid'])}	
+		</td>
+      </tr>
+      <tr>
+        <td>{:L('chose_parentid')}</td>
+        <td>
+
+		<select name="parentid">
+		<option value="">{:L('select_parentid')}</option>
+		{$select_categorys}
+		</select>
+		</td>
+      </tr>
+
+      	<tr>
+		<td>{:L('catname')}</td>
+		<td><input type="text" name="catname" class="input-text  required" value="{$vo['catname']}"  minlength="1"  maxlength="30"  /></td>
+		</tr>
+
+	    <tr>
+		<td>{:L('catdir')}</td>
+		<td><input type="text" id="catdir" name="catdir" class="input-text  required" value="{$vo['catdir']}"  minlength="1"  maxlength="30" /></td>
+		</tr>
+
+
+	 
+
+		<tr id="module_url" style="display:none;">
+		<td>{:L('cat_link_url')}</td>
+		<td><input type="text" name="url" class="input-text" value="<if condition="$vo['type']==1">{$vo['url']}</if>" size='50'  /><input type="hidden" id="type" name="type" value="0" /></td>
+		</tr>
+ 
+
+		<tr style="background:#EFEFEF;">
+		<td>{:L('chage_is')}: </td>
+		<td><input type="checkbox"  class="input_checkbox "  id="chage_all" name="chage_all" value="1" /><font color="red"> {:L('chage_all')}</font>
+		</td>
+		</tr>
+
+      	<tr>
+		<td>{:L('ismenu')}</td>
+		<td>{:Form::radio(array('field'=>'ismenu','options'=>array('1'=>L('yes'),'0'=>L('no'))),$vo['ismenu'])}</td>
+		</tr>
+
+
+
+		<tr>
+		<td>{:L('ishtml')}</td>
+		<td>{:Form::radio(array('field'=>'ishtml','options'=>array('1'=>L('yes'),'0'=>L('no')),'setup'=>array('onclick'=>'urlrule(this.value)')),$vo['ishtml'])}</td>
+		</tr>
+
+		<tr id="urlrule">
+		<td>{:L('urlrule')}</td>
+		<td>{:Form::select(array('field'=>'urlruleid','options'=>$Urlrule,'options_key'=>'key,listexample'),$vo['urlruleid'])}</td>
+		</tr>
+
+
+
+		<tr>
+		<td>{:L('readgroup')}</td>
+		<td>{:Form::checkbox(array('field'=>'readgroup','options'=>$rlist,'options_key'=>'key,name'),$vo['readgroup'])}</td>
+		</tr>
+
+
+		<tr>
+		<td>{:L('postgroup')}</td>
+		<td>{:Form::checkbox(array('field'=>'postgroup','options'=>$rlist,'options_key'=>'key,name'),$vo['postgroup'])}</td>
+		</tr>
+
+		<tr>
+		<td>{:L('chargesetup')}</td>
+		<td>{:L('presentpoint')} <input type="text" class="input-text" name="presentpoint" style="width:20px;" value="{$vo['presentpoint']}"/>{:L('dian')} ,
+		{:L('defaultchargepoint')} <input type="text" class="input-text" name="chargepoint"  style="width:20px;"   value="{$vo['chargepoint']}"/>{:Form::select(array('field'=>'paytype','options'=>array('0'=>L('dian'),'1'=>L('yuan'))),$vo['paytype'])} ,
+		{:L('repeatchargedays')} <input type="text" class="input-text" name="repeatchargedays"  style="width:20px;" value="{$vo['repeatchargedays']}"/>{:L('tian')}
+		</td>
+		</tr> 
+ 
+		<tr>
+		<td>{:L('pagesize')}</td>
+		<td><input type="text" name="pagesize" class="input-text" value="<if condition="!empty($vo['pagesize'])">{$vo['pagesize']}</if>" size="3" /> <font color="red">{:L('pagesize_desc')}</font></td>
+		</tr>
+
+		<tr>
+		<td>{:L('template_list')}</td>
+		<td>
+		<select id="template_list" name="template_list"></select> &nbsp;&nbsp; <input type="checkbox"  class="input_checkbox " id="listtype" name="listtype"  onclick="javascript:templatetype();" value="1"  <if condition="!empty($vo['listtype'])">checked</if> /> {:L('listtype')}
+			</td>
+		</tr>
+
+		<tr>
+		<td>{:L('template_show')}</td>
+		<td><select id="template_show" name="template_show"></select>
+		</td>
+		</tr>
+		</table>
+
+
+
+	</div>
+
+	<div class="tabbox" style="display:none;">
+		<table cellpadding=0 cellspacing=0 class="table_form"width="100%">
+		 <tr>
+		  <td>{:L('seo_title')}</td>
+		  <td><input name='title' type='text' id='meta_title' value="{$vo['title']}" class="input-text"  size='60' maxlength='150'></td>
+		</tr>
+		<tr>
+		  <td>{:L('seo_keywords')}</td>
+		  <td><input name='keywords' type='text' id='meta_keywords' value="{$vo['keywords']}" class="input-text"  size='60' maxlength='150'></td>
+		</tr>
+		<tr>
+		  <td>{:L('seo_description')}</td>
+		  <td><textarea name='description' id='meta_description'  rows="5" cols="60" >{$vo['description']}</textarea></td>
+		</tr>
+		</table>
+	</div>
+</div>
+ 
+
+
+		<div class="btn">
+		<if condition="$vo['id']!=''"><input TYPE="hidden" name="id" value="{$vo.id}"></if>
+		<INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+		<input TYPE="reset"  value="{:L('cancel')}" class="button">
+		</div>
+
+</form></div>
+
+<script>
+
+var modulearr = new Array();
+<volist name="module" id="mdate">
+modulearr[{$mdate['id']}] = "{$mdate['name']}";
+</volist>
+var templatearr = new Array();
+<volist name="templates" id="tem">
+templatearr[{$i}] = "{$tem['name']},{$tem['value']},{$tem['filename']}";
+</volist>
+
+
+var datas = "<option value=''>{:L('please_chose')}</option>";
+var moduleid =  $('#moduleid').val();
+
+
+showtemplist(moduleid,<if condition="empty($vo[listtype])">0<else />{$vo.listtype}</if>);
+function showtemplist(m,t){
+	var type='_list';
+	if(t){type='_index';}
+	var mtlist = modulearr[m]+type;
+	var mtshow = modulearr[m]+'_show';
+	if(modulearr[m]=='Page') mtlist=mtshow ='Page';
+	$('#template_list').html(datas);
+	$('#template_show').html(datas);
+	listdatas = showdatas ='';
+	for(i=1;i<templatearr.length;i++){
+		data = templatearr[i].split(',');
+		if(data[0].indexOf(mtlist)  >= 0){
+			listdatas  ="<option value='"+data[1]+"'>"+data[2]+"</option>";
+			$('#template_list').append(listdatas);
+		}
+		if(data[0].indexOf(mtshow)  >= 0){
+			showdatas ="<option value='"+data[1]+"'>"+data[2]+"</option>";
+			$('#template_show').append(showdatas);
+		}
+	}
+	$("#template_list").attr("value",'{$vo.template_list}');
+	$("#template_show").attr("value",'{$vo.template_show}');
+}
+function changetemplate(m){
+	if(m==0){
+		$('#module_url').show();
+		$('#type').val('1');
+		$('#catdir').removeClass('required');
+	}else{
+		$('#module_url').hide();
+		$('#type').val('0');
+		$('#catdir').addClass('required');
+	}
+	showtemplist(m,0);
+	$("#listtype").removeAttr("checked");
+}
+function templatetype(){
+	var moduleid = $('#moduleid').val();
+	if($("#listtype").attr('checked')=='checked'){
+		showtemplist(moduleid,1);
+	}else{
+		showtemplist(moduleid,0);
+	}
+}
+new Tabs("#tabs",".title ul li",".content_2",".tabbox","on",1);
+
+
+function urlrule(m){
+ 
+	if(m==1){
+		$('#urlrule').show();
+	}else{
+		$('#urlrule').hide();
+	}
+}
+urlrule({$vo['ishtml']});
+
+
+<if condition="!empty($_GET['type'])">
+$('#moduleid').val(0);
+changetemplate(0);
+</if>
+
+
+</script>

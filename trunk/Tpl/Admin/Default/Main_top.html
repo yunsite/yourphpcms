@@ -1,0 +1,44 @@
+{__NOLAYOUT__}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={:C('DEFAULT_CHARSET')}" />
+<title>{:L('welcome')}</title>
+<link rel='stylesheet' type='text/css' href='./Public/Css/style.css'>
+<base target="main" />
+</head>
+<body id="main_top" onLoad="reload()" >
+<div id="header" class="header">
+	<div class="logo"><a href="http://www.youRphp.cn" target="_blank"><img src="./Public/Images/admin_logo.gif" width=180></a></div>
+
+	<div class="nav f_r"> <a href="{:U('Admin/Main/cache')}">{:L('UPDATE_CACHE')}</a> <i>|</i> <a href="http://www.yourphp.cn" target="_blank">{:L('org_url')}</a> <i>|</i> <a href="http://www.yourphp.cn/license/" target="_blank">{:L('license')}</a>  <i>|</i> <a href="http://bbs.yourphp.cn" target="_blank">{:L('org_bbs')}</a>  <i>|</i> <a href="http://www.yourphp.cn/help" target="_blank">{:L('help')}</a> <i>|</i> &nbsp;&nbsp;</div>
+
+	<div class="nav">&nbsp;&nbsp;&nbsp;&nbsp;{:L('welcome_user')}{$Think.session.username}  <i>|</i> [{$usergroup}]  <i>|</i> [<a href="{:U('Login/logout')}" target="_top">{:L('logout')}</a>]  <i>|</i> <a href="{$site_url}" target="_blank">{:L('home_index')}</a> </div>
+
+	<div class="topmenu">
+		<ul><?php $n=0;?>
+		<volist name="menuGroupList" id="tag">
+		<?php if($n==0) $oneurl = U('Main/menu',array(parentid=> $tag[id]));?>
+		<li><span><a href="#" onClick="sethighlight({$n}); parent.menu.location='{:U('Main/menu',array(parentid=> $tag[id]))}';parent.main.location='{:U($tag['model'].'/'.$tag['action'],$tag['data'])}';return false;">{$tag.name}</a></span></li>
+		<?php $n++;?>
+		</volist>
+		</ul>
+	</div>
+</div>
+<script><?php $n=0;?>
+function reload(){
+parent.menu.location='{$oneurl}';
+}
+if(self==top){
+	window.top.location.href = '{:U("Login/index")}';
+}
+function sethighlight(n) {
+	var lis = document.getElementsByTagName('span');
+	for(var i = 0; i < lis.length; i++) {
+		lis[i].className = '';
+	}
+	lis[n].className = 'current';
+}
+sethighlight(0);
+</script>
+</body>
+</html>

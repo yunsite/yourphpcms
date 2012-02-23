@@ -1,0 +1,36 @@
+
+<div class="pos">{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> > <a href="{:URL('User-Index/index')}">{:L(user_center)}</a> </div>
+<div class="left-memu">
+
+		{if  $user_menu}
+		<h5 class="title"><b><img src="../Public/images/m_1.png" width="15" height="15" /> {:L(user_post_online)}</b></h5>
+		<ul>
+		<volist name="user_menu" id="r">
+			<li > <span><a href="{:URL('User-Post/add?moduleid='.$r['id'])}">{:L(user_post)}</a></span><a href="{:URL('User-Post/index?moduleid='.$r['id'])}"><img src="../Public/images/m_2.png" width="14" height="15" /> {:L($r['name'])}</a></li>
+		</volist>
+		</ul>
+		{/if}
+		
+		<h5 class="title"><b><img src="../Public/images/coins.png" width="15" height="15" /> {:L(user_pay_manage)}</b></h5>
+		<ul>
+			{if  $_COOKIE['userid']}<li><a href="{:URL('User-Pay/pay')}"><img src="../Public/images/m_4.png" width="15" height="16" /> {:L(user_pay_recharge)}</a></li>{/if}
+			<!--<li><a href="{:URL('User-Pay/index')}"><img src="../Public/images/m_8.png" width="16" height="16" /> {:L(user_Payment_records)}</a></li>-->
+			<li><a href="{:URL('User-Order/index')}"><img src="../Public/images/table-information.png" width="16" height="16" /> {:L(user_order_query)}</a></li>
+			<!--
+			<li><a href="{:URL('User-Pay/spend')}"><img src="../Public/images/table-information.png" width="16" height="16" /> {:L(user_Consumption_record)}</a></li>
+			<li><a href="{:URL('User-Index/change_credit')}"><img src="../Public/images/coins_add.png" width="16" height="16" /> {:L(user_Integral_buy_Exchange)}</a></li>
+			-->
+		</ul>
+
+	  {if  $_COOKIE['YP_userid']}
+		<h5 class="title"><b><img src="../Public/images/home.png" width="15" height="15" /> <a href="{:URL('User-Index/index')}">{:L(user_center)}</a></b></h5>
+		<ul>
+			<li><a href="{:URL('User-Index/profile')}"><img src="../Public/images/user_edit.png" width="16" /> {:L(user_edit_profile)}</a></li>
+			<li><a href="{:URL('User-Index/avatar')}"><img src="../Public/images/vcard.png" width="16" /> {:L(user_edit_avatar)}</a></li>
+			<li><a href="{:URL('User-Index/password')}"><img src="../Public/images/icon_key.gif" width="16" height="16" /> {:L(user_edit_email_password)}</a></li>
+			<li><a href="{:URL('User-Login/logout')}"><img src="../Public/images/computer_key.png" width="16" height="16" /> {:L(logout)}</a></li>
+			<!--<li><a href="{:URL('User-Index/edit')}"><img src="../Public/images/Upload.png" /> {:L(user_group_upgrade)}</a></li>-->
+		</ul>
+	   {/if}
+
+</div>

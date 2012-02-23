@@ -1,0 +1,40 @@
+
+
+<load href="__PUBLIC__/Js/jquery.validate.js"/>
+
+<div class="left">
+		<div class="pos">{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> > <YP:catpos  catid="catid" space=" > " /></div>
+
+		<style>
+		#content {margin:0;line-height:22px;}
+		</style>
+		<div class="post_box">
+				<form name="myform" id="myform" action="{:URL('User-post/insert')}" method="post">
+				<table cellpadding=0 cellspacing=0 class="table_form"  >
+				<input type="hidden" id="catid" name="catid" value="{$catid}" />
+				<input type="hidden" id="catid" name="moduleid" value="{$moduleid}" />
+				<input type="hidden"  name="lang" value="{$langid}" />
+				<volist name="fields" id="r">
+				<if condition="!empty($r['status']) && $r['ispost']">
+					<tr>
+						<td width="100">{if  $r['required']}<font color="red">*</font>{/if}{if  APP_LANG}{:L($r[field])}{else}{$r.name}{/if}</td>
+						<td id="box_{$r['field']}">
+						{$r|getform=$form,###}
+						</td>
+					</tr>
+				</if>
+				</volist>
+				<tr>
+						<td width="100"></td>
+						<td><INPUT TYPE="submit"  value="{:L(dosubmit)}" class="button" >
+				<input TYPE="reset"  value="{:L(cancel)}" class="button"></td>
+						</tr>
+				</table>
+				</form>
+		 </div>
+
+</div>
+<script>
+$('#title').val("{$_GET['title']}");
+</script>
+

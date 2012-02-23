@@ -1,0 +1,33 @@
+
+
+ 
+
+<div class="main">
+	<h3>{:L(user_login)}</h3>
+		<div class="block-msg">
+		<form method="post" action="{:URL('User-Login/dologin')}">
+		<table width="100%">
+		<tr>
+			<td align="right" height="35px">{:L(user_username)}：</td>
+			<td><input type="text" id="username" name="username" class="input-text" /></td>
+		</tr>
+		<tr>
+			<td align="right" height="35px">{:L(user_password)}：</td>
+			<td><input type="password" id="password" name="password" class="input-text" /></td>
+		</tr>
+		
+		{if  $member_config['member_login_verify']}
+		 <tr>
+		   <td  align="right" height="35px">{:L('verify')}：</td>
+		   <td><input name="verifyCode" class="input-text"  class="inputbox" id="verifyCode"  size="6" value="" maxlength="4" /><img src="{:U('Home/Index/verify')}" onclick="javascript:resetVerifyCode();" class="checkcode" align="absmiddle"  title="{:L('resetVerifyCode')}" id="verifyImage"/></td>
+		</tr>
+		{/if}
+		<tr>
+			<td>&nbsp;</td><input type="hidden" id="forward" name="forward" value="{$forward}"/>
+			<td height="50px"><input type="submit" class="button" value="{:L(user_login)}" />&nbsp;<a href="{:URL('User-Register/index?forward=')}{$forward|urlencode}" target="_top" />{:L(REGISTER)}</a>&nbsp; <a href="{:URL('User-Login/getpass')}">{:L(user_forgot_password)}</a></td>
+		</tr>
+
+		</table>
+		</form>
+		</div>
+</div>

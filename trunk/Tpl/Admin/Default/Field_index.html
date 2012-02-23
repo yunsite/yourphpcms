@@ -1,0 +1,57 @@
+
+
+<script>
+$('#nav ul a ').removeClass('on');
+$('#nav ul').append('<a href="{:U("Field/index",array(moduleid=>$_GET[moduleid]))}" class="on">{:L(field_manage)}</a> | <a href="{:U("Field/add",array(moduleid=>$_GET[moduleid]))}">{:L(field_add)}</a> |');
+</script>
+
+<form  id="myform" name="myform" action="{:U('Field/listorder')}" method="post">
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+      		<tr>
+			<th width="40">{:L(listorder)}</th>
+			<th align="left" width="80">{:L(field_field)}</th>
+			<th align="left">{:L(field_name)}</th>
+			<th width="60" align="left" >{:L(field_type)}</th>
+			<th width="50">{:L(field_issystem)}</th>
+			<th width="40">{:L(field_required)}</th>
+			<th width="200">{:L(manage)}</th>
+      		</tr>
+      	</thead>
+      	<tbody>
+      		<volist name="list" id="vo" key="k">
+      		<tr>
+			<td align='center' width="40"><input name='listorders[{$vo.id}]' type='text' size='3' value='{$vo.listorder}' class='input-text-c'></td>
+      		<td>{$vo['field']}</td>
+      		<td>{$vo['name']}</td>
+      		<td>{$vo['type']}</td>
+      		<td align="center"><if condition="in_array($vo['field'],$sysfield)">{:L(duihao)}<else />{:L(xuohao)}</if></td>
+			<td align="center"><if condition="$vo['required']==1">{:L(duihao)}<else />{:L(xuohao)}</if></td>
+      		<td align="center">
+			<a href="{:U('Field/edit',array(moduleid=>$vo['moduleid'],id=>$vo['id']))}" >{:L(edit)}</a>  |
+			<if condition="$vo[status]==1">
+				<if condition="in_array($vo['field'],$nodostatus)">
+				<font color="#D3D3D3">{:L(disable)}</font>
+				<else />
+				<a href="{:U('Field/status',array(id=>$vo['id'],status=>0))}">{:L(disable)}</a>
+				</if>
+			<else />
+				<a href="{:U('Field/status',array(id=>$vo['id'],status=>1))}"><font color="red">{:L(enable)}</font></a>
+			</if>
+		 | <if condition="in_array($vo['field'],$sysfield)">
+			<font color="#D3D3D3">{:L(delete)}</font>
+		 <else />
+		  <a href="javascript:confirm_delete('{:U('Field/delete',array(id=>$vo['id']))}')">{:L(delete)}</a>
+		 </if>
+		 </td>
+      		</tr>
+      		</volist>
+      	</tbody>
+    </table>
+</div>
+
+  <div class="btn">  <input  type="button" class="button" name="dosubmit" value="{:L(listorder)}" onclick="myform.action='{:U($module_name.'/listorder')}';$('#myform').submit();" /></div>
+
+</form></div>
+</body></html>

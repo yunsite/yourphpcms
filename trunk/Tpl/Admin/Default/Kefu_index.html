@@ -1,0 +1,116 @@
+
+ 
+
+<table  class="search_table" width="100%">
+	<tr>
+		<td class="search">
+			<form action="{:U($module_name.'/index')}" method="get">
+			<input type="hidden" name="g" value="{$Think.GROUP_NAME}" />
+			<input type="hidden" name="m" value="{$Think.MODULE_NAME}" />
+			<input type="hidden" name="a" value="{$Think.ACTION_NAME}" />	
+
+			<input id="title" type="text" class="input-text" name="keyword" value="{$Think.get.keyword}" />
+			<select name="searchtype">
+			<if condition="$fields['name']"><option value="title" <eq  name="searchtype" value='name'>selected="selected"</eq>>{:L('name')}</option></if>
+			<if condition="$fields['title']"><option value="title" <eq name="searchtype" value='title'>selected="selected"</eq>>{:L('title')}</option></if>
+			<if condition="$fields['username']"><option value="username" <eq name="searchtype" value="username">selected="selected"</eq>>{:L('username')}</option></if>
+			<if condition="$fields['keywords']"><option value="keywords" <eq  name="searchtype" value='keywords' >selected="selected"</eq>>{:L('keywords')}</option></if>
+			<option value="id" <eq name="searchtype" value='id'>selected="selected"</eq>>ID</option>
+			</select>
+			<if condition="$fields['catid']">
+			<select id="catid" name="catid">
+			<option value="">{:L('select_category')}</option>
+			{$select_categorys}
+			</select>
+			</if>
+
+			<if condition="$fields['typeid']">
+			<select id="typeid" name="typeid">
+			<option value="">{:L('select_typeid')}</option>
+			<volist name="Type" id="row">
+			<if condition="$row['parentid']==1"><option value="{$row['typeid']}" <eq name="typeid" value="$row['typeid']">selected="selected"</eq>>{$row['name']}</option></if>
+			</volist> 
+			</select>
+			</if>
+
+
+			<if condition="$fields['posid']">
+			<select id="posid" name="posid">
+			<option value="">{:L('select_posids')}</option>
+			<volist name="posids" id="row">
+			<option value="{$row['id']}" <if condition="$posid ==$row['id']">selected="selected"</if>>{$row['name']}</option>
+			</volist> 
+			</select>
+			</if>
+			
+			<select id="order" name="order">
+			<option value="">{:L('listorder')}</option>
+			<option value="id" <if condition="$order =='id'">selected="selected"</if>>ID</option>
+			<option value="hits" <if condition="$order =='hits'">selected="selected"</if>>{:L('hits')}</option>
+			</select>
+			
+			<select name="sort">
+				<option value="asc" <if condition="$sort =='asc'">selected="selected"</if>>{:L('order_by_asc')}</option>
+				<option value="desc" <if condition="$sort =='desc'">selected="selected"</if>>{:L('order_by_desc')}</option>
+			</select>
+
+			<select name="listRows">
+				<option value="15" <if condition="$listRows ==5">selected="selected"</if>>15{:L('listRows')}</option>
+				<option value="20" <if condition="$listRows ==20">selected="selected"</if>>20{:L('listRows')}</option>
+				<option value="50" <if condition="$listRows ==50">selected="selected"</if>>50{:L('listRows')}</option>
+				<option value="100" <if condition="$listRows ==100">selected="selected"</if>>100{:L('listRows')}</option>
+			</select>
+			
+			<input type="hidden" id="menuid" name="menuid" value="{$_GET['menuid']}"/>
+			<input type="submit" value="{:L('chaxun')}"  class="button" />
+			<input type="reset" value="{:L('reset')}" class="button"  />
+			</form>
+		</td>
+		
+	</tr>
+</table>
+
+
+<form name="myform" id="myform" action="" method="post">
+
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+		<thead> 
+            <tr> 
+			<th width="30"><input type="checkbox" value="" id="check_box" onclick="selectall('ids[]');"></th> 
+            <th width="40">{:L('listorder')}</th> 
+            <th width="40">ID</th> 
+			<th width="100" align="left">{:L('name')}</th> 
+            <th width="80" align="left">{:L('type')}</th> 
+			<th width="120"  align="left">{:L('skin')}</th> 
+            <th  align="left">{:L('code')}</th>            
+			<th width="72">{:L('manage')}</th> 
+            </tr> 
+        </thead> 
+      	<tbody>
+      		<volist name="list" id="vo" key="k">
+      		<tr>
+			<td  width="30" align="center"><input class="inputcheckbox " name="ids[]" value="{$vo['id']}" type="checkbox" ></td> 
+			<td width="40" align='center'><input name='listorders[{$vo.id}]' type='text' size='3' value='{$vo.listorder}' class='input-text-c'></td> 
+			<td align="center">{$vo['id']}</td>
+      		<td>{$vo['name']}</td>
+			<td>{$vo['type']|fieldoption=$fields['type'],###}</td>
+      		<td>{$vo['skin']|fieldoption=$fields['skin'],###}</td>      		
+      		<td>{$vo['code']|stripcslashes}</td>			
+			<td align="center"><a href="{:U($module_name.'/edit',array(id=>$vo['id']))}">{:L('edit')}</a> | <a href="javascript:confirm_delete('{:U($module_name.'/delete',array(id=>$vo['id']))}')">{:L('delete')}</a></td>      		
+      		</tr>
+      		</volist>
+      	</tbody>
+    </table>
+  
+    <div class="btn"><input type="button" class="button" name="dosubmit" value="<?php echo L('delete')?>" onclick="myform.action='{:U($module_name.'/deleteall')}';return confirm_deleteall()"/> <input  type="button" class="button" name="dosubmit" value="<?php echo L('listorder')?>" onclick="myform.action='{:U($module_name.'/listorder')}';$('#myform').submit();" /></div> 
+
+</form></div>    
+
+<div id="pages" class="page">{$page}</div>
+<script>
+$("#catid").attr("value",'{$catid}');
+function confirm_deleteall(){
+	art.dialog.confirm("{:L('real_delete')}", function(){ $('#myform').submit();});
+}
+</script>

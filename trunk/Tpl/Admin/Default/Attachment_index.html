@@ -1,0 +1,184 @@
+
+<style>
+html{_overflow-y:scroll}
+.swfupload {position: absolute;z-index: 1;}
+.mainnav_title {display:none;}
+</style>
+<link href="./Public/Js/swfupload/swfupload.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="./Public/Js/swfupload/swfupload.js"></script>
+<script type="text/javascript" src="./Public/Js/swfupload/fileprogress.js"></script>
+<script type="text/javascript" src="./Public/Js/swfupload/handlers.js"></script>
+<script type="text/javascript">
+		$.ajaxSetup ({ cache: false });
+
+		var file_limit = {$file_limit};
+		var swfu;
+ 		window.onload = function() {
+			
+			var settings = {
+				flash_url : "./Public/Js/swfupload/swfupload.swf?"+Math.random(),
+				upload_url: "{:U('Attachment/upload')}",
+				file_post_name : "filedata",
+				post_params: {"PHPSESSID" : "<?php echo  $sessid;?>", "isadmin" : "<?php echo $isadmin;?>","userid":"<?php echo $userid?>","swf_auth_key": "<?php echo $swf_auth_key;?>","isthumb" : "<?php echo $isthumb;?>","moduleid" : "<?php echo $moduleid?>","addwater":"<?php echo intval($watermark_enable);?>","lang":"<?php echo $lang;?>"},
+				file_size_limit : "<?php echo $file_size;?> MB",
+				file_types : "<?php echo $file_types;?>",
+				file_types_description : "All Files",
+				file_upload_limit : "<?php echo $file_limit;?>",
+				file_queue_limit : 0,
+				custom_settings : {
+					progressTarget : "fsUploadProgress",
+					cancelButtonId : "btnCancel",
+					tdFilesQueued : document.getElementById("tdFilesQueued"),
+					tdFilesUploaded : document.getElementById("tdFilesUploaded"),
+					tdErrors : document.getElementById("tdErrors")
+				},
+				debug: false,
+				prevent_swf_caching : false,
+
+				button_image_url : "",
+				button_placeholder_id: "spanButtonPlaceHolder",
+				button_width: 75,
+				button_height: 29,
+				button_text : '',
+				button_text_style : '',
+				button_text_top_padding: 0,
+				button_text_left_padding: 0,
+				button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+				button_cursor: SWFUpload.CURSOR.HAND,
+				swfupload_preload_handler : preLoad,
+				swfupload_load_failed_handler : loadFailed,
+
+				file_queued_handler : fileQueued,
+				file_queue_error_handler : fileQueueError,
+				upload_start_handler : uploadStart,
+				upload_progress_handler : uploadProgress,
+				upload_error_handler : uploadError,
+				upload_success_handler : uploadSuccess,
+				upload_complete_handler : uploadComplete,
+				file_dialog_complete_handler:fileDialogComplete
+			};
+
+			<if condition="$small_upfile_limit gt 0">
+			swfu = new SWFUpload(settings);
+			</if>
+		
+	     };
+ 
+				
+
+
+function ajaxload(typeid,page,inputid,isadmin)
+{
+    var data = '';
+    var url =  "{:U('Attachment/filelist')}&typeid="+typeid+"&p="+page+"&inputid="+inputid+"&isadmin="+isadmin;
+    $.ajax({
+         type: "POST",
+         url: url,
+         data: data,
+         success: function(msg){
+			$('#'+inputid).html(msg);
+			for(var i=0;i<ids.length;i++){
+				$('#on_'+ids[i]).addClass("on");
+			}
+         }
+    });
+}
+
+function addwater_enable(){
+	if($('#addwater').attr('checked')) {
+		swfu.addPostParam('addwater', '1');
+	} else {
+		swfu.removePostParam('addwater');
+	}
+}
+</script>
+<div id="content">
+<div id="tabs">
+	<div class="title"><ul><li class="on"><a href="javascript:void(0);">{:L('upload_file')}</a></li>
+	<li><a href="javascript:void(0);">{:L('upload_url')}</a></li>
+	<if condition="!empty($more)">
+	<li><a href="javascript:void(0);" onclick="ajaxload(1,1,'filelist',<?php echo $isadmin;?>);">{:L('upload_list_file')}</a></li>
+	<li><a href="javascript:void(0);"  onclick="ajaxload(0,1,'nouselist',<?php echo $isadmin;?>);">{:L('upload_unuse_file')}</a></li>
+	</if>
+	<if condition="!empty($no_use_files)">
+	<li style="border:0;background:none;"><a href="{:U('Attachment/cleanfile?isadmin='.$isadmin)}" style="color:#FB0000;">{:L('no_use_files')}</a></li>
+	</if>
+	</ul></div>
+
+	<div class="content_1">
+		<div class="tabbox" style="display:block;">
+				<div id="divMovieContainer">
+					<div class="selectbut"><span id="spanButtonPlaceHolder"></span></div>
+					<input type="button" value="{:L('start_upload')}" id="uploadbut" onclick="swfu.startUpload();"/>
+					<div style="color:#959595;line-height:24px;height:24px;background:url() no-repeat;padding-left:20px;"><input type="checkbox" id="addwater" name="addwater" value="1" onclick="addwater_enable();" <if condition="$watermark_enable==1"> checked</if>/> <font color="green">{:L('upload_add_water')}</font> , {:L('upload_say4')} <font color="red">{$file_types}</font> {:L('upload_say5')}</div><br>
+					<div style="color:#454545;clear:both;line-height:24px;height:24px;"> {:L('upload_say1')} <font color="red">{$small_upfile_limit}</font> {:L('upload_say2')} <font color="red">{$file_size}</font>	{:L('upload_say3')}</div>
+				</div>
+
+
+				<div id="divStatus">{:L('upload_say6')}<span id="tdFilesQueued">0</span>{:L('upload_say7')}<span id="tdErrors">0</span> {:L('upload_say8')}<span id="tdFilesUploaded">0</span> {:L('upload_say9')}</div>
+				<fieldset  id="swfupload-box">
+					<legend>{:L('file_list')}</legend>
+					<ul id="fsUploadProgress"></ul>
+					<ul class="attachment-list"  id="thumbnails"></ul>
+				</fieldset>
+
+		</div>
+		<div class="tabbox">
+		 <br>
+        	{:L('upload_fileurl')}: <input type="text" id="fileurl" name="fileurl" class="input-text" value=""  style="width:350px;"  onblur="addfileurl(this)">
+			<br><br><br>
+
+		</div>
+		<div class="tabbox">
+			<div id="filelist"></div>
+		</div>
+		<div class="tabbox">
+			<div id="nouselist"></div>
+		</div>
+	</div>
+</div>
+
+<div  id="myuploadform" style="display:none;" ></div>
+<script>
+new Tabs("#tabs",".title ul li",".content_1",".tabbox","on",1);
+function addfileurl(obj) {
+	var strs = $(obj).val() ?  $(obj).val() : '';
+
+	if(strs){
+		var datas='<div id="uplist_1"><input type="hidden" id="aids" name="aids"  value="0"  /><input type="text"  id="filedata" name="filedata" value="'+strs+'"  /><input type="text"  id="namedata" name="namedata" value=""  /> &nbsp;<a href="javascript:remove_this(\'uplist_1\');">{:L('remove')}</a> </div>';
+		$('#myuploadform').html(datas);
+		$('#thumbnails   a ').removeClass("on");
+		$('.img a ').removeClass("on");
+	}else{
+
+		$('#myuploadform').html('');
+	}
+}
+
+var insert2Xheditor =  insert2Xheditor || function(){
+		<if condition="$_GET[immediate]==1">var immediate='!';</if>
+		var arrMsg=[],img = '',data = '',i=0;
+		var num = $('#myuploadform > div').length;
+		if(num){
+				$('#myuploadform   div').each(function(){
+					var status =  $(this).find('#status').val();
+					var aid = $(this).find('#aids').val();
+					var src = $(this).find('#filedata').val();
+					var name = $(this).find('#namedata').val();
+					if(status!=0) aid=0;
+					arrMsg[i]= { "url":immediate+src,"localfile":name,"id":aid,"editorid":"{$_GET[editorid]}" };
+					i++;
+			   });
+			  // $('#{$_GET[editorid]}_aid_box').append(data);
+		} 
+		//arrMsg.push({"name":"","url":"!200906030521128703.gif","id":});
+		callback(arrMsg);
+}
+</script>
+<if condition="!empty($_GET[editorid])">
+<div id="bootline"></div>
+<div id="btnbox" class="btn" style="padding-left:450px;">
+		<INPUT TYPE="submit" onclick="insert2Xheditor();" value="{:L(dosubmit)}" class="button " >
+<input TYPE="reset" onclick="unloadme();" value="{:L(cancel)}" class="button">
+</div>
+</if>

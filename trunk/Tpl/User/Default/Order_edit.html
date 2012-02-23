@@ -1,0 +1,85 @@
+
+<load href="../Public/images/order/order.css"/>
+<load href='../Public/Css/member.css' />
+ 
+ 
+	<div class="right">
+		 
+			<h5 class="title"><b>查看订单</b></h5>
+			
+				<div id="cart_box">
+						<div class="order_table">
+						<span style="float:right;padding:5px;">创建时间:{$cart['createtime']|toDate=###,'Y-m-d H:i:s'}</span> <span style="float:left;padding:5px;color:#FB0000;">订单编号:{$cart['sn']}</span>
+							<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+							  <tr align="center">
+								<th width="15%">商品图片</th>
+								<th width="35%">商品名称</th>
+								<th width="10%">单价</th>
+								<th width="12%">数量</th>
+								<th width="13%">小计（RMB）</th>
+								<th>操作</td>
+							  </tr>
+							  <if condition="empty($cart['productlist'])">
+								 <tr align="center">
+								 <td colspan="6"  style="padding:10px;border:0;color:#FB0000;" align="center">您的购物车为空!</td>
+								 </tr>
+							  <else/>
+							  <volist name="cart['productlist']" id="vo">
+							
+							  <tr align="center">
+								<td height="70" style="border-left:none;"><img src="{$vo['thumb']|thumb}" width="60" height="60"/></td>
+								<td>{$vo['title']}</td>
+								<td>{$vo['price']}</td>
+								<td>
+								{$vo['num']}
+								</td>
+								<td ><span class="count_price" id="count_price_{$vo['id']}">{$vo['countprice']|number_format=###,2}</span></td>
+								<td><a href="{$vo['info']['url']}" target="_blank"  class="del">浏览产品</a></td>
+							 </tr>
+							 </volist>
+							 </if>
+							</table>
+						</div>
+						<div id="prototal">
+							<span>商品总数：</span><span id="totalnum">{$cart['totalnum']|intval}</span><span> 件，</span>
+							<span>总价：</span><span id="totalprice">{$cart['totalprice']|number_format=###,2}</span><span> RMB&nbsp;&nbsp;</span>
+						</div>
+						<div class="c"></div>
+						<div class="order_userinfo">
+
+						<form method="post" action="./index.php?g=User&m=Order&a=edit">
+						 <input type="hidden" id="" name="do" value="1" />
+						 <div class="order_userinfo">
+							<h2>收货人信息</h2>
+							<ul>
+							<li><span>姓名：</span><input name="realname" id="realname"type="text" value="{$cart['realname']}"/></li>
+							<li>
+								<span>电话号码：</span><input name="tel" id="tel"  type="text" value="{$cart['tel']}"/>
+							</li>
+							<li><span>传真：</span><input name="fax" id="fax"type="text" value="{$cart['fax']}"/></li>
+							<li><span>手机：</span><input name="mobile" id="mobilee"type="text" value="{$cart['mobile']}"/></li>
+							<li><span>邮箱：</span><input name="email" id="email"type="text" value="{$cart['email']}"/></li>
+							<li>
+								<span>收货地址：</span><input   name="address" id="address" type="text" value="{$cart['address']}"/>
+							</li>
+							<li><span>邮编：</span><input name="zipcode" id="zipcode"type="text" value="{$cart['zipcode']}"/></li>
+							{if empty($_COOKIE['YP_userid'])}
+							<li><span>密码：</span><input name="password" id="password" type="password" value=""/></li>
+							{/if}
+							</ul>
+						</div>
+						
+						<div id="bootline"></div>
+							<div id="btnbox" class="btn">
+
+							<input type="hidden" id="id" name="id" value="{$cart[id]}" />
+							<INPUT TYPE="submit"  name="dosubmit" value="{:L('dosubmit')}" class="button" >
+							</div>
+						</form>
+
+						</div>
+						<div class="c"></div>
+				</div>
+	</div>
+ 
+ 

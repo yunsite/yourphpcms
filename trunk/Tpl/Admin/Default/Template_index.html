@@ -1,0 +1,24 @@
+
+<div class="table-list">
+       <table cellpadding=0 cellspacing=0  width="100%">
+	   <thead>
+		<tr>
+		 <th align="left">{:L(file_name)}</th>
+              <th align="left" style="width:8%">{:L(file_size)}</th>
+              <th style="width:18%">{:L(file_time)}</th>
+			  <th align="center" style="width:15%">{:L(manage)}</th>
+		</tr>
+		</thead>
+
+		<tbody>
+		<volist name="templates" id="vo">
+		<tr>
+        <td>{$vo.filename}</td>
+        <td>{$vo.filesize}</td>
+        <td  align="center" >{$vo.filemtime|toDate=###,'Y-m-d H:i:s'}</td>
+        <td  align="center" ><a href="{:U($module_name.'/edit?file='.$vo[filename])}"><img src="./Public/Images/edit.gif"></a> <a href="javascript:confirm_delete('{:U($module_name.'/delete?file='.$vo[filename])}')"><img src="./Public/Images/delete.gif"></a></td>
+		</tr>
+		</volist>
+		</tbody>
+		</table>
+</div>

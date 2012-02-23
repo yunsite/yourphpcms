@@ -1,0 +1,45 @@
+
+
+<form  id="myform" name="myform" action="{:U('Type/listorder')}" method="post">
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+      		<tr>
+            <th width="40">{:L('listorder')}</th>
+            <th width="20">typeid</th>
+            <th align="left">{:L('name')}</th>	
+			<th width="*" align="left">{:L('description')}</th>
+			<th width="40">{:L('status')}</th>
+			<th width="270">{:L('manage')}</th>
+            </tr>
+      	</thead>
+      	<tbody>
+      		<volist name="list" id="vo" key="k">
+      		<tr>
+			<td  width="40" align='center'><input name="listorders[{$vo['typeid']}]" type='text' size='3' value="{$vo['listorder']}"></td>
+			<td align='center'>{$vo['typeid']}</td>
+			<td >{$vo['name']}</td>
+			<td>{$vo['description']}</td>
+ 			<td align='center'>
+			<if condition="$vo[status]==1">
+				<a href="{:U('Type/status',array(typeid=>$vo['typeid'],status=>0))}"><font color="green">{:L('enable')}</font></a>
+			<else />				
+				<a href="{:U('Type/status',array(typeid=>$vo['typeid'],status=>1))}"><font color="red">{:L('disable')}</font></a>	
+			</if>
+			</td>
+      		<td align="center">
+			<a href="{:U('Type/index',array(keyid=>$vo['keyid'],parentid=>$vo['typeid']))}">{:L('type_manage')}</a> |  
+			<a href="{:U('Type/add',array(keyid=>$vo['keyid'],parentid=>$vo['typeid']))}">{:L('add_type')}</a> | 
+			<a href="{:U('Type/edit',array(keyid=>$vo['keyid'],typeid=>$vo['typeid']))}">{:L('edit')}</a> | 
+			<a href="javascript:confirm_delete('{:U('Type/delete',array(typeid=>$vo['typeid']))}')">{:L('delete')}</a> 
+      		</td>      		
+      		</tr>
+      		</volist>
+      	</tbody>       
+      	</table>
+</div>
+
+  <div class="btn">  <input  type="button" class="button" name="dosubmit" value="{:L(listorder)}" onclick="myform.action='{:U($module_name.'/listorder')}';$('#myform').submit();" /></div> 
+
+</form></div>
+</body></html>

@@ -1,0 +1,23 @@
+
+
+ <div id="infobox" >
+1.请输入SQL语句，可同时执行多条语句，每行一条<br />
+		    2.SQL执行后影响到的结果不可恢复，请谨慎使用此功能<br />
+		    3.若数有重要数据，请在执行SQL语句前备份数据库，以免数据丢失<br></div>
+
+<form id="myform" method="post" action="{:U("Database/doquery")}">
+	<table cellspacing="0" cellpadding="0" id="maintable" class="formtable">
+	<tbody>
+	<tr>
+	<th style="width:7em;">SQL语句</th>
+	<td><textarea name="sql"  id="sql" style="width:500px; height:200px;margin:8px;">SELECT * FROM yourphp_config LIMIT 0,10;</textarea></td></tr>
+	<tr>
+	<th colspan="2"></th>
+	</tr>
+	</tbody>	
+	</table>	
+	<div class="btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="submit" name="submit" value="执行" class="button">
+	<input type="reset" name="button" id="button" value="重填" class="button"/>
+	</div>
+</form>

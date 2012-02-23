@@ -1,0 +1,463 @@
+<include file="Home:header"/>
+{__NOLAYOUT__}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.artDialog.js?skin=default"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/iframeTools.js"></script>
+<load href="__PUBLIC__/Js/jquery.validate.js"/>
+<load href="__PUBLIC__/Js/jquery.form.js"/>
+<load href="../Public/images/order/order.css"/>
+ 
+		<div class="pos">{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> > <YP:catpos  catid="catid" space=" > " /></div>
+
+     	<div id="cart_box">
+				<div id="buy_ico">&nbsp;</div>
+				<div id="buy_tab">
+					<ul class="buy_0">
+						<li class="one">1.{:L('ORDER_ADD_CART')}</li>
+						<li class="two">2.{:L('ORDER_CONFIRM')}</li>
+						<li class="three">3.{:L('ORDER_DOSUBMIT')}</li>
+					</ul>
+				</div> 
+				<div class="c"></div>
+
+
+			<div class="order_checkbox">
+				<h1>{:L('CHECK_ORDER_INFO')}</h1>
+				 <form method="post" action="{:URL('Home-Order/done')}"  onsubmit="return checkform()">
+						
+
+				<!--选择修改地址-->
+					<div class="order_box order_userinfo">
+						<h2>{:L('Order_address_info')}</h2>	
+						<div class="b1">
+							<div id="address_editbox">
+								<div class="address_list" {if !$_COOKIE['YP_userid']}style="display:none;"{/if}><h3>{:L('OFTEN_ADDRESS')}</h3>
+								<ul id="address_list">
+								<volist name="user_address" id="r">
+								<li id="address_li_{$r.id}"><input type="radio" name="useraddress" onclick="address_change('{$r.id}')" value="{$r.id}" />{$r.consignee} &nbsp; {$Area[$r[province]]} - {$Area[$r[city]]}  -  {$Area[$r[area]]} &nbsp;{$r.address}</li>
+								</volist>
+								</ul>
+								<ul><li><input type="radio" name="useraddress" id="address_news" onclick="address_new()" value="0" />{:L('OTHER_ADDRESS')} </li></ul>
+								</div>
+								<div class="c"></div>
+								<div class="address_form">
+								<ul><input type="hidden" id="addressid" name="addressid" value="" />
+								 <li style="clear:both;width:100%;"><span>{:L('Order_address_area')}：</span> 
+									 <div id="areaselect">
+										 <select name="province" id="province" onchange="area_change(this.value, 1,'province','city','area');" class="ddlbox" ><option value="0">{:L('Order_select_province')}</option>
+										 </select>
+										 <select name="city" onchange="area_change(this.value, 2,'province','city','area');" id="city" class="ddlbox" >
+										 <option value="0">{:L('Order_select_city')}</option>
+										</select>
+										<select name="area" onchange="area_change(this.value, 3,'province','city','area');" id="area" class="ddlbox" >
+										<option value="0">{:L('Order_select_area')}</option>
+										</select><font color="red">*</font>
+									</div>
+									<script>area_change(0, 0,'province','city','area');</script>
+								 </li>
+								 <li>
+									<span>{:L('Order_address_address')}：</span><input   name="address" class="input-text"  id="address" type="text" value="" /><font color="red">*</font> 
+								</li>
+								<li><span>{:L('Order_address_zipcode')}：</span><input name="zipcode" class="input-text" id="zipcode" type="text" value=""/></li>
+								<li><span>{:L('Order_address_consignee')}：</span><input name="consignee" class="input-text" id="consignee"type="text" value="" /><font color="red">*</font></li>
+								<li><span>{:L('Order_address_tel')}：</span><input name="tel" class="input-text"  id="tel"  type="text" value="" /></li>
+								<li><span>{:L('Order_address_mobile')}：</span><input name="mobile" class="input-text"  id="mobile" type="text" value=""/><font color="red">*</font></li>
+								<li><span>{:L('Order_address_email')}：</span><input name="email"class="input-text"  id="email"type="text" value=""/></li>
+								</ul></div>
+								<input type="button" value="保存收货地址" onclick="address_save()" />
+							</div>
+							
+							<div id="address_showbox">
+								<table class="order_table"   cellspacing='1' cellpadding='3' >
+									<tr><th  width="125" >{:L('Order_address_consignee')}： </th><td><span id="consignee_show">{$default_address.consignee}</span></td></tr>
+									<tr><th  width="125" >{:L('Order_address_address')}： </th><td><span id="address_show">{$Area[$default_address[province]]}  - {$Area[$default_address[city]]}   -  {$Area[$default_address[area]]} &nbsp;{$default_address.address}</span></td></tr>
+									<tr><th  width="125" >{:L('Order_address_tel')}：</th><td><span id="tel_show">{$default_address.tel}</span></td></tr>
+									<tr><th  width="125" >{:L('Order_address_mobile')}： </th><td><span id="mobile_show">{$default_address.mobile}</span></td></tr>
+								</table>
+								<input type="button" value="{:L(edit)}" onclick="address_show({ id:0})" />
+							</div>
+						</div>
+					</div>
+					<div class="c"></div>
+				<!--选择收货地址 end-->
+
+	 
+				<!--配送方式-->
+				{if $shipping}
+					<div class="order_box order_shipping">
+						<h2>{:L('Order_shipping_info')}</h2>
+						<div class="shipping_input">
+							<input type="hidden" id="shipping_name" name="shipping_name" />
+							<input type="hidden" id="shipping_fee"  name="shipping_fee" />
+							<input type="hidden" id="insure_fee" name="insure_fee" />
+							<input type="hidden" id="isinsure" name="isinsure" />
+						</div>
+					 
+						<table class="order_table" id="shipping_show_box"  cellspacing='1' cellpadding='3' >
+							<volist name="shipping" id="r">
+							<tr><th  width="125"align="left" >&nbsp;&nbsp;<input type="radio" id="shipping_{$r.id}"   onclick="shipping_chose(this.value)" name="shipping_id" value="{$r.id}" />&nbsp;&nbsp;{$r.name}</th><td> {:L('Order_shipping_fee')}：￥{$r.first_price}/{$r.first_weight}K {:L('Order_shipping_second_price')}：￥{$r.second_price}/{$r.second_weight}K 
+							{if $r[is_insure]}<input type="checkbox" class="insure" id="insure_{$r.id}" onclick="shipping_chose(this.value,1)" value="{$r.id}"/>{:L('Order_shipping_is_insure')}：{$r.insure_fee}% {if $r[insure_low_price]} &nbsp;{:L('Order_shipping_low_price')}{$r.insure_low_price} RMB{/if} {/if}
+							</td></tr>
+							</volist> 
+						</table>						 
+					</div>
+				{/if}
+				<!--配送方式 end-->
+
+				<!--支付方式-->
+				{if $payment}
+				<div class="order_box order_payment">
+						<h2>{:L('Order_payment_type')}</h2>				 
+						<table class="order_table" id="delivery_show_box"  cellspacing='1' cellpadding='3' >
+						<volist name="payment" id="r">
+							<tr><th  width="125" align="left" >&nbsp;&nbsp;<input type="radio" id="payment_{$r.id}" onclick="payment_chose(this.value)" name="payment"  value="{$r.id}"/>&nbsp;&nbsp;{$r.pay_name}</th><td style="padding:5px;">{$r.pay_desc}</td><td width="120"><input type="hidden" id="pay_fee_{$r.id}" name="pay_fee_{$r.id}" value="{$r.pay_fee}"/> <input type="hidden" name="pay_fee_type_{$r.id}" id="pay_fee_type_{$r.id}" value="{$r.pay_fee_type}"/> {:L('Order_payment_fee')}：{$r.pay_fee}{if  $r[pay_fee_type]}{:L(yuan)}{else}%{/if} </td></tr>
+						</volist>					 
+							<tr><th  width="125" >{:L('Order_postmessage')}</th><td colspan="2"  style="padding:5px;"> <input type="text" id="postmessage" name="postmessage" class="input-text"  value="" size="60"/></td></tr>
+						</table>
+						 
+				</div>
+				{/if}
+
+				<!--支付方式  end-->
+
+                            
+
+				<div class="order_box  order_product">
+						<h2>{:L('Order_product_info')}</h2>
+						<table  class="order_table"   border="0" cellspacing='1' cellpadding='3' align="center">
+							  <tr align="center">
+								<th width="15%">{:L('Order_product_thumb')}</th>
+								<th width="35%">{:L('Order_product_name')}</th>
+								<th width="10%">{:L('Order_product_price')}</th>
+								<th width="12%">{:L('Order_product_number')}</th>
+								<th width="13%">{:L('Order_product_small_count')}（RMB）</th>
+							  
+							  </tr>
+							<if condition="empty($cart)">
+									 <tr align="center">
+									 <td colspan="6"  style="padding:10px;border:0;color:#FB0000;" align="center">{:L('Order_no_product')}</td>
+									 </tr>
+							<else/>
+								  <volist name="cart" id="vo">
+								  <tr align="center">
+									<td height="70" style="border-left:none;"><a href="{$vo.product_url}" target="_blank"><img src="{$vo['product_thumb']|thumb}" width="60" height="60"/></a></td>
+									<td><a href="{$vo.product_url}" target="_blank">{$vo['product_name']}</a></td>
+									<td ><span id="price_{$vo['id']}">{$vo['product_price']}</span></td>
+									<td>{$vo['number']}				 
+									<div><input type="hidden" name="num"  class="num" id="num_{$vo['id']}" value="{$vo['number']}" size="2"/></div>
+									</td>
+									<td ><span class="count_price" id="count_price_{$vo['id']}">{$vo['price']|number_format=###,2}</span></td>
+									 
+								 </tr>
+								 </volist>
+							</if>
+						</table>
+				 </div>
+
+				
+				<div class="c"></div>
+				<div class="order_box">
+						<h4>{:L('Order_payment_info')}</h4>
+						<div id="prototal">
+							{:L('Order_product_amount')}：<b id="totalprice">0</b> + {:L('Order_invoice_fee')}：<b id="invoice">0</b> + {:L('Order_shipping_fee')}：<b id="shipping">0</b> + {:L('Order_shipping_is_insure')}：<b id="insure">0</b> + {:L('Order_pay_fee')}：<b id="pay_fee">0</b>
+							<!-- - 代金券：<b id="ticket">0</b> -->
+						</div>
+						<div class="coutprice"> 
+						<ul>{:L('Order_is_invoice')}({:L('Order_invoice_fee')}:5%) <input class="radio" onclick="select_invoice();" name="invoice" type="checkbox" value="1" /> 
+						<label id="invoice_title" class='attr' style='display:none'><input type="hidden" id="invoice_fee" name="invoice_fee" value="5" />{:L('Order_invoice_title')}：<input type='text' class='normal' name='invoice_title' /></label>
+						</ul>
+						<ul class="pricenumber"><b>{:L('Order_count_amount')}：<span class="red2">￥<b id='count_sum'></b></span> </b></ul>					 
+						</div>
+				</div>
+				<div class="c"></div>
+						
+				<div id="buy_button">
+						<a href="{:URL('Home-Order/index')}"><img src="../Public/images/order/gocart.jpg" /></a>
+						<input type="image" class="img_but" onclick="checkorder();" src="../Public/images/order/submit.jpg" />
+				</div>
+				</form>
+				<div class="c"></div><br>
+				</div>
+		</div>
+<script>
+
+var  totalprice=0 ,is_invoice=0,invoice=0 ,addressid={$default_address[id]|intval},insure=0,is_shipping=0,shipping=0 , paymentid=0,pay_fee =0 ,ticket=0;
+
+function checkform(){
+
+	if(addressid==0){
+	art.dialog({ lock:true,icon: 'error',time:'2',content: "{:L(PLEASE_SAVE_ADDRESS)}"});
+    return false;
+	}
+
+	{if $shipping}
+		if(is_shipping==0){
+		art.dialog({ lock:true,icon: 'error',time:'2',content: '{:L(PLEASE_SELECT_SHIPING)}'});
+		return false;
+		}
+	{/if}
+	
+	{if $payment}
+		if(paymentid==0){
+		art.dialog({ lock:true,icon: 'error',time:'2',content: '{:L(PLEASE_SELECT_PAYMENT)}'});
+		return false;
+		}
+	{/if}
+
+}
+function count_sum(){
+	
+	if(is_invoice){
+		var invoice_fee = $("#invoice_fee").val();
+		invoice = parseFloat(totalprice)*invoice_fee/100;
+		invoice = formatNum(invoice,2);
+	}else{
+		invoice = 0;
+	}
+
+	$('#invoice').html(invoice);
+	$('#insure').html(insure);
+	$('#shipping').html(shipping);
+	//$('#ticket').html(ticket);
+	count= parseFloat(totalprice)+parseFloat(invoice)+parseFloat(insure)+parseFloat(shipping)-parseFloat(ticket);
+	if(paymentid){
+		pay_fee_num = $('#pay_fee_'+paymentid).val();
+		pay_fee_type = $('#pay_fee_type_'+paymentid).val();
+		if(pay_fee_type==1){
+			pay_fee = parseFloat(pay_fee_num);
+		}else{
+			pay_fee = count*parseFloat(pay_fee_num)/100;
+		}
+		pay_fee = formatNum(pay_fee,2);
+		$('#pay_fee').html(pay_fee);
+		count = count+parseFloat(pay_fee);
+	}
+	$('#count_sum').html(formatNum(count,2));
+}
+function select_invoice(){
+	var isinvoice = $("input[name=invoice][checked]").val();
+	if(isinvoice){
+		$('#invoice_title').show();
+		is_invoice=1;
+	}else{
+		$('#invoice_title').hide();
+		is_invoice=0;
+	}
+	count_sum();
+}
+
+function address_change(id,doshow){
+	$.ajax({
+		type:"POST",
+		url: ROOT+"/index.php?m=Ajax&a=address&do=get&id="+id,
+		timeout:"4000",
+		dataType:"JSON",
+		success: function(data){
+			if(data.id){
+				area_change(0, 0,'province','city','area',data.province,data.city,data.area);
+				$('#address').val(data.address);
+				$('#zipcode').val(data.zipcode);
+				$('#consignee').val(data.consignee);
+				$('#tel').val(data.tel);
+				$('#email').val(data.email);
+				$('#mobile').val(data.mobile);
+				$('#addressid').val(data.id);
+				$('#address_li_'+data.id+" input").attr("checked",true);
+				shipping_chose(0);
+				count_sum();
+			}else{
+				art.dialog({ lock:true,icon: 'error',time:'2',content: '{:L(DO_ERROR)}'});
+			}
+		},
+		error:function(){
+			art.dialog({ lock:true,icon: 'error',time:'2',content: 'Link error,{:L(DO_ERROR)}!'});
+		}
+	});
+}
+
+
+function address_new(){
+	area_change(0, 0,'province','city','area');
+	$('.address_form input').val('');
+	shipping_chose(0);
+}
+function address_show(data){
+	 addressid = data.id;
+	 if(addressid){
+		if (data.province > 0) { show_address_province  =  $("#province").find("option:selected").text();}
+		if (data.city > 0) {	show_address_city   =  $("#city").find("option:selected").text();}
+		if (data.area > 0) {	show_address_area   =  $("#area").find("option:selected").text();	}
+		$('#address_list input').attr("checked",false);
+		if(data.edit){
+			$('#address_li_'+data.id).html('<input type="radio" name="useraddress" onclick="address_change('+data.id+')"  value="'+data.id+'"  checked />'+data.consignee+' '+show_address_province+' - '+show_address_province+' - '+show_address_area+' '+data.address);
+		}else{
+			$('#address_list').append('<li id="address_li_'+data.id+'"><input type="radio" name="useraddress" onclick="address_change('+data.id+')"  value="'+data.id+'" />'+data.consignee+' - '+show_address_province+' - '+show_address_city +' - '+show_address_area+' '+data.address+'</li>');
+		}
+		$('#consignee_show').html(data.consignee);
+		$('#address_show').html(show_address_province+' - '+ show_address_city +' - '+show_address_area+' '+data.address);
+		$('#tel_show').html(data.tel);
+		$('#mobile_show').html(data.mobile);
+
+		$('#address_editbox').hide();
+		$('#address_showbox').show();
+	 }else{
+		$('#address_editbox').show();
+		$('#address_showbox').hide();
+	}
+	count_sum();
+	return false;
+}
+
+function address_save(){
+	 
+	var province = $('#province').val();
+	var city = $('#city').val();
+	var area = $('#area').val();
+	var address = $('#address').val();
+	var zipcode = $('#zipcode').val();
+	var consignee = $('#consignee').val();
+	var tel = $('#tel').val();
+	var email = $('#email').val();
+	var mobile = $('#mobile').val();
+	if(province=='' || city=='' || area=='' || address=='' || consignee=='' || mobile==''){
+		art.dialog({ lock:true,icon: 'error',time:'2',content: '{:L(EMPTY_ADDRESS)}'});
+		return false;
+	}
+	var id = $('#addressid').val();
+	var address_datas={'id':id, 'address':address,'province':province,'city':city,'area':area,'zipcode':zipcode,'consignee':consignee,'tel':tel,'email':email,'mobile':mobile};
+	$.ajax({
+		type:"POST",
+		url: ROOT+"/index.php?m=Ajax&a=address&do=save",
+		data: address_datas,
+		timeout:"4000",
+		dataType:"JSON",
+		success: function(data){ 
+			if(data.error){
+				art.dialog({ lock:true,icon: 'error',time:'2',content: data.error});return false;
+			}
+			if(data.id){
+				address_show(data);
+				art.dialog({ icon: 'ok',time:'1',content: '{:L(DO_OK)}'});
+			}else{
+				art.dialog({ lock:true,icon: 'error',time:'2',content: '{:L(DO_ERROR)}'});
+			}
+		},
+		error:function(){
+			art.dialog({ lock:true,icon: 'error',time:'2',content: 'Link error,{:L(DO_ERROR)}'});
+		}
+	});
+}
+
+function shipping_chose(id,is_insure){
+	 
+
+	if(id>0){
+		var province = $('#province').val();
+		var city = $('#city').val();
+		var area = $('#area').val();
+		var address = $('#address').val();
+		var consignee = $('#consignee').val();
+		var mobile = $('#mobile').val();
+		if(province=='' || city=='' || area=='' || address=='' || consignee=='' || mobile==''){
+			$("input[name='shipping_id'][@checked]").attr('checked',false);
+			$(".insure").attr('checked',false);
+			art.dialog({ lock:true,icon: 'error',time:'2',content: '{:L(EMPTY_ADDRESS)}'});			
+			return false;
+		}
+
+		$("#shipping_"+id).attr('checked',true);
+		var  datas={'province':province,'city':city,'area':area};
+		$.ajax({
+			type:"POST",
+			url: ROOT+"/index.php?m=Ajax&a=shipping&do=get&id="+id,
+			data:  datas,
+			timeout:"4000",
+			dataType:"JSON",
+			success: function(data){ 
+				if(data.id){
+					is_shipping = data.id;
+					insure=0;
+					shipping=data.first_price;
+					$('#shipping_name').val(data.name);
+					$('#shipping_fee').val(data.first_price);
+
+					if($("#insure_"+id).attr('checked')==undefined){
+						$("#insure_fee").val('');
+						$("#isinsure").val(0);
+						$(".insure").attr('checked',false);
+					}else{
+						$("#insure_fee").val(data.insure_fee);
+						$("#isinsure").val(1);
+						insure_fee = totalprice*data.insure_fee/100;
+						insure_fee = formatNum(insure_fee,2);
+						if(insure_fee>=data.insure_low_price){insure=insure_fee;}else{insure=data.insure_low_price;}
+					} 
+					count_sum();
+				}else{
+				is_shipping = 0;
+				art.dialog({ lock:true,icon: 'error',time:'2',content: '{:L(DO_OK)}'});
+				}
+			},
+			error:function(){
+				art.dialog({ lock:true,icon: 'error',time:'2',content: 'Link error,{:L(DO_ERROR)}'});
+			}
+		});
+
+	}else{
+		$('.order_shipping .shipping_input input').val('');
+		$("input[name='shipping_id'][@checked]").attr('checked',false);
+		$(".insure").attr('checked',false);
+		shipping=0;
+		is_shipping =0;
+		insure=0;
+		count_sum();
+	}
+}
+
+function payment_chose(id){
+	paymentid= id;
+	count_sum();
+}
+
+function formatNum(Num1,Num2){ 
+     if(isNaN(Num1)||isNaN(Num2)){ 
+           return(0); 
+     }else{ 
+           Num1=Num1.toString(); 
+           Num2=parseInt(Num2); 
+           if(Num1.indexOf('.')==-1){ 
+                 return(Num1); 
+           }else{ 
+                 var b=Num1.substring(0,Num1.indexOf('.')+Num2+1); 
+                 var c=Num1.substring(Num1.indexOf('.')+Num2+1,Num1.indexOf('.')+Num2+2); 
+                 if(c==""){ 
+                       return(b); 
+                 }else{ 
+                       if(parseInt(c)<5){ 
+                             return(b); 
+                       }else{ 
+                             return((Math.round(parseFloat(b)*Math.pow(10,Num2))+Math.round(parseFloat(Math.pow(0.1,Num2).toString().substring(0,Math.pow(0.1,Num2).toString().indexOf('.')+Num2+1))*Math.pow(10,Num2)))/Math.pow(10,Num2)); 
+                       } 
+                 } 
+           } 
+     } 
+} 
+
+function countprice(){
+		$('.count_price').each(function(){var count_price = $(this).html();totalprice=totalprice + parseFloat(count_price);});
+		$('#totalprice').html(totalprice);
+}
+
+
+if(addressid){
+	address_change(addressid);
+	$('#address_editbox').hide();
+	$('#address_showbox').show();
+}else{
+	$('#address_showbox').hide();
+}
+
+countprice();
+count_sum();
+</script>
+
+<include file="Home:footer"/>

@@ -1,0 +1,47 @@
+
+
+<div id="infobox" > 
+ <a href="{:U('Slide/index')}" style="float:right;">{:L(gobacklist)}</a>
+{$slide[name]}{:L('manage')} : <a href="{:U('Slide/picmanage?fid='.$slide[id])}">{:L(images_manage)}</a>  |  <a href="{:U('Slide/addpic?fid='.$slide[id])}">{:L(add_pic)}</a>
+</div>
+
+<form name="myform" id="myform" action="" method="post">
+<div class="table-list">
+    <table width="100%" cellspacing="0">
+        <thead>
+      		<tr>
+			<th width="30">{:L('listorder')}</th>
+			<th width="40">ID</th>
+			<th width="180" align="left">{:L(TITLE)}</th>
+			<th align="left">{:L(THUMB)}</th>
+			<th width="50" align="center">{:L(STATUS)}</th>
+			<th width="140"   align="center">{:L('manage')}</th>
+      		</tr>
+      	</thead>
+      	<tbody>
+      		<volist name="list" id="vo" key="k">
+      		<tr>
+			<td width="40" align='center'><input name='listorders[{$vo.id}]' type='text' size='3' value='{$vo.listorder}' class='input-text-c'></td>
+			<td align="center">{$vo['id']}</td>
+      		<td align="left">{$vo['title']}</td>
+			<td align="left"><img src="{$vo['pic']}"   height=100></td>
+			<td align="center"><eq name="vo['status']" value="1">
+      		{:L('display_yes')}
+      		<else />
+      		{:L('display_no')}
+      		</eq></td>
+			<td align="center">
+			<a href="{:U('Slide/editpic',array(fid=>$fid,id=>$vo['id']))}">{:L('edit')}</a> | <a href="javascript:confirm_delete('{:U('Slide/deletepic',array(id=>$vo['id']))}')">{:L('delete')}</a></td>      		
+      		</tr>
+      		</volist> 
+      	</tbody>
+    </table>
+  
+		<div class="btn">
+		<input type="button" class="button" name="dosubmit" value="<?php echo L('listorder')?>" onclick="myform.action='{:U($module_name.'/listorder')}';$('#myform').submit();"/> </div>  
+	</div>
+</div>
+</form>
+
+<div id="pages" class="page">{$page}</div>
+</body></html>

@@ -1,0 +1,81 @@
+
+
+      <form id="myform" action="<if condition="$action_name=='add'">{:U('User/insert')}<else />{:U('User/update')}</if>" method="post">
+      	<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+      	<tr>
+		<td width="120">{:L('username')}</td>
+		<td><if condition="$action_name=='add'"> <input type="text" class="input-text"  name="username" validate="required:true,en_num:true, minlength:5, maxlength:20"/><else />{$vo['username']}</if></td>
+		</tr>
+		<tr>
+		<td>{:L('password')}</td><td><input type="password" id="pwd" name="pwd" class="input-text" validate=" <if condition="$action_name=='add'">required:true,</if> minlength:5, maxlength:20"/></td>
+		</tr>
+		<tr>
+			<td>{:L('realname')}</td>
+			<td><input type="text" class="input-text"  name="realname" value="{$vo.realname}" ></td>
+		</tr>
+		<tr>
+			<td>{:L('email')}</td>
+			<td><input type="text" class="input-text"  name="email" value="{$vo.email}" validate="required:true,email:true,remote: '{:U('Login/checkEmail?userid='.$vo[id])}' , minlength:1, maxlength:40"></td>
+		</tr>
+		<tr>
+		<td>{:L('user_is_enable')}</td>
+		<td>
+		{:L('yes')}<input type="radio" name="status" value="1" <eq name="vo['status']" value="1">checked="checked"</eq> />
+		{:L('no')}<input type="radio" name="status" value="0" <eq name="vo['status']" value="0">checked="checked"</eq> />
+		</td>
+		</tr>
+		<tr>
+		<td valign="top">{:L('user_group')}</td>
+		<td>
+		<select name="groupid">
+		<volist name="rlist" id="row">
+			<option value="{$row['id']}" <eq name="vo['groupid']" value="$row['id']">selected="selected"</eq>>{$row['name']}</option>
+		</volist>
+		</select>
+		</td>
+		</tr>
+		<tr>
+			<td>{:L('question')}</td>
+			<td><input type="text" class="input-text"  name="question" value="{$vo.question}"></td>
+		</tr>
+		<tr>
+			<td>{:L('answer')}</td>
+			<td><input type="text" class="input-text"  name="answer" value="{$vo.answer}"></td>
+		</tr>
+		<tr>
+			<td>{:L('sex')}</td>
+			<td><input type="radio" id="" name="sex" value=1 <eq name='vo.sex' value='1'>checked </eq> /> {:L('sex1')}&nbsp;<input type="radio" id="" name="sex" value=2 <eq name='vo.sex' value='2'>checked </eq> /> {:L('sex2')} &nbsp;<input type="radio" id="" name="sex" value=1 <eq name='vo.sex' value='0'>checked </eq> />{:L('sex0')}</td>
+		</tr>
+		<tr>
+			<td>{:L('telephone')}</td>
+			<td><input type="text" class="input-text"  name="tel" value="{$vo.tel}"></td>
+		</tr>
+		<tr>
+			<td>{:L('mobile')}</td>
+			<td><input type="text" class="input-text"  name="mobile" value="{$vo.mobile}"></td>
+		</tr>
+		<tr>
+			<td>{:L('fax')}</td>
+			<td><input type="text" class="input-text"  name="fax" value="{$vo.fax}"></td>
+		</tr>
+		<tr>
+			<td>{:L('web_url')}</td>
+			<td><input type="text" class="input-text"  name="web_url" value="{$vo.web_url}"></td>
+		</tr>
+		<tr>
+			<td>{:L('address')}</td>
+			<td><input type="text" class="input-text"  name="address" value="{$vo.address}"></td>
+		</tr>
+
+		</table>
+
+		<div class="btn">
+		<if condition="$action_name=='edit'"><input type="hidden" name="id" value="{$vo['id']}" />
+		<input type="hidden" name="opwd" value="{$vo['password']}" /></if>
+		<input type="hidden" name="forward" value="{$_SERVER['HTTP_REFERER']}" />
+		<INPUT TYPE="submit"  value="{:L('dosubmit')}" class="button" >
+		<input TYPE="reset"  value="{:L('cancel')}" class="button">
+		</div>
+
+      </form>
+     </div>
