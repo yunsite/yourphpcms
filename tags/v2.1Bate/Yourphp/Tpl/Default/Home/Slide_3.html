@@ -1,0 +1,32 @@
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.switchable-2.0.min.js"></script>
+<style>
+.slide-panel {position:relative;width:{$flashwidth}px;height:{$flashheight}px;overflow:hidden;}
+.slide-panel  li {width:{$flashwidth}px;height:{$flashheight}px;}
+.switchable-triggers { position:absolute; right:3px; bottom:6px; }
+.switchable-triggers li {display:inline-block;float:left;width:20px;height:20px;margin:0 3px;border-radius:20px;background:rgba(255, 255, 255, .7);color:#444;font-size:13px;
+    line-height:20px; text-align:center; cursor:pointer; }
+.switchable-triggers li.current {background:rgba(138, 181, 22, .7);color:#fff;}
+</style>
+<div class="slide1">
+	<div id="slide_{$flashid}" class="slide-panel"><ul>
+		{loop}
+		<li><img src="{$r['pic']}" alt="{$r['title']}"></li>
+		{/loop}
+	</ul></div>
+</div> 
+<script>
+jQuery(document).ready(function($){
+   var slide = $('#slide1').switchable({
+    putTriggers: 'appendTo',
+    panels: 'li',
+    initIndex: -1,
+    effect: 'scrollUp',
+    easing: 'cubic-bezier(.455, .03, .515, .955)',
+    end2end: true,
+    loop: false, 
+    autoplay: true,
+    interval: 5,
+    api: true
+  }).play();
+});
+</script>

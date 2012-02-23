@@ -1,0 +1,73 @@
+*{padding:0px;margin:0px;font-family:Verdana, Arial, Helvetica, sans-serif;}
+html{background-color: #F6F6F6;}
+body{font-size:12px;background-color: #F6F6F6;}
+a{color:#06C;text-decoration: none; }
+a:hover{color:#F30;text-decoration: none; }
+h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+em{font-style:normal;}
+ul, ol { list-style: none; }
+
+input{vertical-align:middle;margin-right:3px;font-size:12px;}
+textarea{vertical-align:top;font-size:12px;line-height:156%;border:1px solid #AAA;padding:3px;letter-spacing:1px;word-break:break-all; overflow-y:auto;}
+.input_blur{padding:4px;border:1px solid #AAA;	font-size:12px;	color:#000;}
+.input_focus{border:1px solid #F90;}
+
+
+.top{width:100%;height:95px;line-height:95px;background:#3A6EA5;text-indent:0px;color:#888;}
+.top_box {width:900px;height:80px;margin:0 auto;background:url(../../Public/Images/admin_logo.gif) left center no-repeat;}
+.top_box b {float:right;color:#FFF;}
+.top_foot {background:#E2E9EA;height:15px;line-height:15px;width:100%;}
+.main {width:900px;margin:12px auto;border:8px solid #D4D4D4;background:#2C527C;overflow:hidden;zoom:1;}
+.main .box {margin:0 8px 8px 8px;border:8px solid #D4D4D4;background:#D4D4D4;overflow:hidden;zoom:1;}
+.main .box .b1 {border:1px solid #A2A09A;background:#FFF url(images/box_bg.gif) repeat-y;overflow:hidden;zoom:1;}
+.main h5 {color:#FFF;font-size:20px;font-weight:bold;font-family:'Arial','Microsoft YaHei';line-height:50px;height:50px;text-align:center;margin:10px 0;}
+.left {float:left;width:210px;background:#F4F1E9 url(images/left_bg.gif) repeat-x;overflow:hidden;zoom:1;}
+.left .step_nav {height:250px;width:200px;background:url(images/left-nav.png) no-repeat;margin:50px 8px;padding:0px 10px;}
+.left .step_nav h2 {line-height:45px;font-size:14px;padding-left:5px;color:#333333}
+.left .step_nav ul li{line-height:27px;color:#3A6EA5;width:170px;}
+.right {float:right;width:630px;margin:12px;_margin:6px;overflow:hidden;zoom:1;}
+.right h1 {color:#5890D1;height:30px;line-height:30px;text-align:center;font-size:14px;}
+.butbox{text-align:center;margin:20px;}
+
+.power {text-align:right;margin-right:10px;color:#666666;line-height:30px;line-height:30px;}
+.power a {color:#666;}
+.power a:hover {color:#FB0000;}
+.title {height:32px;line-height:32px;text-align:center;}
+.title ul li {float:left;width:166px;height:32px;line-height:32px;background:url(images/tab.gif) no-repeat;margin:0 5px 0 8px;_margin:0 3px 0 4px;color:#FFF;font-weight:bold;font-size:14px;}
+.title ul li.on {background:url(images/tab_on.gif) no-repeat;color:#2D292A;}
+.inputButton{width:104px;height:34px;border:1px solid #2E79A6;cursor:pointer;font-weight: bold;background-color: #3DA1DD;font-size: 14px;color: #FFFFFF;}
+
+.pact{	margin:15px auto;color:#888;line-height:200%;overflow:auto;border-top:1px solid #ddd;padding-top:10px;}
+.pact h4{color:#666;font-size:12px;}
+.pact p{text-indent:30px;}
+
+#inputon , .inputButton:hover {background:#2E79A6;}
+input.nonext,#nonext ,input.nonext:hover {border:1px solid #DBDBDB;color:#DFDFDF;background:#EFEFEF;}
+
+
+.readpact{padding-top:20px;text-align:center;border-top:1px solid #DDD;font-size:14px;letter-spacing:2px;}
+* html .readpact input{	margin:-1px 10px 2px 0px;}
+.readpact input[type="checkbox"]{	margin: -1px 10px 0 0px;}
+
+.setupinfo{margin:20px auto;font-size:14px;	color:#999;	line-height:23px;}
+
+#pwd_msg {color:#FB0000;}
+
+
+.mouseover td{background:#FFC;}
+.table .on{text-align:right;line-height:25px;}
+.table{border:1px solid #93CBEC;font-size:12px;overflow:hidden;	margin:8px auto;}
+.table tbody tr th{color:#000000;line-height:25px;height:25px;text-indent:20px;font-weight:normal;letter-spacing:2px;background-color: #C4E2F4;border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #D6EBF8;}
+.table tbody tr td{padding:7px;color:#333;vertical-align:top;border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #D6EBF8;text-indent: 20px;}
+.table tbody tr td  img{vertical-align:middle;}
+.table tfoot tr td{padding:10px;line-height:25px;text-align:center;}
+.table tfoot tr td p{line-height:21px;margin-bottom:10px;}
+input.but{height:26px;padding-left:6px;	padding-right:6px;	line-height:26px;font-weight:bold;	letter-spacing:1px;	color:#FFF;	background-color:#FC3;}
+
+em.error { background:url("images/error.gif") no-repeat 0px 0px;  padding-left: 19px;line-height:26px;color:red;	}
+em.success { background:url("images/correct.gif") no-repeat 0px 0px;  padding-left: 19px;line-height:26px;color:red;}
+
+.ok1 {text-align:center;line-height:30px;margin-top:15px;font-size:14px;font-weight:bold;font-family:'Microsoft YaHei';text-align:center;}
+#setupinfo {line-height:22px;}
+.ok2 {line-height:24px;margin-top:10px;}
+.ok2 span {margin-right:5px;color:#FB0000;line-height:24px;}

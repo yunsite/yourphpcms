@@ -1,0 +1,6 @@
+Options +FollowSymLinks
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.php?s=$1 [QSA,PT,L]
+RewriteRule ^(.*)Yourphp/Tpl/(.*).html$ /403.html [QSA,PT,L]

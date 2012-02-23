@@ -1,0 +1,38 @@
+<include file="Admin:header" />
+
+	<form id="myform" name="myform" method="post" action="">
+		<div class="table-list">
+
+       <table cellpadding=0 cellspacing=0  width="100%">
+	   <thead>
+		<tr>
+        <th style="width:4%">选择</th>
+		 <th align="left" style="width:20%">名称</th>
+              <th align="left" style="width:15%">大小</th>
+              <th align="left" style="width:15%">时间</th>
+              <th align="left" style="width:8%">下载</th>
+              <th align="left" style="width:8%">导入</th>
+		</tr>
+		</thead>
+
+		<tbody>
+		<volist name="files" id="vo">
+		<tr>
+		<td><input type="checkbox" name="files[]" value="{$vo.path}"> </td>
+        <td>{$vo.name}</td>
+        <td>{$vo.size|byte_format}</td>
+        <td>{$vo.time|toDate}</td>
+        <td><a href="./Public/Data/{$vo.name}">下载</a></td>
+        <td><a href="javascript:if(confirm('确认要导入数据吗？')) window.location='{:U($module_name.'/recover&do=import&filename='.$vo[name])}'">导入</a></td>
+		</tr>
+		</volist>
+
+		</tbody>
+		</table>
+		</div>
+		<div class="btn">
+			<input type="checkbox" value="" id="check_box" onclick="selectall('files[]');">全选&nbsp;&nbsp;
+			 <input type="button" class="button"  name="" value="删除" onclick="myform.action='{:U($module_name.'/recover&do=delete')}'; $('#myform').submit();">
+		</div>
+
+	</form>

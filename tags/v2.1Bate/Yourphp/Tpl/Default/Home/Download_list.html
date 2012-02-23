@@ -1,0 +1,21 @@
+<include file="Home:header" />
+
+<div class="left">
+		<div class="pos">{%catpos}: <a href="{:URL()}">{%home_font}</a> > <YP:catpos  catid="$catid" space=" > " /></div>
+		<div class="down_list">
+			<volist name="list" id="vo" key="k">
+			<dl class="img">
+			<dt><a href="{$vo.url}" target="_blank">{$vo.title}</a></dt>
+			<dd class="desc">{%Down_desc}:{$vo.description}</dd>
+			<dd class="ext">{%Down_ext}:{$vo.ext} &nbsp;&nbsp;&nbsp;&nbsp;{%Down_size}:{$vo.size}</dd>
+			</dl>
+			</volist>
+		</div>
+		 <div id="pages" class="page">{$pages}</div>
+		<br>
+</div>
+
+<div class="right">
+	<include file="Home:right" />
+</div>
+<include file="Home:footer" />
