@@ -62,26 +62,28 @@ class CreatehtmlAction extends AdminbaseAction {
 
 	public function doCreatelist($_GET)
     {
-		$this->assign ( 'waitSecond', 2);
+			$this->assign ( 'waitSecond', 2);
 			extract($_GET,EXTR_SKIP);
 			$moduleid = intval($_GET['moduleid']);
 			$doid = $doid ? intval($doid) : 0;
 			$count = intval($_GET['count']);
-
 			if($dosubmit!=1){
 				$catids=array();
-				foreach($this->categorys as $id=>$cat) {
-					if($cat['type']!=0  || $cat['ishtml']!=1) continue;
-					if($moduleid){									
-						if($cat['moduleid']!=$moduleid) continue;
+				if($_GET['catids'][0]){
+					$catids = $_SESSION['catids'] = $_GET['catids'];
+				}else{
+					foreach($this->categorys as $id=>$cat) {
+						if($cat['type']!=0  || $cat['ishtml']!=1) continue;
+						if($moduleid){									
+							if($cat['moduleid']!=$moduleid) continue;
+						}
+						$catids[] = $id;
 					}
-					$catids[] = $id;
+					$catids = $_SESSION['catids'] = $catids;
 				}
-				$_SESSION['catids'] = $catids;
 			}else{
 				$catids =$_SESSION['catids'];	
 			}
-	
 			if(!isset($catids[$doid])){
 					unset($_SESSION['catids']);
 					$forward = U("Createhtml/createlist");
@@ -94,8 +96,17 @@ class CreatehtmlAction extends AdminbaseAction {
 						$module = $this->categorys[$id]['module'];
 						$dao= M($module);
 						$where['status']=1;
-						$where['catid']=$id;
-				 		$count = $dao->where($where)->count();						
+						if(empty($this->categorys[$id]['listtype'])){
+							if($this->categorys[$id]['child']){
+								$where['catid']=array('in',$this->categorys[$id]['arrchildid']);
+							}else{
+								$where['catid']=$id;
+							}							
+							$count = $dao->where($where)->count();
+						}else{
+							$count=1;
+						}
+								
 					}
 					if(empty($pages)){
 						$cat_pagesize =  !empty($this->categorys[$id]['pagesize']) ? $this->categorys[$id]['pagesize'] : C('PAGE_LISTROWS');
@@ -122,6 +133,7 @@ class CreatehtmlAction extends AdminbaseAction {
 							'pages' => $pages,
 							'p' => $p,
 							'pagesize' => $pagesize,
+							'iscreatehtml'=>1,
 						);						
 						$message = L('updating').$this->categorys[$id]['catname'].L('create_update_count').$pages.L('create_update_list_num').$p.L('items_list').$percent.L('items1');
 						$forward = U("Createhtml/".ACTION_NAME,$urlarray);
@@ -132,6 +144,7 @@ class CreatehtmlAction extends AdminbaseAction {
 							'dosubmit' => 1,
 							'p' => 1,
 							'pagesize' => $pagesize,
+							'iscreatehtml'=>1,
 						);
 						$message = L('start_updating').$this->categorys[$id]['catname']." ...";
 						$forward = U("Createhtml/".ACTION_NAME,$urlarray);						
@@ -220,7 +233,7 @@ class CreatehtmlAction extends AdminbaseAction {
 				}
 				if(!isset($catids[$doid])){
 					unset($_SESSION['catids']);
-					$forward = U("Createhtml/".ACTION_NAME);
+					$forward = U("Createhtml/updateurl");
 					$this->assign ( 'jumpUrl', $forward);
 					$this->success(L('create_update_success'));
 				}else{
@@ -361,7 +374,7 @@ class CreatehtmlAction extends AdminbaseAction {
 			}
 			if(!isset($catids[$doid])){
 					unset($_SESSION['catids']);
-					$forward = U("Createhtml/".ACTION_NAME);
+					$forward = U("Createhtml/Createshow");
 					$this->assign ( 'jumpUrl', $forward);
 					$this->success(L('create_update_success'));
 			}else{
@@ -397,6 +410,7 @@ class CreatehtmlAction extends AdminbaseAction {
 							'pages' => $pages,
 							'p' => $p,
 							'pagesize' => $pagesize,
+							'iscreatehtml'=>1,
 						);
 						 
 						$message = L('updating').$this->categorys[$id]['catname'].L('create_update_count').$count.L('create_update_num').$creatednum.L('items').$percent.L('items1');
@@ -410,6 +424,7 @@ class CreatehtmlAction extends AdminbaseAction {
 							'dosubmit' => 1,
 							'p' => 1,
 							'pagesize' => $pagesize,
+							'iscreatehtml'=>1,
 						);
 						$message = L('start_updating').$this->categorys[$id]['catname']." ...";
 						$forward = U("Createhtml/".ACTION_NAME,$urlarray);
