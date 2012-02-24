@@ -18,7 +18,7 @@
 			</select>
  
  
-			<select id="status" name="status">
+			<select id="status" name="map[status]">
 			<option value="">{:L('order_status')}</option>			 
 			<option value="0" <if condition="isset($status) && $status ==0">selected="selected"</if>>{:L(order_status_0)}</option>
 			<option value="1" <if condition="isset($status) && $status ==1">selected="selected"</if>>{:L(order_status_1)}</option>
@@ -27,7 +27,7 @@
 			<option value="4" <if condition="isset($status) && $status ==4">selected="selected"</if>>{:L(order_status_4)}</option>
 			</select>
  
-			<select id="pay_status" name="pay_status">
+			<select id="pay_status" name="map[pay_status]">
 			<option value="">{:L('pay_status')}</option>		
 			<option value="0" <if condition="isset($pay_status) && $pay_status ==0">selected="selected"</if>>{:L(pay_status_0)}</option>
 			<option value="1" <if condition="isset($pay_status) && $pay_status ==1">selected="selected"</if>>{:L(pay_status_1)}</option>
@@ -37,7 +37,7 @@
 			</select>
 
 
-			<select id="shipping_status" name="shipping_status">
+			<select id="shipping_status" name="map[shipping_status]">
 			<option value="" >{:L('shipping_status')}</option>			 
 			<option value="0" <if condition="isset($shipping_status) && $shipping_status ==0">selected="selected"</if>>{:L(shipping_status_0)}</option>
 			<option value="1" <if condition="isset($shipping_status) && $shipping_status ==1">selected="selected"</if>>{:L(shipping_status_1)}</option>

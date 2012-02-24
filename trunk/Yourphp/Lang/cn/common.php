@@ -25,6 +25,8 @@ return array (
   'PREVIOUS' => '上一页',
   'PAGE_ITEM' => '条',
   'NEXT' => '下一页',
+  'FIRST_PAGE'=> '第一页',
+  'LAST_PAGE'=> '最后一页',
   'MESSAGE_TITLE' => '提示信息',
   'MSG_SYSTEM_1' => '系统将在',
   'MSG_SYSTEM_2' => '秒后自动跳转，如果不想等待,直接',

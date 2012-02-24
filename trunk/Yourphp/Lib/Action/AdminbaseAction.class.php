@@ -218,21 +218,25 @@ class AdminbaseAction extends Action
 		$tables = $model->getDbFields();
  
 
-		foreach($_REQUEST as $key=>$re){
-			 
-				if(isset($_REQUEST[$key]) && ( $_REQUEST[$key]==='0' || $_REQUEST[$key]>0)){
-					$map[$key]=intval($_REQUEST[$key]);
-				}else{
+		foreach($_REQUEST['map'] as $key=>$res){
+				if(  ($res==='0' || $res>0) || !empty($res) ){					 
+					if($_REQUEST['maptype'][$key]){
+						$map[$key]=array($_REQUEST['maptype'][$key],$res);
+					}else{
+						$map[$key]=intval($res);
+					}
+					$_REQUEST[$key]=$res;
+				}else{					
 					unset($_REQUEST[$key]);
-				} 
+				}
 		}
-		if($map['menuid'])unset($map['menuid']);
-
+ 
 
 		$this->assign($_REQUEST);
 
 		//取得满足条件的记录总数
-		$count = $model->where ( $map )->count ( $id ); //echo $model->getLastsql();
+		$count = $model->where ( $map )->count ( $id );//echo $model->getLastsql();
+
 		if ($count > 0) {
 			import ( "@.ORG.Page" );
 			//创建分页对象
