@@ -29,8 +29,7 @@ class Page extends Think {
     protected $rollPage   ;
 	// 分页url定制
 	protected $urlrule;
-	// 分页显示定制
-    protected $config  =	array('header'=>'条记录','prev'=>'上一页','next'=>'下一页','first'=>'第一页','last'=>'最后一页','theme'=>' %totalRow% %header% %nowPage%/%totalPage% 页 %upPage% %downPage% %first%  %prePage%  %linkPage%  %nextPage% %end%');
+ 
 
     /**
      +----------------------------------------------------------
@@ -46,7 +45,7 @@ class Page extends Think {
     public function __construct($totalRows,$listRows,$p='') {
         $this->totalRows = $totalRows;
         $this->parameter = $parameter;
-        $this->rollPage = C('PAGE_ROLLPAGE');
+        $this->rollPage = C('PAGE_ROLLPAGE') ? C('PAGE_ROLLPAGE') : 2;
         $this->listRows = !empty($listRows)?$listRows:C('PAGE_LISTROWS');
         $this->totalPages = ceil($this->totalRows/$this->listRows);     //总页数
 		if (!define('PAGESTOTAL')) define('PAGESTOTAL', $this->totalPages);
@@ -61,15 +60,13 @@ class Page extends Think {
         }
         $this->firstRow = $this->listRows*($this->nowPage-1);
     }
+ 
+	public function  show(){
 
-    public function setConfig($name,$value) {
-        if(isset($this->config[$name])) {
-            $this->config[$name]    =   $value;
-        }
-    }
+		if($this->totalRows == 0 OR $this->listRows == 0 OR $this->totalPages <= 1){
+			return '';
+		}
 
- 	public function show() {	
-				
 		$urlrule =  str_replace('%7B%24page%7D','{$page}',$this->urlrule); //urldecode	
 		if(!$urlrule){		
 			$p = C('VAR_PAGE');			
@@ -83,66 +80,65 @@ class Page extends Think {
 			}
 			$urlrule = $urlrule."&".$p.'={$page}';
 		}
-		$array = $this->parameter;
-		$setpages =  $this->rollPage;
 
-		$num =$this->totalRows;
-		$perpage = $this->listRows;		
-		$curr_page = $this->nowPage;
 
-		$pageStr = '';
-		if($num > $perpage) {
-			$page = $setpages+1;
-			$offset = ceil($setpages/2-1);
-			$pages = ceil($num / $perpage);
-			$from = $curr_page - $offset;
-			$to = $curr_page + $offset;
-			$more = 0;
-			if($page >= $pages) {
-				$from = 2;
-				$to = $pages-1;
-			} else {
-				if($from <= 1) {
-					$to = $page-1;
-					$from = 2;
-				}  elseif($to >= $pages) { 
-					$from = $pages-($page-2);  
-					$to = $pages-1;  
-				}
-				$more = 1;
-			} 
-			$pageStr .= '<a class="a1">'.$num.L('page_item').'</a>';
-			if($curr_page>0) {
-				$prepage=max(1,$curr_page-1);
-				$pageStr .= ' <a href="'.$this->pageurl($urlrule, $prepage, $array).'" class="a1">'.L('previous').'</a>';
-				if($curr_page==1) {
-					$pageStr .= ' <span>1</span>';
-				} elseif($curr_page>6 && $more) {
-					$pageStr .= ' <a href="'.$this->pageurl($urlrule, 1, $array).'">1</a>..';
-				} else {
-					$pageStr .= ' <a href="'.$this->pageurl($urlrule, 1, $array).'">1</a>';
+		$pre_page = $this->nowPage-1;
+		$next_page = $this->nowPage +1;
+		
+		if($this->nowPage >=$this->totalPages){
+			$next_page =  $this->nowPage = $this->totalPages;
+		}
+		if($this->nowPage <= 1){
+			$pre_page =  $this->nowPage = 1;
+		}
+
+		$output = '';
+		$output .= '<a class="a1">'.$this->totalRows.L('page_item').'</a>';
+		$output .= " <a href='".$this->pageurl($urlrule, 1,$this->parameter)."'>".L('first_page')."</a>";
+		$output .="<a href='".$this->pageurl($urlrule, $pre_page,$this->parameter)."'>".L('previous')."</a>";
+		$show_nums = $this->rollPage*2+1;// 显示页码的个数
+	
+		if($this->totalPages <= $show_nums){
+			for($i = 1;$i<=$this->totalPages;$i++){
+				if($i == $this->nowPage){
+					$output .= '<span>'.$i.'</span>';
+				}else{
+					$output .= "<a href='".$this->pageurl($urlrule,$i,$this->parameter)."'>$i</a>";
 				}
 			}
-			for($i = $from; $i <= $to; $i++) { 
-				if($i != $curr_page) { 
-					$pageStr .= ' <a href="'.$this->pageurl($urlrule, $i, $array).'">'.$i.'</a>'; 
-				} else { 
-					$pageStr .= ' <span>'.$i.'</span>'; 
-				} 
-			} 
-			if($curr_page<$pages) {
-				if($curr_page<$pages-5 && $more) {
-					$pageStr .= ' .. <a href="'.$this->pageurl($urlrule, $pages, $array).'">'.$pages.'</a> <a href="'.$this->pageurl($urlrule, $curr_page+1, $array).'" class="a1">'.L('next').'</a>';
-				} else {
-					$pageStr .= ' <a href="'.$this->pageurl($urlrule, $pages, $array).'">'.$pages.'</a> <a href="'.$this->pageurl($urlrule, $curr_page+1, $array).'" class="a1">'.L('next').'</a>';
+		}else{
+			if($this->nowPage < (1+$this->rollPage)){
+				for($i = 1;$i<=$show_nums;$i++){
+					if($i == $this->nowPage){
+						$output .=  '<span>'.$i.'</span>';
+					}else{
+						$output .= "<a href='".$this->pageurl($urlrule,$i,$this->parameter)."'>$i</a>";
+					}
+				}			
+			}else if($this->nowPage >= ($this->totalPages - $this->rollPage)){
+				for($i = $this->totalPages - $show_nums ; $i <= $this->totalPages ; $i++){
+					if($i == $this->nowPage){
+						$output .=  '<span>'.$i.'</span>';
+					}else{
+						$output .= "<a href='".$this->pageurl($urlrule,$i,$this->parameter)."'>$i</a>";
+					}
 				}
-			} elseif($curr_page==$pages) {
-				$pageStr .= ' <span>'.$pages.'</span> <a href="'.$this->pageurl($urlrule, $curr_page, $array).'" class="a1">'.L('next').'</a>';
-			} else {
-				$pageStr .= ' <a href="'.$this->pageurl($urlrule, $pages, $array).'">'.$pages.'</a> <a href="'.$this->pageurl($urlrule, $curr_page+1, $array).'" class="a1">'.L('next').'</a>';
+			}else{
+				$start_page = $this->nowPage - $this->rollPage;
+				$end_page = $this->nowPage + $this->rollPage;
+				for($i = $start_page ; $i<=$end_page ; $i++){
+					if($i == $this->nowPage){
+						$output .=  '<span>'.$i.'</span>';
+					}else{
+						$output .= "<a href='".$this->pageurl($urlrule,$i,$this->parameter)."'>$i</a>";
+					}
+				}
 			}
 		}
-		return $pageStr;
+		
+		$output .="<a href='".$this->pageurl($urlrule,$next_page,$this->parameter)."'>".L('next')."</a>"; 
+		$output .="<a href='".$this->pageurl($urlrule,$this->totalPages,$this->parameter)."'>".L('Last_page')."</a>";
+		return $output;
 	}
 
 	public function pageurl($urlrule, $page, $array = array())

@@ -34,7 +34,7 @@
 
 
 			<if condition="$fields['posid']">
-			<select id="posid" name="posid">
+			<select id="posid" name="map[posid]">
 			<option value="">{:L('select_posids')}</option>
 			<volist name="posids" id="row">
 			<option value="{$row['id']}" <if condition="$posid ==$row['id']">selected="selected"</if>>{$row['name']}</option>
@@ -43,7 +43,7 @@
 			</if>
 
 
-			<select id="status" name="status">
+			<select id="status" name="map[status]">
 			<option value="">{:L('status')}</option>
 			<option value="0" <if condition="isset($status) && $status ==0">selected="selected"</if>>{:L(noshenhe)}</option>
 			<option value="1" <if condition="isset($status) && $status ==1">selected="selected"</if>>{:L(isshenhe)}</option>
