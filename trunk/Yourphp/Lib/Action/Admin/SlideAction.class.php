@@ -84,7 +84,7 @@ class SlideAction extends AdminbaseAction {
 		$this->assign ( 'fid', $fid );
 		$this->assign ( 'slide', $slide ); 
 		
-		$this->display ('Slide_editpic');
+		$this->display ('Slide:editpic');
 
 	}
 
