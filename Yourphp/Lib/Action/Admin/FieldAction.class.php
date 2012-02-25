@@ -62,7 +62,7 @@ class FieldAction extends AdminbaseAction {
 		if($_GET['isajax']){
 			$this->assign($_GET);
 			$this->assign($_POST);
-			$this->display('Field_type');
+			$this->display('type');
 			exit;			 
 		}
 	}
