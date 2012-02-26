@@ -498,7 +498,7 @@ class TagLibYp extends TagLib
 				$sql  = "M(\"{$module}\")->field(\"{$field}\")->where(\"{$where}\")->order(\"{$order}\")->limit(\"{$limit}\")->select();";
 			}else{
 				if (!$tag['sql']) return ''; //排除没有指定model名称，也没有指定sql语句的情况
-				$sql = "M()->query('{$tag['sql']}')";
+				$sql = "M()->query(\"{$tag['sql']}\")";
 			}
 
 			//下面拼接输出语句

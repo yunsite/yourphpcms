@@ -5,8 +5,8 @@
 		<div class="pos">{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> > <YP:catpos  catid="catid" space=" > " /></div>
      		<div id="cart_box">
 				<div class="order_ok_message">
-						{:L('click_button_to_pay')}<br>
-						{$paybutton}<br>
+						{if $paybutton}{:L('click_button_to_pay')}<br>
+						{$paybutton}<br>{/if}
 						{:L('ORDER_DOSUBMIT_OK_WAIT')}<br>
 						{:L('ORDER_SN')}:{$order['sn']}<br>
 				</div>

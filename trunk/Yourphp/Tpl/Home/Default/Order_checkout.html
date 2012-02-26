@@ -26,8 +26,9 @@
 						
 
 				<!--选择修改地址-->
-					<div class="order_box order_userinfo">
+				<div class="order_box order_userinfo">
 						<h2>{:L('Order_address_info')}</h2>	
+						{if $use_address}
 						<div class="b1">
 							<div id="address_editbox">
 								<div class="address_list" {if !$_COOKIE['YP_userid']}style="display:none;"{/if}><h3>{:L('OFTEN_ADDRESS')}</h3>
@@ -76,8 +77,38 @@
 								<input type="button" value="{:L(edit)}" onclick="address_show({ id:0})" />
 							</div>
 						</div>
-					</div>
-					<div class="c"></div>
+						{else}
+						<div class="b1">
+							<div id="address_editbox">
+							<div class="address_form">
+								<ul><input type="hidden" id="addressid" name="addressid" value="" />
+								 <li style="clear:both;width:100%;"><span>{:L('Order_address_area')}：</span> 
+									 <div id="areaselect">
+										 <select name="province" id="province" onchange="area_change(this.value, 1,'province','city','area');" class="ddlbox" ><option value="0">{:L('Order_select_province')}</option>
+										 </select>
+										 <select name="city" onchange="area_change(this.value, 2,'province','city','area');" id="city" class="ddlbox" >
+										 <option value="0">{:L('Order_select_city')}</option>
+										</select>
+										<select name="area" onchange="area_change(this.value, 3,'province','city','area');" id="area" class="ddlbox" >
+										<option value="0">{:L('Order_select_area')}</option>
+										</select>
+									</div>
+									<script>area_change(0, 0,'province','city','area');</script>
+								 </li>
+								 <li>
+									<span>{:L('Order_address_address')}：</span><input   name="address" class="input-text"  id="address" type="text" value="" />
+								</li>
+								<li><span>{:L('Order_address_zipcode')}：</span><input name="zipcode" class="input-text" id="zipcode" type="text" value=""/></li>
+								<li><span>{:L('Order_address_consignee')}：</span><input name="consignee" class="input-text" id="consignee"type="text" value="" /></li>
+								<li><span>{:L('Order_address_tel')}：</span><input name="tel" class="input-text"  id="tel"  type="text" value="" /></li>
+								<li><span>{:L('Order_address_mobile')}：</span><input name="mobile" class="input-text"  id="mobile" type="text" value=""/></li>
+								<li><span>{:L('Order_address_email')}：</span><input name="email"class="input-text"  id="email"type="text" value=""/></li>
+								</ul></div>
+							</div>
+						</div>
+						{/if}
+				</div>
+				<div class="c"></div>
 				<!--选择收货地址 end-->
 
 	 
@@ -162,9 +193,12 @@
 							<!-- - 代金券：<b id="ticket">0</b> -->
 						</div>
 						<div class="coutprice"> 
-						<ul>{:L('Order_is_invoice')}({:L('Order_invoice_fee')}:5%) <input class="radio" onclick="select_invoice();" name="invoice" type="checkbox" value="1" /> 
-						<label id="invoice_title" class='attr' style='display:none'><input type="hidden" id="invoice_fee" name="invoice_fee" value="5" />{:L('Order_invoice_title')}：<input type='text' class='normal' name='invoice_title' /></label>
+						{if $invoice_fee}
+						<ul>{:L('Order_is_invoice')}({:L('Order_invoice_fee')}:{$invoice_fee}%) <input class="radio" onclick="select_invoice();" name="invoice" type="checkbox" value="1" /> 
+						<label id="invoice_title" class='attr' style='display:none'><input type="hidden" id="invoice_fee" name="invoice_fee" value="{$invoice_fee}" />{:L('Order_invoice_title')}：<input type='text' class='normal' name='invoice_title' /></label>
 						</ul>
+						{/if}
+
 						<ul class="pricenumber"><b>{:L('Order_count_amount')}：<span class="red2">￥<b id='count_sum'></b></span> </b></ul>					 
 						</div>
 				</div>
@@ -183,23 +217,25 @@
 var  totalprice=0 ,is_invoice=0,invoice=0 ,addressid={$default_address[id]|intval},insure=0,is_shipping=0,shipping=0 , paymentid=0,pay_fee =0 ,ticket=0;
 
 function checkform(){
-
-	if(addressid==0){
-	art.dialog({ lock:true,icon: 'error',time:'2',content: "{:L(PLEASE_SAVE_ADDRESS)}"});
-    return false;
-	}
+	
+	{if $use_address}					 
+		if(addressid==0){
+			art.dialog({ lock:true,icon: 'error',time:'2',content: "{:L(PLEASE_SAVE_ADDRESS)}"});
+			return false;
+		}
+	{/if}
 
 	{if $shipping}
 		if(is_shipping==0){
-		art.dialog({ lock:true,icon: 'error',time:'2',content: '{:L(PLEASE_SELECT_SHIPING)}'});
-		return false;
+			art.dialog({ lock:true,icon: 'error',time:'2',content: '{:L(PLEASE_SELECT_SHIPING)}'});
+			return false;
 		}
 	{/if}
 	
 	{if $payment}
 		if(paymentid==0){
-		art.dialog({ lock:true,icon: 'error',time:'2',content: '{:L(PLEASE_SELECT_PAYMENT)}'});
-		return false;
+			art.dialog({ lock:true,icon: 'error',time:'2',content: '{:L(PLEASE_SELECT_PAYMENT)}'});
+			return false;
 		}
 	{/if}
 

@@ -56,14 +56,14 @@
  		 
 					<tr>
 						<td width="120">{:L('Order_payment_type')}</td>
-						<td>{$order.pay_name} &nbsp;<input type="button" class="button" value="{:L(edit)}" onclick="openwin('address','{:U($module_name."/edit?do=payment&id=".$order[id]."&isajax=1")}',title,600,350);"></td>
+						<td>{if $order[pay_name]}{$order.pay_name} &nbsp;<input type="button" class="button" value="{:L(edit)}" onclick="openwin('address','{:U($module_name."/edit?do=payment&id=".$order[id]."&isajax=1")}',title,600,350);">{else}N/A{/if}</td>
 						<td  width="120">{:L('ORDER_pay_time')}：</td>
 						<td  width="220">{if $order['pay_time']}{$order['pay_time']|toDate=###,'Y-m-d H:i:s'}{else}N/A{/if}</td>
 					</tr> 
 	 
 					<tr>
 						<td>{:L('Order_shipping_info')}：</td>
-						<td>{$order.shipping_name} &nbsp;<input type="button" class="button" value="{:L(edit)}" onclick="openwin('address','{:U($module_name."/edit?do=shipping&id=".$order[id]."&isajax=1")}',title,600,350);"></td>
+						<td>{if $order[shipping_name]}{$order.shipping_name} &nbsp;<input type="button" class="button" value="{:L(edit)}" onclick="openwin('address','{:U($module_name."/edit?do=shipping&id=".$order[id]."&isajax=1")}',title,600,350);">{else}N/A{/if}</td>
 						<td>{:L('ORDER_shipping_time')}：</td>
 						<td>{if $order['shipping_time']}{$order['shipping_time']|toDate=###,'Y-m-d H:i:s'}{else}N/A{/if}</td>
 					</tr>
@@ -89,21 +89,21 @@
 						<td width="120">{:L('address')}</td>
 						<td>{$Area[$order[province]]}  - {$Area[$order[city]]}   -  {$Area[$order[area]]} &nbsp;{$order.address}</td>
 						<td  width="120">{:L('realname')}</td>
-						<td width="220"> {$order.consignee}</td>
+						<td width="220"> {$order.consignee}&nbsp;</td>
 					</tr>		
 
 					<tr>
 						<td>{:L('telephone')}</td>
-						<td>{$order.tel}</td>			
+						<td>{$order.tel}&nbsp;</td>			
 						<td>{:L('zipcode')}</td>
-						<td>{$order.zipcode}</td>
+						<td>{$order.zipcode}&nbsp;</td>
 					</tr> 
 	 
 					<tr>
 						<td>{:L('mobile')}</td>
-						<td>{$order.mobile}</td>
+						<td>{$order.mobile}&nbsp;</td>
 						<td>{:L('email')}</td>
-						<td>{$order.email}</td>
+						<td>{$order.email}&nbsp;</td>
 					</tr>
 				</table>
 

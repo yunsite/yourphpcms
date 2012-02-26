@@ -94,6 +94,7 @@ return array(
 	'Order_invoice_fee'=>'税金',
 	'Warning'=>'警告',
 	'ORDER_EDIT_STATUS'=>'确定要修改订单状态为',
+	'PRICE'=>'价格',
  
 );
 ?>

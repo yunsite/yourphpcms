@@ -1,5 +1,4 @@
 <?php
-$sysconfig = F ('sys.config');
 $config	= array(
         'DEFAULT_THEME'		=> 'Default',
 		'LANG_AUTO_DETECT'=> false,
@@ -30,6 +29,9 @@ $config	= array(
 		'RBAC_ACCESS_TABLE'		=>	C('DB_PREFIX').'access',
 		'RBAC_NODE_TABLE'		=>  C('DB_PREFIX').'node',	
 		'DEFAULT_HOME_THEME' => C('DEFAULT_THEME'),
+		
+		'TMPL_CACHE_ON'		=> true,
+		'TMPL_CACHE_TIME'	=> 3600,
 		//'TMPL_DETECT_THEME'     => true
 		//'LANG_SWITCH_ON'		=> true,
 );
