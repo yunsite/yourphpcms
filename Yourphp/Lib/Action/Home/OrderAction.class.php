@@ -128,29 +128,31 @@ class OrderAction extends BaseAction
 	public function done(){
 	
 
-		if($this->Config['isuserbuy'] && empty($this->_userid))$this->error ( L('do_empty'));
+		if($this->Config['isuserbuy'] && empty($this->_userid))$this->error ( L('NOLOGIN'));
 
 		$model = M('Order');
 		$userid = intval($this->_userid) ;
 		if($userid){			
 			$user = M('User')->find($userid);
-			if (!$user){ $this->assign('jumpUrl',URL('User-Login/index'));$this->error ( L('do_empty'));}
+			if (!$user){ $this->assign('jumpUrl',URL('User-Login/index'));$this->error ( L('NOLOGIN'));}
 		}
 
 
 		/* 检查购物车中是否有商品 */
 		$cart_count = $this->dao->where("sessionid = '$this->sessionid'")->count();
-		if ($cart_count == 0) $this->error ( L('do_empty'));
+		if ($cart_count == 0) $this->error ( L('ORDER_NO_PRODUCT'));
 
 		 /* 检查收货人信息是否完整 */
-		if($this->_userid){
-			$address = M('User_address')->where("userid='$this->_userid' AND isdefault='1' ")->find();
-		}else{
-			$address = unserialize($_COOKIE['YP_guest_address']);
-		}
-		if(!$address['province'] || !$address['city'] || !$address['area'] || !$address['address'] || !$address['consignee'] || !$address['mobile']){
-			$this->assign('jumpUrl',URL('Home-Order/checkout'));
-			$this->error ( L('do_empty'));
+		if($_POST['city']){
+			if($this->_userid){
+				$address = M('User_address')->where("userid='$this->_userid' AND isdefault='1' ")->find();
+			}else{
+				$address = unserialize($_COOKIE['YP_guest_address']);
+			}
+			if(!$address['province'] || !$address['city'] || !$address['area'] || !$address['address'] || !$address['consignee'] || !$address['mobile']){
+				$this->assign('jumpUrl',URL('Home-Order/checkout'));
+				$this->error ( L('SHIPPING_ADDRESS_NO_FULL'));
+			}
 		}
 
 		$order=array();
@@ -200,16 +202,16 @@ class OrderAction extends BaseAction
 		$order['pay_status']= 0;
 		$order['shipping_status']= 0;
 
-		$order['consignee'] = $address['consignee'];
+		$order['consignee'] = $address['consignee'] ? $address['consignee'] : $_POST['consignee'];
 		$order['country'] =  intval($address['country']);
 		$order['province']  =  intval($address['province']);
 		$order['city'] =  intval($address['city']);
 		$order['area'] =  intval($address['area']);
-		$order['address'] =  $address['address'] ? $address['address'] :'';
-		$order['zipcode'] =  $address['zipcode'] ? $address['zipcode'] : '';
-		$order['tel'] =  $address['tel'] ? $address['tel'] :'';
-		$order['mobile'] =  $address['mobile'] ? $address['mobile'] : '';
-		$order['email'] =  $address['email'] ? $address['email'] : '';
+		$order['address'] =  $address['address'] ? $address['address'] : $_POST['address'];
+		$order['zipcode'] =  $address['zipcode'] ? $address['zipcode'] : $_POST['zipcode'];
+		$order['tel'] =  $address['tel'] ? $address['tel'] : $_POST['tel'];
+		$order['mobile'] =  $address['mobile'] ? $address['mobile'] :  $_POST['moblie'];
+		$order['email'] =  $address['email'] ? $address['email'] :  $_POST['email'];
 
 		$order['shipping_id'] =  intval($Shipping['id']);
 		$order['shipping_name'] =  $Shipping['name'] ?  $Shipping['name'] : '';
@@ -221,8 +223,8 @@ class OrderAction extends BaseAction
 		
 
 		$order['add_time'] =  time();
-		$orderid= $model->add($order);echo  $model->getLastsql();
-
+		foreach($order as $key=>$r){if($r==null)$order[$key]='';}
+		$orderid= $model->add($order);
 		if($orderid){
 			$order['sn'] = date("Ymd"). sprintf('%06d',$orderid); 
 			$model->save(array('id'=>$orderid,'sn'=>$order['sn']));
@@ -232,34 +234,36 @@ class OrderAction extends BaseAction
 				M('Order_data')->add($cart[$key]);
 			}
 			$this->dao->where("sessionid = '$this->sessionid'")->delete();
-
-			if($order['pay_code']=='Balance'){				
-				if( $order['order_amount']>0 && $order['order_amount'] <= $user['amount']){
-					//减用户余额
-					$r =M('User')->where("userid = '$userid'")->setDec('amount',$order['order_amount']);
-					if($r){
-						$orderup['id'] = $orderid;
-						$orderup['status'] = 1;
-						$orderup['pay_status'] = 2;
-						$orderup['pay_time'] =time();
-						$model->save($orderup);
-					}else{
-						$this->error ( L('do_error'));
+			
+			if($order['pay_id']){
+				if($order['pay_code']=='Balance'){				
+					if( $order['order_amount']>0 && $order['order_amount'] <= $user['amount']){
+						//减用户余额
+						$r =M('User')->where("userid = '$userid'")->setDec('amount',$order['order_amount']);
+						if($r){
+							$orderup['id'] = $orderid;
+							$orderup['status'] = 1;
+							$orderup['pay_status'] = 2;
+							$orderup['pay_time'] =time();
+							$model->save($orderup);
+						}else{
+							$this->error ( L('do_error'));
+						}
+					}else{					
+						$paybutton='<span><input type="button"  class="button" onclick="window.location.href =\''.URL("User-Pay/Recharge").'\'" value="'.L('Recharge').'" /></span>';
+						$this->assign('paybutton',$paybutton);
 					}
-				}else{					
-					$paybutton='<span><input type="button"  class="button" onclick="window.location.href =\''.URL("User-Pay/Recharge").'\'" value="'.L('Recharge').'" /></span>';
+				}else{
+					$pay_code = $order['pay_code'];
+					$aliapy_config = unserialize($Payment['pay_config']);
+					$aliapy_config['order_sn']= $order['sn'];
+					$aliapy_config['order_amount']= $order['order_amount'];
+					$aliapy_config['body'] = $order['consignee'].' '.$order['postmessage'];
+					import("@.Pay.".$pay_code);
+					$pay=new $pay_code($aliapy_config);
+					$paybutton = $pay->get_code();
 					$this->assign('paybutton',$paybutton);
 				}
-			}else{
-				$pay_code = $order['pay_code'];
-				$aliapy_config = unserialize($Payment['pay_config']);
-				$aliapy_config['order_sn']= $order['sn'];
-				$aliapy_config['order_amount']= $order['order_amount'];
-				$aliapy_config['body'] = $order['consignee'].' '.$order['postmessage'];
-				import("@.Pay.".$pay_code);
-				$pay=new $pay_code($aliapy_config);
-				$paybutton = $pay->get_code();
-				$this->assign('paybutton',$paybutton);
 			}
 		}
 

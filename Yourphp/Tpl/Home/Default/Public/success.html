@@ -19,6 +19,25 @@
 	{:L('msg_system_1')} <span style="color:blue;font-weight:bold">{$waitSecond}</span> {:L('msg_system_2')} <a href="{$jumpUrl}">{:L('click_this')}</a> {:L('jump')}
 	</notpresent>
 	</div>
+	
+<?php if ($dialog):?>
+<script type="text/javascript" src="./Public/Js/jquery.min.js"></script> 
+<script type="text/javascript" src="./Public/Js/jquery.artDialog.js?skin=default"></script> 
+<script type="text/javascript" src="./Public/Js/iframeTools.js"></script> 
+<script type="text/javascript" src="./Public/Js/my.js"></script> 
+<script type="text/javascript" src="./Public/Js/swfupload.js"></script> 
+<script style="text/javascript"> 
+ setTimeout(function(){ 
+ <?php if ($jumpUrl!=1):?>art.dialog.open.origin.location.href='{$jumpUrl}';<?php endif;?>
+ art.dialog.close(); 
+ },{:$waitSecond*1000}); 
+</script>
+<?php endif;?>
+
+<?php if ($script):?>
+<script style="text/javascript">{$script}</script>
+<?php endif;?>
+
 </div>
 </body>
 </html>

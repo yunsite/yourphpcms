@@ -32,8 +32,8 @@ class SearchAction extends BaseAction
 		
 		
 		if(APP_LANG){
-			$lang = LANG_ID;
-			$langid= $this->Lang[$lang]['id'];
+			$lang = LANG_NAME;
+			$langid= LANG_ID;
 			$where .=" and lang= $langid";
 			$this->assign('lang',$lang);
 			$this->assign('langid',$langid);
