@@ -86,6 +86,20 @@ return array (
   'LOGIN_EMAIL_TO_REGISTER' => '请登陆邮箱完成注册！',
   'PAY_FAIL' =>'支付失败！',
   'PAY_OK' =>'支付成功！',
+  'SELECT_CATEGORY' => '选择栏目',
+  'status' => '状态',
+  'isshenhe' => '已审核',
+  'noshenhe' => '未审核',
+  'LISTORDER'=>'排序',
+  'IDLISTORDER'=>'ID排序',
+  'ORDER_BY_ASC'=>'升序',
+  'ORDER_BY_DESC'=>'降序',
+  'CREATETIME'=>'时间',
+  'CHAXUN'=>'查询',
+  'KEYWORDS'=>'关键词',
+  'CATID'=>'栏目',
+  'DESCRIPTION'=>'简介',
+  'FROMLINK'=>'来源链接',
 
 );
 ?>
