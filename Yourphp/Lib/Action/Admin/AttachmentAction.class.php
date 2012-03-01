@@ -16,12 +16,24 @@ class AttachmentAction extends  Action {
     function _initialize()
     {	
 		$this->isadmin= $_REQUEST['isadmin'] ? $_REQUEST['isadmin'] : 0;
+		$this->sysConfig = F('sys.config');
 		if(APP_LANG){
+			$this->Lang = F('Lang');
+			$this->assign('Lang',$this->Lang);
+			if($_GET['l']){
+				if(!$this->Lang[$_GET['l']]['status'])$this->error ( L ( 'NO_LANG' ) );
+				$lang=$_GET['l'];
+			}else{
+				$lang=$this->sysConfig['DEFAULT_LANG'];
+			}
+			define('LANG_NAME', $lang);
+			define('LANG_ID', $this->Lang[$lang]['id']);
+
 			$this->Config = F('Config_'.LANG_NAME);			
 		}else{
 			$this->Config = F('Config');		
 		} 
-		$this->sysConfig = F('sys.config');
+		
 		if($_POST['PHPSESSID'] && $_POST['swf_auth_key'] && $_POST['userid']){
 			if($_POST['swf_auth_key']==sysmd5($_POST['PHPSESSID'].$_POST['userid'],$this->sysConfig['ADMIN_ACCESS'])){
 				$this->userid = $_POST['userid'];
@@ -110,7 +122,7 @@ class AttachmentAction extends  Action {
 		 //设置上传文件规则 
         $upload->saveRule = uniqid; 
 
-       
+
         //删除原图 
         $upload->thumbRemoveOrigin = true; 
         if (!$upload->upload()) { 

@@ -15,7 +15,7 @@ header("Content-type: text/html; charset=utf-8");
 define('YOURPHP', 'YourPHP');
 define('UPLOAD_PATH', './Uploads/');
 define('VERSION', 'v2.1 RC1');
-define('UPDATETIME', '20120223');
+define('UPDATETIME', '20120301');
 define('APP_NAME', 'Yourphp');
 define('APP_PATH', './Yourphp/');
 define('APP_LANG', true);

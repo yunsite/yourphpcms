@@ -27,7 +27,7 @@ class PostAction extends BaseAction
 		if($this->moduleid){
 			$this->assign ('moduleid',$this->moduleid);
 			$module =$this->module[$this->moduleid]['name'];
-			$this->dao = D('Admin/'.$module);
+			$this->dao = D($module);
 			$fields = F($this->moduleid.'_Field');
 			foreach($fields as $key => $res){
 				if($res['unpostgroup']) $res['unpostgroup']=explode(',',$res['unpostgroup']);
@@ -96,7 +96,8 @@ class PostAction extends BaseAction
 		$form->doThumb  = $this->Role[$this->_groupid]['allowattachment'] ? 1 : 0;
 		$form->doAttach = $this->Role[$this->_groupid]['allowattachment'] ? 1 : 0;;
 		$this->assign ( 'form', $form );
-		$template =  file_exists(TEMPLATE_PATH.'/'.GROUP_NAME.'/'.MODULE_NAME.'_edit.html') ? MODULE_NAME.'_edit' : 'Content_edit';
+		$module = $this->module[$this->moduleid]['name']; 
+		$template =  file_exists(TMPL_PATH.'User/'.$this->sysConfig['DEFAULT_THEME'].'/'.$module.'_edit.html') ? $module.':edit' : 'Post:edit';
 		$this->display ( $template);
 	}
 
@@ -114,7 +115,8 @@ class PostAction extends BaseAction
 		$form->doThumb  = $this->Role[$this->_groupid]['allowattachment'] ? 1 : 0;
 		$this->assign ( 'vo', $vo );		
 		$this->assign ( 'form', $form );
-		$template =  file_exists(TEMPLATE_PATH.'/'.GROUP_NAME.'/'.MODULE_NAME.'_edit.html') ? MODULE_NAME.'_edit' : 'Content_edit';
+		$module = $this->module[$this->moduleid]['name']; 
+		$template =  file_exists(TMPL_PATH.'User/'.$this->sysConfig['DEFAULT_THEME'].'/'.$module.'_edit.html') ? $module.':edit' : 'Post:edit';
 		$this->display ( $template);
 	}
 
@@ -125,7 +127,7 @@ class PostAction extends BaseAction
     public function insert()
     {
 		if(!in_array($_COOKIE['YP_groupid'],explode(',',$this->categorys[$_POST['catid']]['postgroup']))) $this->error (L('add_no_postgroup'));
-		$c=A('Admin.Content');
+		$c=A('Admin/Content');
 		$_POST['ip'] = get_client_ip();
 		$userid = $_POST['userid'] ? $_POST['userid'] : $this->_userid;
 		$username = $_POST['username'] ? $_POST['username'] : $this->_username ;
@@ -139,7 +141,7 @@ class PostAction extends BaseAction
 		}
 		if(!in_array($_COOKIE['YP_groupid'],explode(',',$this->categorys[$_POST['catid']]['postgroup']))) $this->error (L('add_no_postgroup'));
 
-		$c=A('Admin.Content');
+		$c=A('Admin/Content');
 		$c->update($this->module[$this->moduleid]['name'],$this->fields);
 	}
  
