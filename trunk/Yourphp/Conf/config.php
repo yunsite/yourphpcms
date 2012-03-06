@@ -1,8 +1,8 @@
 <?php
 $database = require ('./config.php');
-$sys_config = F("sys.config");
+$sys_config =  include DATA_PATH.  'sys.config.php';
 if(empty($sys_config))$sys_config=array();
-if($sys_config['URL_MODEL']) $RULES = F('Routes');
+if($sys_config['URL_MODEL']) $RULES = include DATA_PATH.  'Routes.php';
 $config	= array(
 		'DEFAULT_THEME'		=> 'Default',
 		'DEFAULT_CHARSET' => 'utf-8',
