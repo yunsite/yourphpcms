@@ -369,6 +369,7 @@ class AdminbaseAction extends Action
 			if(false!==$model->delete($id)){
 				if(in_array($name,$this->cache_model)) savecache($name);
 				if($this->moduleid)delattach(array('moduleid'=>$this->moduleid,'id'=>$id));
+				if($name=='Order')M('Order_data')->where('order_id='.$id)->delete();
 				$this->success(L('delete_ok'));
 			}else{
 				$this->error(L('delete_error').': '.$model->getDbError());
@@ -393,6 +394,7 @@ class AdminbaseAction extends Action
 			if(false!==$model->delete($id)){
 				if(in_array($name,$this->cache_model)) savecache($name);
 				if($this->moduleid)delattach("moduleid=$this->moduleid and id in($id)");
+				if($name=='Order')M('Order_data')->where('order_id in('.$id.')')->delete();
 				$this->success(L('delete_ok'));
 			}else{
 				$this->error(L('delete_error').': '.$model->getDbError());

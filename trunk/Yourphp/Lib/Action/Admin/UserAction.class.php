@@ -49,6 +49,7 @@ class UserAction extends AdminbaseAction {
 
 	function insert(){
 		$user=$this->dao;
+		$_POST['password'] = sysmd5($_POST['password']);
 		if($data=$user->create()){
 			if(false!==$user->add()){
 				$uid=$user->getLastInsID();

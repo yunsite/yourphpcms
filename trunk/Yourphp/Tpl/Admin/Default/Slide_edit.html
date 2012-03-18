@@ -5,12 +5,10 @@
 
 function edittpl(){ 
 	var file= $('#tpl').val();
-	url = "{:U('Slide/edittpl')}&tpl="+file
-	openwin("edittpl",url,"{:L(EDIT_TPL)}",addoption,700,550,true);
+	url = "{:U('Slide/edittpl')}&isajax=1&tpl="+file
+	openwin("edittpl",url,"{:L(EDIT_TPL)}",700,550,true);
 }
-function addoption(iframeWin, topWin){
-		art.dialog({ time: 1,content: '{:L(edit_ok)}'});
-}
+ 
  
 </script>
 

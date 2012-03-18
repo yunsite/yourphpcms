@@ -148,7 +148,7 @@ class UploadFile extends Think
             return false;
         }
 
-		if(getimagesize($file['tmp_name'])) {
+		if(in_array(strtolower($file['extension']),array('gif','jpg','jpeg','bmp','png')) && getimagesize($file['tmp_name'])) {
 			$tmp_imagesize = @getimagesize($file['tmp_name']);
 			list($tmp_width, $tmp_height, $tmp_type) = (array)$tmp_imagesize;
 			$tmp_size = $tmp_width * $tmp_height;

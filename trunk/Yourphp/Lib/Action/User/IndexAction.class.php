@@ -24,18 +24,22 @@ class IndexAction extends BaseAction
 		$this->assign('bcid',0);
 		$user = $this->dao->find($this->_userid);
 		$this->assign('vo',$user);
+		unset($_POST['status']);
+		unset($_POST['groupid']);
+		unset($_POST['amount']);
+		unset($_POST['point']);
     }
 
     public function index()
     {
         $this->display();
     }
-
+	
 	public function profile()
     {	 
-
 		if($_POST['dosubmit']){
-			if(!$this->dao->create()) {
+			$_POST['id']=$this->_userid;
+			if(!$this->dao->create($_POST)) {
 				$this->error($this->dao->getError());
 			}
 			$this->dao->update_time = time();
@@ -55,8 +59,8 @@ class IndexAction extends BaseAction
 		
 		if($_POST['dosubmit']){
 		
-			
-			if(!$this->dao->create()) {
+			$_POST['id']=$this->_userid;
+			if(!$this->dao->create($_POST)) {
 				$this->error($this->dao->getError());
 			}
 			$this->dao->update_time = time();
@@ -88,6 +92,7 @@ class IndexAction extends BaseAction
     {	 
 		
 		if($_POST['dosubmit']){
+
 			if(md5($_POST['verify']) != $_SESSION['verify']) {
 				$this->error(L('error_verify'));
 			}

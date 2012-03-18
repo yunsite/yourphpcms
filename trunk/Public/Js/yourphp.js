@@ -85,15 +85,16 @@ function donghua(obj){
 
 function showon(obj,onobj,id){
 	$(obj+' '+ onobj).click(function(){
-		if($(obj).hasClass('on')){
-			$(obj).removeClass('on');
+ 		//$(this).parent().addClass('on').siblings().removeClass('on');
+		if($(this).parent().hasClass('on')){
+			$(this).parent().removeClass('on');
 		}else{
-		  $(obj).addClass('on');
+			$(this).parent().addClass('on');
 		}
 	});
 	if(id){
 		$('#catlist_'+id).addClass('on');
-		$('#catlist_'+id).parents('.folder').addClass('on');
+		$('#catlist_'+id).parents('.folder').removeClass('on');
 	}
 }
 
