@@ -56,7 +56,7 @@ INSERT INTO `yourphp_config` VALUES ('29', 'PAGE_LISTROWS', '列表分页数', '
 INSERT INTO `yourphp_config` VALUES ('30', 'URL_MODEL', 'URL访问模式', '6', '0', '0');
 INSERT INTO `yourphp_config` VALUES ('31', 'URL_PATHINFO_DEPR', '参数分割符', '6', '/', '0');
 INSERT INTO `yourphp_config` VALUES ('32', 'URL_HTML_SUFFIX', 'URL伪静态后缀', '6', '.html', '0');
-INSERT INTO `yourphp_config` VALUES ('33', 'TOKEN_ON', '令牌验证', '6', '0', '0');
+INSERT INTO `yourphp_config` VALUES ('33', 'TOKEN_ON', '令牌验证', '6', '1', '0');
 INSERT INTO `yourphp_config` VALUES ('34', 'TOKEN_NAME', '令牌表单字段', '6', '__hash__', '0');
 INSERT INTO `yourphp_config` VALUES ('35', 'TMPL_CACHE_ON', '模板编译缓存', '6', '0', '0');
 INSERT INTO `yourphp_config` VALUES ('36', 'TMPL_CACHE_TIME', '模板缓存有效期', '6', '-1', '0');
@@ -69,7 +69,7 @@ INSERT INTO `yourphp_config` VALUES ('42', 'DEFAULT_THEME', '默认模板', '6',
 INSERT INTO `yourphp_config` VALUES ('43', 'HOME_ISHTML', '首页生成html', '6', '1', '0');
 INSERT INTO `yourphp_config` VALUES ('44', 'URL_URLRULE', 'URL', '6', '{$catdir}/show/{$id}.html|{$catdir}/show/{$id}_{$page}.html:::{$catdir}/|{$catdir}/{$page}.html', '0');
 INSERT INTO `yourphp_config` VALUES ('45', 'DEFAULT_LANG', '默认语言', '6', 'cn', '0');
-INSERT INTO `yourphp_config` VALUES ('46', 'member_register', '允许新会员注册', '3', '1', '1');
+INSERT INTO `yourphp_config` VALUES ('46', 'member_register', '允许新会员注册', '3', '0', '1');
 INSERT INTO `yourphp_config` VALUES ('47', 'member_emailcheck', '新会员注册需要邮件验证', '3', '0', '1');
 INSERT INTO `yourphp_config` VALUES ('48', 'member_registecheck', '新会员注册需要审核', '3', '1', '1');
 INSERT INTO `yourphp_config` VALUES ('49', 'member_login_verify', '注册登陆开启验证码', '3', '1', '1');
@@ -181,10 +181,8 @@ INSERT INTO `yourphp_field` VALUES ('102','9','skin','风格样式','','0','0','
 -- 导出`yourphp_kefu`表中的数据 `yourphp_kefu`
 --
 INSERT INTO `yourphp_kefu` VALUES ('1','1','4','1306807701','咨询电话','4','0317-5022625','0','1');
-INSERT INTO `yourphp_kefu` VALUES ('2','1','3','1306808546','技术咨询','1','147613338','q3','1');
-INSERT INTO `yourphp_kefu` VALUES ('3','1','3','1306808886','QQ客服','1','2579766780','q3','1');
-INSERT INTO `yourphp_kefu` VALUES ('4','1','2','1306811439','MSN客服','2','snliuxun@msn.cn','m2','1');
-INSERT INTO `yourphp_kefu` VALUES ('5','1','0','1306830001','旺旺客服','3','snliuxun','w1','1');
+INSERT INTO `yourphp_kefu` VALUES ('2','1','3','1306808886','QQ客服','1','2579766780','q3','1');
+INSERT INTO `yourphp_kefu` VALUES ('3','1','0','1306830001','旺旺客服','3','snliuxun','w1','1');
 -- 
 -- 导出`yourphp_link`表中的数据 `yourphp_link`
 --
@@ -372,7 +370,7 @@ INSERT INTO `yourphp_lang` VALUES ('1', '中文', 'cn', 'cn.gif', '1', '', '', '
 INSERT INTO `yourphp_lang` VALUES ('2', '英文', 'en', 'en.gif', '1', '', '', '2');
 
 
-INSERT INTO `yourphp_block` VALUES ('1', 'about', '首页公司简介', '1', '<img src=\"Yourphp/Tpl/Default/Public/images/cpbox.jpg\" alt=\"\" align=\"left\" height=\"160\" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Yourphp网站管理系统,是一款完全开源免费的PHP+MYSQL系统.核心采用了Thinkphp框架等众多开源软件,同时核心功能也作为开源软件发布。 集众多开源项目于一身的特点,使本系统从安全,效率,易用及可扩展性上更加突出.程序内置SEO优化机制，使企业网站更容易被推广.拥有企业网站常用的模块功能（企业简介模块、新闻模块、产品模块、下载模块、图片模块、招聘模块、在线留言、友情链接、会员与权限管理）。');
+INSERT INTO `yourphp_block` VALUES ('1', 'about', '首页公司简介', '1', '<img src=\"Yourphp/Tpl/Home/Default/Public/images/cpbox.jpg\" alt=\"\" align=\"left\" height=\"160\" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Yourphp网站管理系统,是一款完全开源免费的PHP+MYSQL系统.核心采用了Thinkphp框架等众多开源软件,同时核心功能也作为开源软件发布。 集众多开源项目于一身的特点,使本系统从安全,效率,易用及可扩展性上更加突出.程序内置SEO优化机制，使企业网站更容易被推广.拥有企业网站常用的模块功能（企业简介模块、新闻模块、产品模块、下载模块、图片模块、招聘模块、在线留言、友情链接、会员与权限管理）。');
 INSERT INTO `yourphp_block` VALUES ('2', 'contact', '右侧联系我们', '1', '<li><label>电 &nbsp;&nbsp;话:</label>0317-5022625</li> <li><label>手 &nbsp;&nbsp;机:</label>13292793176</li> <li><label>联系人:</label>liuxun</li> <li><label>邮 &nbsp;&nbsp;箱:</label>admin@yourphp.cn</li> <li><label>网 &nbsp;&nbsp;址:</label>http://demo2.yourphp.cn</li> <li><label>地 &nbsp;&nbsp;址:</label>河北省沧州市肃宁县宅南村</li> ');
 INSERT INTO `yourphp_block` VALUES ('3', 'footer', '页底', '1', '<p>Powered by <a href=\"http://www.yourphp.cn\" target=\"_blank\"><span style=\"color:#000000;\">Yourphp</span></a> 版权所有 &copy; 2008-2011, All right reserved</p>');
 INSERT INTO `yourphp_slide` VALUES ('1', '首页幻灯片', '', '', 'Slide_1', '920', '300', '', '1', '1');

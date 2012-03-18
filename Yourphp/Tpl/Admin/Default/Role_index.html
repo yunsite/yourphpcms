@@ -27,7 +27,7 @@
       		<td align="center">
 			<a href="{:U('Role/edit',array(id=>$role['id']))}">{:L('edit')}</a> |
 			<a href="javascript:confirm_delete('{:U('Role/delete',array(id=>$role['id']))}')">{:L('delete')}</a> |
-      		<a href="javascript: openwin(\'license\',\'{:U('Access/index',array(rid=>$role[id]))}\','{:L('license')}',500,500);">{:L('license')}</a> |
+      		<a href="javascript: openwin(\'license\',\'{:U('Access/index',array(rid=>$role[id],isajax=>1))}\','{:L('license')}',500,500);">{:L('license')}</a> |
       		<a href="{:U('User/index',array(groupid=>$role['id']))}">{:L('user_list')}</a>
       		</td>
       		</tr>

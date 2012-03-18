@@ -15,9 +15,9 @@ class SlideAction extends AdminbaseAction {
     function _initialize()
     {	
 		parent::_initialize();
-		$this->Tplpath = TMPL_PATH.$this->sysConfig['DEFAULT_THEME'].'/home/';
+		$this->Tplpath = TMPL_PATH.'/Home/'.$this->sysConfig['DEFAULT_THEME'].'/';
 		//$this->Flashpath = TMPL_PATH.$this->sysConfig['DEFAULT_THEME'].'/Public/flash/';
-		$this->Xmlpath = TMPL_PATH.$this->sysConfig['DEFAULT_THEME'].'/Public/xml/';
+		$this->Xmlpath = TMPL_PATH.'/Home/'.$this->sysConfig['DEFAULT_THEME'].'/Public/xml/';
 		 
     }
  
@@ -37,12 +37,14 @@ class SlideAction extends AdminbaseAction {
 		//$this->assign ( 'Flash', $Flash);
 	}
 	function edittpl(){
-		$file = $this->Tplpath.$_REQUEST['tpl'].'.html';
+		$file = $this->Tplpath.'Slide_'.$_REQUEST['tpl'].'.html';
 		if($_POST['content']){
-			file_put_contents($file,htmlspecialchars_decode(stripslashes($_POST['content'])));
+			file_put_contents($file,htmlspecialchars_decode(stripslashes($_POST['content'])));			
+			$this->success (L('do_ok'));
 		}else{		
 			$content = htmlspecialchars(file_get_contents($file));
-			echo ' <form method="post" id="myform"  action="'.U('Slide/edittpl').'">'.$_GET['tpl'].'.html<input type="hidden" name="tpl" value="'.$_GET['tpl'].'"/><textarea  name="content" id="content" style="width:100%;height:500px;"  >'.$content.'</textarea>  </form>';
+			echo ' <form method="post" id="myform"  action="'.U('Slide/edittpl').'">Slide_'.$_GET['tpl'].'.html<input type="hidden" name="tpl" value="'.$_GET['tpl'].'"/><textarea  name="content" id="content" style="width:100%;height:500px;"  >'.$content.'</textarea>  <input type="hidden" name="isajax" value="1" />
+			 <input name="dosubmit" type="submit" value="1" style="display:none;"class="hidden" id="dosubmit"> </form>';
 		}
 	}
 

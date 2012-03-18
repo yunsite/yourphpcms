@@ -138,6 +138,13 @@ class BaseAction extends Action
 		}
 		$this->assign ( 'fields', $fields); 
 
+
+		$seo_title = $cat['title'] ? $cat['title'] : $cat['catname'];
+		$this->assign ('seo_title',$seo_title);
+		$this->assign ('seo_keywords',$cat['keywords']);
+		$this->assign ('seo_description',$cat['description']);
+				
+
 		if($module=='Guestbook'){
 			$where['status']=array('eq',1);
 			$this->dao= M($module);
@@ -163,12 +170,6 @@ class BaseAction extends Action
 		}elseif($module=='Page'){
 			$modle=M('Page');
 			$data = $modle->find($catid);
-			
-			$seo_title = $cat['title'] ? $cat['title'] : $data['title'];
-			$this->assign ('seo_title',$seo_title);
-			$this->assign ('seo_keywords',$data['keywords']);
-			$this->assign ('seo_description',$data['description']);
-
 			unset($data['id']);
 
 			//分页

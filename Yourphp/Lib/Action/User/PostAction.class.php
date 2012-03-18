@@ -129,8 +129,8 @@ class PostAction extends BaseAction
 		if(!in_array($_COOKIE['YP_groupid'],explode(',',$this->categorys[$_POST['catid']]['postgroup']))) $this->error (L('add_no_postgroup'));
 		$c=A('Admin/Content');
 		$_POST['ip'] = get_client_ip();
-		$userid = $_POST['userid'] ? $_POST['userid'] : $this->_userid;
-		$username = $_POST['username'] ? $_POST['username'] : $this->_username ;
+		$userid = $this->_userid;
+		$username =  $this->_username ;
 		$c->insert($this->module[$this->moduleid]['name'],$this->fields,$userid, $username,$this->_groupid);
     }
 

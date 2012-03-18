@@ -143,7 +143,7 @@ class OrderAction extends BaseAction
 		if ($cart_count == 0) $this->error ( L('ORDER_NO_PRODUCT'));
 
 		 /* 检查收货人信息是否完整 */
-		if($_POST['city']){
+		if($this->Config['use_address']){
 			if($this->_userid){
 				$address = M('User_address')->where("userid='$this->_userid' AND isdefault='1' ")->find();
 			}else{
