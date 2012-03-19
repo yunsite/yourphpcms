@@ -62,7 +62,7 @@ class OrderAction extends BaseAction
 		$this->assign('Shipping',$Shipping);
 
 
-		if($order['status']<2 && $order['pay_status']<2){
+		if($order['pay_code'] && $order['status']<2 && $order['pay_status']<2){
 			
 			$aliapy_config = unserialize($Payment['pay_config']);
 			$aliapy_config['order_sn']= $order['sn'];

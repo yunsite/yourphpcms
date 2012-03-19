@@ -117,3 +117,8 @@ select{ vertical-align:middle;background:none repeat scroll 0 0 #F9F9F9;border-c
 em.error {overflow:hidden;zoom:1;background:url("../Images/unchecked.gif") no-repeat 0px 0px;  padding-left: 19px;color:red;}
 em.success {overflow:hidden;zoom:1;background:url("../Images/checked.gif") no-repeat 0px 0px;  padding-left: 19px;color:red;}
 
+
+.order_table   { width:100%; margin:0px auto;background:#E0E0E0}
+.order_table th {background:#F7F7F7;color:#666;height:35px;}
+.order_table td {background:#FFF;padding-left:6px;}
+.order_table td .num {text-align:center;}
