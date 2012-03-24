@@ -56,7 +56,7 @@ class PostAction extends BaseAction
 
 				if($this->categorys){
 					foreach ($this->categorys as $r){
-						if($r['type']==1 || !in_array($_COOKIE['YP_groupid'], explode(',',$r['postgroup']))) continue;
+						if($r['type']==1 || !in_array($this->_groupid, explode(',',$r['postgroup']))) continue;
 						if($r['moduleid'] != $this->moduleid || $r['child']){
 							$arr= explode(",",$r['arrchildid']);
 							$show=0;
@@ -126,7 +126,7 @@ class PostAction extends BaseAction
      */
     public function insert()
     {
-		if(!in_array($_COOKIE['YP_groupid'],explode(',',$this->categorys[$_POST['catid']]['postgroup']))) $this->error (L('add_no_postgroup'));
+		if(!in_array($this->_groupid,explode(',',$this->categorys[$_POST['catid']]['postgroup']))) $this->error (L('add_no_postgroup'));
 		$c=A('Admin/Content');
 		$_POST['ip'] = get_client_ip();
 		$userid = $this->_userid;
@@ -139,7 +139,7 @@ class PostAction extends BaseAction
 		if(!$this->_userid){
 			$this->error(L('nologin'));
 		}
-		if(!in_array($_COOKIE['YP_groupid'],explode(',',$this->categorys[$_POST['catid']]['postgroup']))) $this->error (L('add_no_postgroup'));
+		if(!in_array($this->_groupid,explode(',',$this->categorys[$_POST['catid']]['postgroup']))) $this->error (L('add_no_postgroup'));
 
 		$c=A('Admin/Content');
 		$c->update($this->module[$this->moduleid]['name'],$this->fields);

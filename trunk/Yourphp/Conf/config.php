@@ -1,7 +1,7 @@
 <?php
 $database = require ('./config.php');
 $sys_config =  include DATA_PATH.  'sys.config.php';
-if(empty($sys_config))$sys_config=array();
+if(empty($sys_config)){$sys_config=array();$sys_config['LAYOUT_ON']=1;}
 if($sys_config['URL_MODEL']) $RULES = include DATA_PATH.  'Routes.php';
 $config	= array(
 		'DEFAULT_THEME'		=> 'Default',
@@ -22,7 +22,7 @@ $config	= array(
 		'COOKIE_PREFIX'=>'YP_',
 		'COOKIE_EXPIRE'=>'',
 		'VAR_PAGE' => 'p',
-		'LAYOUT_ON'=>true,
+		'LAYOUT_HOME_ON'=>$sys_config['LAYOUT_ON'],
 		'URL_ROUTE_RULES' => $RULES,
 		'TMPL_EXCEPTION_FILE' => APP_PATH.'/Tpl/Home/Default/Public/exception.html'
 );

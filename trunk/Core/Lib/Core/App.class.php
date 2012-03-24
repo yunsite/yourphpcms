@@ -69,6 +69,7 @@ class App {
         //define('THEME_NAME',   $templateSet);                  // 当前模板主题名称
         $group   =  defined('GROUP_NAME')?GROUP_NAME.'/':'';
 		if($_GET['iscreatehtml']){
+			C('LAYOUT_ON',C('LAYOUT_HOME_ON'));
 			$group   ='Home/'; //liuxun add
 			define('THEME_NAME',  C('DEFAULT_HOME_THEME'));             
 		}else{

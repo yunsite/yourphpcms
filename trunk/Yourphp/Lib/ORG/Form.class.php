@@ -476,8 +476,11 @@ class Form extends Think {
 	public function typeid($info,$value){
         $newinfo = $info;
         $types=F('Type');
+	
  
-		$info['setup']=is_array($info['setup']) ? $info['setup'] : string2array($info['setup']);		
+		$info['setup']=is_array($info['setup']) ? $info['setup'] : string2array($info['setup']);	
+		$id = $field = $info['field'];
+		$value = $value ? $value : $this->data[$field];
 		$parentid=$info['setup']['default'];
 		$keyid = $types[$parentid]['keyid'];
 
@@ -489,7 +492,6 @@ class Form extends Think {
 			$array[] = $r;
 			$options[$key]=$r['name'];
 		}
-		$id = $field = $info['field'];
 
 		import ( '@.ORG.Tree' );
 		$str  = "<option value='\$typeid' \$selected>\$spacer \$name</option>";
@@ -499,22 +501,11 @@ class Form extends Think {
 		
 		$fun=$info['setup']['inputtype'];
 		if($fun=='select'){
-			return "<SELECT  id=".$id." class=".$info['class']."   name=\"$field\"><option value=\"0\">".L('please_chose')."</option>". $select_type."</select>";
+			return '<SELECT  id="'.$id.'" class="'.$info['class'].'"   name="'.$field.'"><option value="0">'.L('please_chose').'</option>'. $select_type.'</select>';
 		}else{			
 			$newinfo['options']=$options;			
 			return $this->$fun($newinfo,$value);
 		}
-		/*
-        $options=array();
-        $options[0]= L('please_chose');
-        foreach($types as $key=>$r) {
-			if($r['keyid']!=$keyid || empty($r['status'])) continue;
-			$options[$key]=$r['name'];
-		}
-        $newinfo['options']=$options;
-        $fun=$info['setup']['inputtype'];
-        return $this->$fun($newinfo,$value);
-		*/
     }
 
     public function template($info,$value){

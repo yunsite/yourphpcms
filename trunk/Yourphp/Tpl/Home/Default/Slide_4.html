@@ -4,9 +4,9 @@
 .slide-panel img {position:absolute;display:block;width:{$flashwidth}px;height:{$flashheight}px; }
 .slide-panel ul {}
 .switchable-triggers { position:absolute; right:3px; bottom:6px;z-index:999; }
-.switchable-triggers li {display:inline-block;float:left;width:20px;height:20px;margin:0 3px;border-radius:20px;background:rgba(255, 255, 255, .7);color:#444;font-size:13px;
-    line-height:20px; text-align:center; cursor:pointer; }
-.switchable-triggers li.current {background:rgba(138, 181, 22, .7);color:#fff;}
+.switchable-triggers li {display:inline-block;border:1px solid #333;float:left;width:16px;height:16px;margin:0 3px;background:#454545;;color:#FFF;font-size:13px;
+    line-height:16px; text-align:center; cursor:pointer; }
+.switchable-triggers li.current {border:1px solid #BF0000;background:#EF0000;color:#fff;}
 </style>
 <div class="slide1">
 	<div id="slide_{$flashid}" class="slide-panel"> 
@@ -17,7 +17,7 @@
 </div> 
 <script>
 jQuery(document).ready(function($){
-   $('#slide1').switchable({
+   $('#slide_{$flashid}').switchable({
     putTriggers: 'appendTo',
 	//panels: 'li',
 	interval: 1,
