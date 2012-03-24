@@ -891,7 +891,7 @@ function geturl($cat,$data='',$Urlrule=''){
 			}
 		}
 		if(empty($urls)){
-			$index =  $URL_MODEL==1 ? __ROOT__.'index.php/' : __ROOT__.'/';
+			$index =  $URL_MODEL==1 ? __ROOT__.'/index.php/' : __ROOT__.'/';
 			$langurl = $lang ? $lang.'/' : '';
 			if($id){
 				$urls = str_replace(array('{$parentdir}','{$module}','{$moduleid}','{$catdir}','{$year}','{$month}','{$day}','{$catid}','{$id}'),array($parentdir,$module,$moduleid,$catdir,$year,$month,$day,$catid,$id),$showurlrule);
@@ -965,11 +965,12 @@ function content_pages($num, $p,$pageurls) {
 function thumb($f, $tw=300, $th=300 ,$autocat=0, $nopic = 'nopic.jpg',$t=''){
 	if(strstr($f,'://')) return $f;
 	if(empty($f)) return __ROOT__.'Public/Images/'.$nopic;
+	$f= substr($f,1);
 	$pathinfo = pathinfo($f);
 	if(empty($t)){
 		$t = $pathinfo['dirname'].'/thumb_'.$tw.'_'.$th.'_'.$pathinfo['basename'];
 		if(is_file($t)){
-			return  $t;
+			return  '/'.$t;
 		}
 	}
 	$temp = array(1=>'gif', 2=>'jpeg', 3=>'png');
@@ -1021,7 +1022,7 @@ function thumb($f, $tw=300, $th=300 ,$autocat=0, $nopic = 'nopic.jpg',$t=''){
 	$outfunc($timg, $t);
 	imagedestroy($timg);
 	imagedestroy($fimg);
-	return $t;
+	return '/'.$t;
 }
 
 

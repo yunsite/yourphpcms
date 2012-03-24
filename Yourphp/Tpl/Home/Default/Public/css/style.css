@@ -279,7 +279,7 @@ h4 {border-bottom:1px solid #A04040;line-height:40px;padding-left:15px;backgroun
 #content .content img {max-width:590px ; _width:expression(this.width > 590 ? "590px" : this.width);}
 
  
-#pages { padding:10px 0 10px;text-align:center}
+#pages { padding:10px 0 10px;text-align:center;font:12px '宋体';}
 #pages a { display:inline-block; padding:0px 8px; height:22px;font-size:12px;line-height:22px; background:#fff; border:1px solid #e3e3e3; text-align:center; color:#333}
 #pages a.a1 {padding:0px 12px; height:22px; line-height:22px;margin-top:0px;}
 #pages a:hover { background:#f1f1f1; color:#000; text-decoration:none; }

@@ -75,5 +75,6 @@ return array(
 	'URL_URLRULE'=> 'URL规则',
 	'URL_SHOW_URLRULE'=> '内容页',
 	'URL_LIST_URLRULE'=> '列表页',
+	'LAYOUT_ON'=>'布局模板',
 );
 ?>

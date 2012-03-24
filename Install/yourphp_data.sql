@@ -75,7 +75,7 @@ INSERT INTO `yourphp_config` VALUES ('48', 'member_registecheck', '新会员注�
 INSERT INTO `yourphp_config` VALUES ('49', 'member_login_verify', '注册登陆开启验证码', '3', '1', '1');
 INSERT INTO `yourphp_config` VALUES ('50', 'member_emailchecktpl', '邮件认证模板', '3', ' 欢迎您注册成为yourphp用户，您的账号需要邮箱认证，点击下面链接进行认证：{click}\r\n或者将网址复制到浏览器：{url}', '1');
 INSERT INTO `yourphp_config` VALUES ('51', 'member_getpwdemaitpl', '密码找回邮件内容', '3', '尊敬的用户{username}，请点击进入<a href="{url}">重置密码</a>,或者将网址复制到浏览器：{url}（链接3天内有效）。<br>感谢您对本站的支持。<br>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　{sitename}<br>此邮件为系统自动邮件，无需回复。', '1');
-
+INSERT INTO `yourphp_config` VALUES ('65', 'LAYOUT_ON', '布局模板', '6', '1', '0');
 -- 
 -- 导出`yourphp_field`表中的数据 `yourphp_field`
 --
@@ -373,7 +373,7 @@ INSERT INTO `yourphp_lang` VALUES ('2', '英文', 'en', 'en.gif', '1', '', '', '
 INSERT INTO `yourphp_block` VALUES ('1', 'about', '首页公司简介', '1', '<img src=\"Yourphp/Tpl/Home/Default/Public/images/cpbox.jpg\" alt=\"\" align=\"left\" height=\"160\" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Yourphp网站管理系统,是一款完全开源免费的PHP+MYSQL系统.核心采用了Thinkphp框架等众多开源软件,同时核心功能也作为开源软件发布。 集众多开源项目于一身的特点,使本系统从安全,效率,易用及可扩展性上更加突出.程序内置SEO优化机制，使企业网站更容易被推广.拥有企业网站常用的模块功能（企业简介模块、新闻模块、产品模块、下载模块、图片模块、招聘模块、在线留言、友情链接、会员与权限管理）。');
 INSERT INTO `yourphp_block` VALUES ('2', 'contact', '右侧联系我们', '1', '<li><label>电 &nbsp;&nbsp;话:</label>0317-5022625</li> <li><label>手 &nbsp;&nbsp;机:</label>13292793176</li> <li><label>联系人:</label>liuxun</li> <li><label>邮 &nbsp;&nbsp;箱:</label>admin@yourphp.cn</li> <li><label>网 &nbsp;&nbsp;址:</label>http://demo2.yourphp.cn</li> <li><label>地 &nbsp;&nbsp;址:</label>河北省沧州市肃宁县宅南村</li> ');
 INSERT INTO `yourphp_block` VALUES ('3', 'footer', '页底', '1', '<p>Powered by <a href=\"http://www.yourphp.cn\" target=\"_blank\"><span style=\"color:#000000;\">Yourphp</span></a> 版权所有 &copy; 2008-2011, All right reserved</p>');
-INSERT INTO `yourphp_slide` VALUES ('1', '首页幻灯片', '', '', '1', '920', '300', '', '1', '1');
+INSERT INTO `yourphp_slide` VALUES ('1', '首页幻灯片', '', '', '2', '920', '300', '', '1', '1');
 INSERT INTO `yourphp_slide_data` VALUES ('1', '1', '图片1', '', 'http://www.yourphp.cn/Public/Images/flash1.jpg', 'http://www.yourphp.cn', '', '', '3', '1', '1');
 INSERT INTO `yourphp_slide_data` VALUES ('2', '1', '图片2', '', 'http://www.yourphp.cn/Public/Images/flash2.jpg', 'http://www.yourphp.cn', '', '', '1', '1', '1');
 INSERT INTO `yourphp_slide_data` VALUES ('3', '1', '图片3', '', 'http://www.yourphp.cn/Public/Images/flash3.jpg', 'http://www.yourphp.cn', '', '', '2', '1', '1');

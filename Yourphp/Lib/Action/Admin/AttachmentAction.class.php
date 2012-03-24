@@ -145,7 +145,7 @@ class AttachmentAction extends  Action {
 			$data['catid'] = 0;
 			$data['userid'] = $_REQUEST['userid'];
 			$data['filename'] = $uploadList[0]['name'];
-			$data['filepath'] = substr($uploadList[0]['savepath'].$uploadList[0]['savename'],2);
+			$data['filepath'] = substr($uploadList[0]['savepath'].$uploadList[0]['savename'],1);
 			$data['filesize'] = $uploadList[0]['size']; 
 			$data['fileext'] = $uploadList[0]['extension']; 
 			$data['isimage'] = in_array($uploadList[0]['extension'],$imagearr) ? 1 : 0;
