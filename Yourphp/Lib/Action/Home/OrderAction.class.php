@@ -98,9 +98,10 @@ class OrderAction extends BaseAction
 				$data['product_thumb']=$r['thumb'];
 				$data['product_url']=$r['url'];
 				$data['product_name']=$r['title'];
-				$data['product_price'] = $data['price']=$r['price'];
+				$data['product_price'] =$r['price'];
 				$data['moduleid']=intval($_REQUEST['moduleid']);	
 				$data['number']=$num;
+				$data['price']= $data['product_price']*$data['number'];
 				$rs = $this->dao->add($data);
 			}
 			

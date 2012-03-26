@@ -29,7 +29,7 @@ $config	= array(
 		'RBAC_ACCESS_TABLE'		=>	C('DB_PREFIX').'access',
 		'RBAC_NODE_TABLE'		=>  C('DB_PREFIX').'node',	
 		'DEFAULT_HOME_THEME' => C('DEFAULT_THEME'),
-		
+		'LAYOUT_ON'=> true,
 		'TMPL_CACHE_ON'		=> true,
 		'TMPL_CACHE_TIME'	=> 3600,
 		//'TMPL_DETECT_THEME'     => true

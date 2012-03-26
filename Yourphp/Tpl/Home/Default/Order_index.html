@@ -88,7 +88,7 @@ function changeok(obj,moduleid,id,doit,data){
 function countprice(){
 		var countnum=0,totalprice=0;
 		$('.num').each(function(){var num = $(this).val();countnum=countnum + parseInt(num);});
-		$('.count_price').each(function(){var count_price = $(this).html();totalprice=totalprice + parseFloat(count_price);});
+		$('.count_price').each(function(){var count_price = $(this).html();count_price = count_price.replace(',','');totalprice=totalprice + parseFloat(count_price);});
 		//count_price
 		$('#totalnum').html(countnum);
 		$('#totalprice').html(totalprice);

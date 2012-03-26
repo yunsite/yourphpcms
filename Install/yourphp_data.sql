@@ -26,7 +26,7 @@ INSERT INTO `yourphp_category` VALUES ('19', '在线留言', 'Guestbook', '', '0
 --
 INSERT INTO `yourphp_config` VALUES ('1', 'site_name', '网站名称', '2', 'Yourphp网站内容管理系统', '1');
 INSERT INTO `yourphp_config` VALUES ('2', 'site_url', '网站网址', '2', 'http://www.yourphp.cn', '1');
-INSERT INTO `yourphp_config` VALUES ('3', 'logo', '网站LOGO', '2', './Public/Images/logo.gif', '1');
+INSERT INTO `yourphp_config` VALUES ('3', 'logo', '网站LOGO', '2', '/Public/Images/logo.gif', '1');
 INSERT INTO `yourphp_config` VALUES ('4', 'site_email', '站点邮箱', '2', 'admin@yourphp.cn', '1');
 INSERT INTO `yourphp_config` VALUES ('5', 'seo_title', '网站标题', '2', 'yourphp企业网站管理系统-企业建站-企业网站-行业网站建设-门户网站建设', '1');
 INSERT INTO `yourphp_config` VALUES ('6', 'seo_keywords', '关键词', '2', 'Yourphp网站内容管理系统,php企业建站', '1');

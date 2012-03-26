@@ -479,7 +479,7 @@ function formatNum(Num1,Num2){
 } 
 
 function countprice(){
-		$('.count_price').each(function(){var count_price = $(this).html();totalprice=totalprice + parseFloat(count_price);});
+		$('.count_price').each(function(){var count_price = $(this).html();count_price = count_price.replace(',','');totalprice=totalprice + parseFloat(count_price);});
 		$('#totalprice').html(totalprice);
 }
 
