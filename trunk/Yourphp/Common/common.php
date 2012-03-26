@@ -964,17 +964,23 @@ function content_pages($num, $p,$pageurls) {
 
 function thumb($f, $tw=300, $th=300 ,$autocat=0, $nopic = 'nopic.jpg',$t=''){
 	if(strstr($f,'://')) return $f;
-	if(empty($f)) return __ROOT__.'Public/Images/'.$nopic;
-	$f= substr($f,1);
-	$pathinfo = pathinfo($f);
-	if(empty($t)){
-		$t = $pathinfo['dirname'].'/thumb_'.$tw.'_'.$th.'_'.$pathinfo['basename'];
-		if(is_file($t)){
-			return  '/'.$t;
-		}
-	}
+	if(empty($f)) return __ROOT__.'/Public/Images/'.$nopic;
+	$f= '.'.str_replace(__ROOT__,'',$f);
+	
 	$temp = array(1=>'gif', 2=>'jpeg', 3=>'png');
 	list($fw, $fh, $tmp) = getimagesize($f);
+	if(empty($t)){
+		if($fw>$tw && $fh>$th){
+			$pathinfo = pathinfo($f);
+			$t = $pathinfo['dirname'].'/thumb_'.$tw.'_'.$th.'_'.$pathinfo['basename'];
+			if(is_file($t)){
+				return  __ROOT__.substr($t,1);
+			}
+		}else{
+			return  __ROOT__.substr($f,1);
+		}		
+	}
+	
 	if(!$temp[$tmp]){	return false; }
 
 	if($autocat){
@@ -1022,7 +1028,7 @@ function thumb($f, $tw=300, $th=300 ,$autocat=0, $nopic = 'nopic.jpg',$t=''){
 	$outfunc($timg, $t);
 	imagedestroy($timg);
 	imagedestroy($fimg);
-	return '/'.$t;
+	return  __ROOT__.substr($t,1);
 }
 
 
