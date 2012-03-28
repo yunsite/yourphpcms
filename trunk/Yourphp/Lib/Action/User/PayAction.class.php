@@ -30,7 +30,14 @@ class PayAction extends BaseAction
         $this->display();
     }
 
-	 public function pay()
+
+	public function Recharge()
+    {
+        $this->display();
+    }
+	
+
+	public function pay()
     {
         $this->display();
     }
@@ -39,6 +46,7 @@ class PayAction extends BaseAction
 		$pay_code = !empty($_REQUEST['code']) ? trim($_REQUEST['code']) : '';	
 		$pay_code = ucfirst($pay_code);
 		$Payment = M('Payment')->getByPayCode($pay_code);
+		if(empty($Payment))$this->error(L('PAY CODE EROOR!'));
 		$aliapy_config = unserialize($Payment['pay_config']);		 
 		import("@.Pay.".$pay_code);
 		$pay=new $pay_code($aliapy_config);

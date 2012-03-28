@@ -19,7 +19,7 @@
 <volist name="user_config" id="vo">
 <tr>
 	<th width="140">{$vo.info}:</th>
-	<td><input type="text" class="input-text"  name="{$vo.varname}" value="{$vo.value}" size="40"><a href="{:U('Config/delete&id='.$vo[id])}"><font color="red">{:L(delete)}</font></a> &nbsp;{$vo.varname} </td>
+	<td><input type="text" class="input-text"  name="{$vo.varname}" value="{$vo.value}" size="40"><a href="{:U('Config/delete?id='.$vo[id])}"><font color="red">{:L(delete)}</font></a> &nbsp;{$vo.varname} </td>
 </tr>
 </volist>
 

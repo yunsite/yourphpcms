@@ -91,8 +91,8 @@ class ContentAction extends AdminbaseAction
 		
 		$_POST['createtime'] = time();		 
 		$_POST['updatetime'] = $_POST['createtime'];	
-        $_POST['userid'] = $userid ? $userid : $_SESSION['userid'];
-		$_POST['username'] = $username? $username : $_SESSION['username'];
+        $_POST['userid'] = $module ? $userid : $_SESSION['userid'];
+		$_POST['username'] = $module ? $username : $_SESSION['username'];
 		if($_POST['style_color']) $_POST['style_color'] = 'color:'.$_POST['style_color'];
 		if($_POST['style_bold']) $_POST['style_bold'] =  ';font-weight:'.$_POST['style_bold'];
 		if($_POST['style_color'] || $_POST['style_bold'] ) $_POST['title_style'] = $_POST['style_color'].$_POST['style_bold'];
