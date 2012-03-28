@@ -86,7 +86,9 @@ h4 {border-bottom:1px solid #A04040;line-height:40px;padding-left:15px;backgroun
 .iProduct ul.pic li {float:left;margin:5px 10px;_margin:5px 8px;width:134px;}
 .iProduct ul.pic li span { width:132px;height:102px;}
 .iProduct ul.pic li span a {border:1px solid #FFF;width:130px;height:100px;*font-size: 85px;}
-.iProduct ul.pic li img  {max-height:100px;max-width:130px ;_height:expression(this.height > 100 && this.height>this.width ? "100px" : this.height);_width:expression(this.width > 130 && this.width>this.height ? "130px" : '');}
+.iProduct ul.pic li img  {max-height:100px;max-width:130px ;
+_width:expression(document.documentElement.clientWidth > 130  && document.documentElement.clientHeight<=document.documentElement.clientWidth  ? "130px" : "auto");
+_height:expression(document.documentElement.clientHeight > 100  && document.documentElement.clientHeight>=document.documentElement.clientWidth  ? "100px" : "auto");}
 
 
 .inews .ilist {overflow:HIDDEN;border:1px solid #ddd;overflow:hidden;MARGIN:0;padding:12px 0px;zoom:1;}
@@ -106,13 +108,17 @@ h4 {border-bottom:1px solid #A04040;line-height:40px;padding-left:15px;backgroun
 .list ul.pic li {float:left;width:134px;margin:5px 8px;_margin:5px 6px;}
 .list ul.pic li span {width:132px;height:102px;}
 .list ul.pic li span a {width:130px;height:100px;*font-size: 85px;border:1px solid #FFF;}
-.list ul.pic li img  {max-height:100px;max-width:130px ;_height:expression(this.height > 100 && this.height>this.width ? "100px" : this.height);_width:expression(this.width > 130 && this.width>this.height ? "130px" : '');}
+.list ul.pic li img  {max-height:100px;max-width:130px ;
+_width:expression(document.documentElement.clientWidth > 130  && document.documentElement.clientHeight<=document.documentElement.clientWidth  ? "130px" : "auto");
+_height:expression(document.documentElement.clientHeight > 100  && document.documentElement.clientHeight>=document.documentElement.clientWidth  ? "100px" : "auto");}
 .list ul.pic {overflow:HIDDEN;MARGIN:0;}
 .list dl.img {float:left;width:280px;margin:10px 0 10px 12px;overflow:hidden;}
 .list dl.img dd.pic {float:left;width:134px;height:104px;margin-right:5px;}
 .list dl.img dd.pic span {width:132px;height:102px;}
 .list dl.img dd.pic span a {width:130px;height:100px;*font-size: 85px;border:1px solid #FFF;}
-.list dl.img dd.pic img {max-height:100px;max-width:130px ;_height:expression(this.height > 100 && this.height>this.width ? "100px" : this.height);_width:expression(this.width > 130 && this.width>this.height ? "130px" : '');}
+.list dl.img dd.pic img {max-height:100px;max-width:130px ;
+_width:expression(document.documentElement.clientWidth > 130  && document.documentElement.clientHeight<=document.documentElement.clientWidth  ? "130px" : "auto");
+_height:expression(document.documentElement.clientHeight > 100  && document.documentElement.clientHeight>=document.documentElement.clientWidth  ? "100px" : "auto");}
 .list dl.img dd {line-height:24px;}
 .list dl.img dd b {font-size:14px;color:#FB0000;}
 .list dl.img dt a{color:#BF0000;}
@@ -152,7 +158,9 @@ h4 {border-bottom:1px solid #A04040;line-height:40px;padding-left:15px;backgroun
 .p_box {FLOAT:LEFT;width:266px;}
 #zoom_box  {display:table-cell;*display:block;zoom:1;width:260px;height:200px;text-align:center;border:1px solid #EEE;vertical-align:middle;font-size:170px;padding:0}
 #zoom_box img {margin:0;padding:0;}
-#zoom_box img.big_small {max-width:260px;max-height:200px;_height:expression(this.height > 200 && this.height>=this.width ? "200px" : this.height);_width:expression(this.width > 260 && this.width>this.height ? "262px" : '');}
+#zoom_box img.big_small {max-width:260px;max-height:200px;
+_width:expression(document.documentElement.clientWidth > 260  && document.documentElement.clientHeight<=document.documentElement.clientWidth  ? "260px" : "auto");
+_height:expression(document.documentElement.clientHeight > 200  && document.documentElement.clientHeight>=document.documentElement.clientWidth  ? "200px" : "auto");}
 
 #zoom_list {width:262px;height:60px;background:#EFEFEF;}
 #zoom_list .pre{float:left;width:14px;height:54px;margin-top:2px;text-align:center;overflow:hidden;background:#EFEFEF url(../images/pre.gif) no-repeat -3px 18px;}
@@ -162,7 +170,7 @@ h4 {border-bottom:1px solid #A04040;line-height:40px;padding-left:15px;backgroun
 #thumblist li {width:58px;overflow:hidden;margin:2px 0;text-align:center;}
 #thumblist li span {width:52px;height:52px;}
 #thumblist li span a {width:50px;height:50px;*font-size: 42px;border:1px solid #FFF;}
-#thumblist li span  img {max-height:50px;max-width:50px;_height:expression(this.height > 50 && this.height>this.width ? "50px" : this.height);_width:expression(this.width > 50 && this.width>this.height ? "50px" : '');}
+#thumblist li span  img {max-height:50px;max-width:50px;_width:50px;_height:50px;}
 
 #big_box {float:left;}
 #big_box span {width:302px;height:242px;}
@@ -206,10 +214,10 @@ h4 {border-bottom:1px solid #A04040;line-height:40px;padding-left:15px;backgroun
 
 #playbox {width:890px;height:520px;text-align:center;margin-top:17px;position:relative;background:url(http://demo.yourphp.cn/Public/images/msg_loading.gif) no-repeat center center;}
 .pageLeft {position:absolute;left:0;top:0;width:100%;cursor:pointer;z-index:101}
-.pageLeft span {float:left;width:102px;height:95px;margin:0 0 0 24px;_display:inline;background-image: url(http://demo.yourphp.cn/Yourphp/Tpl/default/Public/images/right.png)!important;/* FF IE7 */background-repeat: no-repeat;_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://demo.yourphp.cn/Yourphp/Tpl/default/Public/images/right.png'); /* IE6 */_background-image: none; /* IE6 */}
+.pageLeft span {float:left;width:102px;height:95px;margin:0 0 0 24px;_display:inline;background-image: url(http://demo.yourphp.cn/Yourphp/Tpl/Default/Public/images/right.png)!important;/* FF IE7 */background-repeat: no-repeat;_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://demo.yourphp.cn/Yourphp/Tpl/default/Public/images/right.png'); /* IE6 */_background-image: none; /* IE6 */}
 .pageLeft span a,.pageRight span a {display:block;position:relative;width:102px;height:95px;}
 .pageRight {position:absolute;left:0;top:0;width:100%;cursor:pointer;z-index:101}
-.pageRight span {float:right;width:102px;height:95px;margin:0 24px 0 0;_display:inline;background-image: url(http://demo.yourphp.cn/Yourphp/Tpl/default/Public/images/left.png)!important;/* FF IE7 */background-repeat: no-repeat;_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://demo.yourphp.cn/Yourphp/Tpl/default/Public/images/left.png'); /* IE6 */_background-image: none; /* IE6 */}
+.pageRight span {float:right;width:102px;height:95px;margin:0 24px 0 0;_display:inline;background-image: url(http://demo.yourphp.cn/Yourphp/Tpl/Default/Public/images/left.png)!important;/* FF IE7 */background-repeat: no-repeat;_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://demo.yourphp.cn/Yourphp/Tpl/default/Public/images/left.png'); /* IE6 */_background-image: none; /* IE6 */}
 .pageLeft-bg {position:absolute;left:0;top:0;width:100%;z-index:100}
 .pageRight-bg {position:absolute;left:0;top:0;width:100%;z-index:100}
 .pageLeft-bg,.pageRight-bg {background:#fff;filter:alpha(opacity=0); /*IE*/-moz-opacity:0; /*MOZ , FF*/opacity:0;/*CSS3, FF1.5*/}
@@ -229,7 +237,9 @@ h4 {border-bottom:1px solid #A04040;line-height:40px;padding-left:15px;backgroun
 #Main-C .smallPic div.f_l li {float:left;width:131px;height:97px;text-align:center;}
 #Main-C .smallPic div.f_l li span{width:114px;height:97px;margin:0 auto;overflow:hidden;margin-top:8px;border:none;}
 #Main-C .smallPic div.f_l li span a {width:112px;height:86px;*font-size: 72px;border:1px solid #AEAEAE;overflow:hidden;cursor:pointer;position:relative;margin:0 auto;}
-#Main-C .smallPic div.f_l li span   img {max-height:86px;max-width:112px;_height:expression(this.height > 86 && this.height>this.width ? "85px" : this.height);_width:expression(this.width > 112 && this.width>this.height ? "111px" : '');}
+#Main-C .smallPic div.f_l li span   img {max-height:86px;max-width:112px;
+_width:expression(document.documentElement.clientWidth > 112  && document.documentElement.clientHeight<=document.documentElement.clientWidth  ? "112px" : "auto");
+_height:expression(document.documentElement.clientHeight > 86  && document.documentElement.clientHeight>=document.documentElement.clientWidth  ? "86px" : "auto");}
 #Main-C .smallPic div.f_l li.on  a{border:none;}
 
 
@@ -276,7 +286,7 @@ h4 {border-bottom:1px solid #A04040;line-height:40px;padding-left:15px;backgroun
 #content h1 {font-size:20px;font-family:'Microsoft YaHei';color:#333;text-align:center;margin:20px 0;}
 #content h1 span {font-size:14px;font-weight:normal;}
 #content .content *{font-size:12px;}
-#content .content img {max-width:590px ; _width:expression(this.width > 590 ? "590px" : this.width);}
+#content .content img {max-width:590px;_width:expression(document.documentElement.clientWidth > 590 ? "590px" : "auto");}
 
  
 #pages { padding:10px 0 10px;text-align:center;font:12px '宋体';}

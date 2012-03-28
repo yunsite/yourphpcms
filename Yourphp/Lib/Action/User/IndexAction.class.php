@@ -50,6 +50,7 @@ class IndexAction extends BaseAction
 			}else{
 				$this->error(L('do_error'));
 			}
+			exit;
 		}
         $this->display();
     }
@@ -80,6 +81,7 @@ class IndexAction extends BaseAction
 			}else{
 				$this->error(L('do_error'));
 			}
+			exit;
 		}
 
 		$yourphp_auth_key = sysmd5(C('ADMIN_ACCESS').$_SERVER['HTTP_USER_AGENT']);
@@ -122,6 +124,7 @@ class IndexAction extends BaseAction
 					$this->error(L('do_error'));
 				}
 			 }
+			 exit;
 		}
 		$this->display();
     }

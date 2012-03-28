@@ -24,7 +24,7 @@ class LoginAction extends BaseAction
 		if($this->_userid){		
 			$forward = $_POST['forward'] ? $_POST['forward'] :$this->forward ;
 			$this->assign('jumpUrl',$forward);
-			$this->success(L('login_ok'));
+			$this->success(L('login_ok'));exit;
 		}
 		
         $this->display();
@@ -45,13 +45,9 @@ class LoginAction extends BaseAction
            $this->error(L('error_verify'));
         }
 
-		$condition = array();
-        $condition['username'] = $username;
-
-		
-		 $authInfo = $this->dao->where($condition)->find();
+		 $authInfo = $this->dao->getByUsername($username);
         //使用用户名、密码和状态的方式进行认证
-        if(false === $authInfo) {
+        if(empty($authInfo)) {
             $this->error(L('empty_userid'));
         }else {
             if($authInfo['password'] != sysmd5($_POST['password'])) {
