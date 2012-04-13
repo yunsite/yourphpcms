@@ -113,17 +113,6 @@ class LoginAction extends Action{
 
     }
 
-    /**
-     * 验证码
-     *
-     */
-    public function verify()
-    {
-        $type	 =	 isset($_GET['type'])?$_GET['type']:'gif';
-        import("@.ORG.Image");
-        Image::buildImageVerify(4,1,$type);
-    }
-
 
     /**
      * 退出登录

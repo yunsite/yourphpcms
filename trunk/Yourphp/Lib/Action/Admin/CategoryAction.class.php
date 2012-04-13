@@ -11,17 +11,16 @@
  */
 class CategoryAction extends AdminbaseAction
 {
-    protected $dao, $categorys , $module;
+    protected $dao,$categorys,$module;
     function _initialize()
     {
-        parent::_initialize();    
+        parent::_initialize();
         foreach ((array)$this->module as $rw){
 			if($rw['type']==1 && $rw['status']==1)  $data['module'][$rw['id']] = $rw;
         }
 		$this->module=$data['module'];
         $this->assign($data);
 		unset($data);
-		
         $this->dao = D('Admin/category');
     }
 

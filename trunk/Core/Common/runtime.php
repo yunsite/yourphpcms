@@ -150,6 +150,17 @@ function build_runtime_cache($append='') {
     if(C('APP_TAGS_ON')) {
         $content .= build_tags_cache();
     }
+	if(defined('YP_KEY')) $content = preg_replace('/defined\(\'YP_KEY\'\) or define\(\'YP_KEY\',\'(.+?)\'\)\;/','',$content);	
+	if(is_file(__ROOT__.'key.php')){
+		preg_match('/[\w][\w-]*\.(?:com\.cn|com|cn|co|net|org|gov|cc|biz|info)(\/|$)/isU', $_REQUEST['host'], $domain);
+		$domain = $domain[0];
+		include __ROOT__.'key.php';
+		if(sha1($domain.$key)==$code){
+		$content .= 'define(\'YP_KEY\',\''.$key.'\');';
+		}else{
+		$content .= 'define(\'YP_KEY\',\'nokey\');';
+		}
+	}
     $alias = include THINK_PATH.'Conf/alias.php';
     $content .= 'alias_import('.var_export($alias,true).');';
     // 编译框架默认语言包和配置参数

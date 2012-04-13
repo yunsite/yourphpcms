@@ -337,10 +337,10 @@ CREATE TABLE `yourphp_node` (
   `listorder` smallint(5) unsigned NOT NULL DEFAULT '0',
   `pid` smallint(5) unsigned NOT NULL DEFAULT '0',
   `level` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `groupid` tinyint(3) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `name` (`name`,`status`,`pid`)
-) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
-
+) ENGINE=MyISAM AUTO_INCREMENT=151 DEFAULT CHARSET=utf8;
 
 --
 -- 表的结构 `yourphp_order`

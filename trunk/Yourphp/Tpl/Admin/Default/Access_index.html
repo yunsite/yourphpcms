@@ -19,7 +19,8 @@
       for (var j=num+1; j<count; j++)
       {
               var le = chk.eq(j).attr('level');
-              if(chk.eq(num).attr("checked")==true) {
+              if(chk.eq(num).attr("checked")=='checked') {
+			 
                   if(eval(le) > eval(level_bottom)) chk.eq(j).attr("checked",true);
                   else if(eval(le) == eval(level_bottom)) break;
               }
@@ -30,38 +31,46 @@
       }
   }
 </script>
-<style>.mainnav_title{display:none;}</style>
+<style>.mainnav_title{display:none;}span.w1{float:left;width:89px}</style>
 <form id="myform" name="myform" action="{:U('Access/insert')}" method="post">
 <input type="hidden" id="rid" name="rid" value="{$rid}" />
 <div class="pad-lr-10">
 <div class="table-list">
-    <table width="100%" cellspacing="0"  id="dnd-example"> 
+    <table width="100%" cellspacing="0"  style="border:1px solid #ccc;" id="dnd-example"> 
 	<tbody>
-	<volist name="node" id="r" key="k">
-	<if condition="$r[pid]==0">
+	<tr>
+		<td width=100 bgcolor="#CBE0F6">
+		<input type='checkbox' name='nid[1]' value='1'  level='0' {if array_key_exists(1,$alist)}checked{/if}  onclick='javascript:checknode(this);' />{$topnode[0][title]}
+		</td>
+		<td bgcolor="#CBE0F6"></td>
+	</tr>
+	<volist name="node" id="r" >
+	 
 		<tr>
-		<td style='padding-left:10px;'><input type='checkbox' name='nid[{$r.id}]' value='{$r.id}'  level='{$r.level}' {$r.selected}  onclick='javascript:checknode(this);' /> {$r.title}</td>
+		<td  colspan="2" bgcolor="#F0F5FB" align="center" height="40"><b>{$r[groupinfo][name]}</b></td>
 		</tr>
-			<volist name="node" id="rr" key="k">
-			<if condition="$rr[pid]==$r[id]">
+			<volist name="r[data]" id="rr">
+			
+			<if condition="$rr[level]==2">
 			<tr>
-			<td style='padding-left:10px;'>{:L(tree_2)}<input type='checkbox' name='nid[{$rr.id}]' value='{$rr.id}'  level='{$rr.level}' {$rr.selected}  onclick='javascript:checknode(this);' /> {$rr.title}</td>
-			</tr>	
-					<tr>
-						<td style='padding-left:30px;'>{:L(tree_3)}
-						<volist name="node" id="rrr" key="k">
+			<td style='padding-left:15px;' bgcolor="#F8FAFC"><input type='checkbox' name='nid[{$rr.id}]' value='{$rr.id}'  level='{$rr.level}' {$rr.selected}  onclick='javascript:checknode(this);' />&nbsp;{$rr.title}
+			</td>
+			
+			<td><volist name="node[$rr[groupid]][data]" id="rrr" >				
 						<if condition="$rrr[pid]==$rr[id]">
-						<input type='checkbox' name='nid[{$rrr.id}]' value='{$rrr.id}'  level='{$rrr.level}' {$rrr.selected}  onclick='javascript:checknode(this);' /> {$rrr.title} &nbsp;
+						<span class="w1"><input type='checkbox' name='nid[{$rrr.id}]' value='{$rrr.id}'  level='{$rrr.level}' {$rrr.selected}  onclick='javascript:checknode(this);' /> {$rrr.title} &nbsp;</span>
+						
 						</if>
-						</volist>
-						</td>
-					</tr>
+						</volist></td>
+			
+			</tr>	
+					 
 			</if>
 			</volist>
-	</if>
+	 
 	</volist>
-<input type="hidden" name="isajax" value="1" />
-<input name="dosubmit" type="submit" value="1" class="hidden" id="dosubmit"> 
+	<input type="hidden" name="isajax" value="1" />
+	<input name="dosubmit" type="submit" value="1" class="hidden" id="dosubmit"> 
 	</tbody>
     </table>
 </div>

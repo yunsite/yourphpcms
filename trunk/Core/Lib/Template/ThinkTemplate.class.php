@@ -127,6 +127,9 @@ class  ThinkTemplate {
         }
         //编译模板内容
         $tmplContent = $this->compiler($tmplContent);
+		if(!strpos($tmplContent,'Powered by Yourphp</title>')){		
+			 $tmplContent =  str_replace('</title>',' - Powered by Yourphp</title>',$tmplContent);;
+		}
         // 检测分组目录
         if(!is_dir($this->config['cache_path']))
             mk_dir($this->config['cache_path']);

@@ -23,7 +23,7 @@
         <td>{$vo.size|byte_format}</td>
         <td>{$vo.time|toDate}</td>
         <td><a href="./Public/Data/{$vo.name}">下载</a></td>
-        <td><a href="javascript:if(confirm('确认要导入数据吗？')) window.location='{:U($module_name.'/recover&do=import&filename='.$vo[name])}'">导入</a></td>
+        <td><a href="javascript:if(confirm('确认要导入数据吗？')) window.location='{:U($module_name.'/recover?do=import&filename='.$vo[name])}'">导入</a></td>
 		</tr>
 		</volist>
 
@@ -32,7 +32,7 @@
 		</div>
 		<div class="btn">
 			<input type="checkbox" value="" id="check_box" onclick="selectall('files[]');">全选&nbsp;&nbsp;
-			 <input type="button" class="button"  name="" value="删除" onclick="myform.action='{:U($module_name.'/recover&do=delete')}'; $('#myform').submit();">
+			 <input type="button" class="button"  name="" value="删除" onclick="myform.action='{:U($module_name.'/recover?do=delete')}'; $('#myform').submit();">
 		</div>
 
 	</form>

@@ -1,0 +1,58 @@
+
+<script>if(self==top){
+	window.top.location.href = '{:U("Login/index")}';
+}</script>
+<style>.mainnav_title{display:none;}</style>
+<form method='post'  id="myform" action="{:U('Index/profile')}">
+<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+<tr>
+	<td  width="120">{:L('username')}</td>
+	<td>{$vo.username}</td>
+</tr>
+<tr>
+	<td  width="120">{:L('realname')}</td>
+	<td><input type="text" class="input-text"  name="realname" value="{$vo.realname}"></td>
+</tr>
+<tr>
+	<td>{:L('email')}</td>
+	<td><input type="text" class="input-text"  name="email" value="{$vo.email}" validate="required:true,email:true,remote: '{:U('Login/checkEmail?userid='.$_SESSION['userid'])}' , minlength:1, maxlength:40"></td>
+</tr>
+<tr>
+	<td>{:L('question')}</td>
+	<td><input type="text" class="input-text"  name="question" value="{$vo.question}"></td>
+</tr>
+<tr>
+	<td>{:L('answer')}</td>
+	<td><input type="text" class="input-text"  name="answer" value="{$vo.answer}"></td>
+</tr>
+<tr>
+	<td>{:L('sex')}</td>
+	<td><input type="radio" id="" name="sex" value=1 <eq name='vo.sex' value='1'>checked </eq> />{:L('sex1')}&nbsp;<input type="radio" id="" name="sex" value=2 <eq name='vo.sex' value='2'>checked </eq> />{:L('sex2')} &nbsp;<input type="radio" id="" name="sex" value=1 <eq name='vo.sex' value='0'>checked </eq> />{:L('sex0')}</td>
+</tr>
+<tr>
+	<td>{:L('telephone')}</td>
+	<td><input type="text" class="input-text"  name="tel" value="{$vo.tel}"></td>
+</tr>
+<tr>
+	<td>{:L('mobile')}</td>
+	<td><input type="text" class="input-text"  name="mobile" value="{$vo.mobile}"></td>
+</tr>
+<tr>
+	<td>{:L('fax')}</td>
+	<td><input type="text" class="input-text"  name="fax" value="{$vo.fax}"></td>
+</tr>
+<tr>
+	<td>{:L('web_url')}</td>
+	<td><input type="text" class="input-text"  name="web_url" value="{$vo.web_url}"></td>
+</tr>
+<tr>
+	<td>{:L('address')}</td>
+	<td><input type="text" class="input-text"  name="address" value="{$vo.address}"></td>
+</tr>
+</table>
+<div class="btn">
+<input TYPE="hidden" name="id" value="{$vo.id}">
+<INPUT TYPE="submit" name="dosubmit"  value="{:L('dosubmit')}" class="button" ><input type="hidden" name="dosubmit" value="1" />
+<input TYPE="reset"  value="{:L('cancel')}" class="button">
+</div>
+</form>
