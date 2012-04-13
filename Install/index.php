@@ -156,13 +156,11 @@ case '4':
 				if(!mysql_query("CREATE DATABASE IF NOT EXISTS `".$dbName."`;", $conn)){
 					$arr['msg'] = '数据库 '.$dbName.' 不存在，也没权限创建新的数据库！';
 					echo json_encode($arr);exit;
-				}
-				if(empty($n)){
-					$arr['n']=1;
+				}else{
+					$arr['n']=0;
 					$arr['msg'] = "成功创建数据库:{$dbName}<br>";
 					echo json_encode($arr);exit;
 				}
-				mysql_select_db($dbName, $conn);
 			}
 
 			//读取数据文件
@@ -174,10 +172,10 @@ case '4':
 			执行SQL语句
 			*/
 			$counts =count($sqlFormat);
-
-			for ($i=$n; $i < $counts; $i++){
-				$sql = trim($sqlFormat[$i]);
-				$i++;
+			
+			if($n < $counts) {
+				$sql = trim($sqlFormat[$n]);
+				$n++;
 
 				if (strstr($sql, 'CREATE TABLE')){
 					preg_match('/CREATE TABLE `([^ ]*)`/', $sql, $matches);
@@ -188,13 +186,7 @@ case '4':
 					}else{
 						$message =  '<font  color="red">创建数据表失败：'.$matches[1].' </font><br />';
 					}
-					$arr=array('n'=>$i,'msg'=>$message);
-					echo json_encode($arr); exit;
-
-				}else{
-					$ret = mysql_query($sql);
-					$message='';
-					$arr=array('n'=>$i,'msg'=>$message);
+					$arr=array('n'=>$n,'msg'=>$message);
 					echo json_encode($arr); exit;
 				}
 			}

@@ -42,13 +42,15 @@ function reloads(n) {
 			 },
 			 success: function(msg){
 				if(msg.n=='999999'){
+					$('#setupinfo').append(msg.msg);
 					$('#dosubmit').attr("disabled",false);
 					$('#dosubmit').removeAttr("disabled");				
 					$('#dosubmit').removeClass("nonext");
-					 setTimeout('gonext()',2000);
+					setTimeout('gonext()',2000);
+					return false;
 				}
-				if(msg.n){
-					$('#setupinfo').append(msg.msg);				
+				if(msg.n || msg.n==0){
+					$('#setupinfo').append(msg.msg);
 					reloads(msg.n);
 				}else{
 					 //alert('指定的数据库不存在，系统也无法创建，请先通过其他方式建立好数据库！');

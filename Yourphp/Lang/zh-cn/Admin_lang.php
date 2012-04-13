@@ -218,5 +218,8 @@ return array(
 	'value_empty'=>'值不能为空！',
 	'_TOKEN_ERROR_'=>'表单验证失败',
 	'UPDATE_CACHE'=> '更新缓存',
+	'_VALID_ACCESS_'=>'你没有操作此操作的权限！',
+	'GROUP'=>'分组',
+	'ACCESS_PUBLIC'=>'全局设置',
 );
 ?>

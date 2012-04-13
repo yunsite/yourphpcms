@@ -99,7 +99,7 @@ class Form extends Think {
 		$info['setup']=is_array($info['setup']) ? $info['setup'] : string2array($info['setup']);
 		$id = $field = $info['field'];
 	    $validate = getvalidate($info);
-		$info['setup']['ispassowrd'] ? $inputtext = 'passowrd' : $inputtext = 'text';
+		$info['setup']['ispassword'] ? $inputtext = 'password' : $inputtext = 'text';
         if(ACTION_NAME=='add'){
 			$value = $value ? $value : $info['setup']['default'];
         }else{

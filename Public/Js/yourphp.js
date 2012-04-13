@@ -93,8 +93,7 @@ function showon(obj,onobj,id){
 		}
 	});
 	if(id){
-		$('#catlist_'+id).addClass('on');
-		$('#catlist_'+id).parents('.folder').removeClass('on');
+		$('#catlist_'+id).parent().parent().addClass('on');	
 	}
 }
 

@@ -2,6 +2,12 @@
 
  <form id="myform" action="<if condition="$action_name=='edit'">{:U('Node/update')}<else />{:U('Node/insert')}</if>" method="post">
       	<table cellpadding=0 cellspacing=0 class="table_form" width="100%">
+
+		<tr>
+		<td>{:L('GROUP')}</td>
+		<td>{:Form::select(array('field'=>'groupid','options'=>$groups,'options_key'=>'id,name'),$groupid)} </td>
+		</tr>
+
       	<tr>
 		<td>{:L('name')}</td><td><input type="text" class="input-text" name="name" value="{$udate['name']}" validate="required:true,en_num:true, minlength:2, maxlength:20" /></td>
 		</tr>
@@ -14,7 +20,10 @@
 		<option value="0">{:L('menu_top_menu')}</option>
 		{$nodes}
 		</SELECT></td>
-	</tr>
+		</tr>
+
+
+
 		<tr>
 		<td>{:L('remark')}</td><td><textarea  id="remark" name="remark" rows="3" cols="40">{$udate['remark']}</textarea></td>
 		</tr>

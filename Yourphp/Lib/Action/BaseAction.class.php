@@ -399,6 +399,7 @@ class BaseAction extends Action
 	}
 	public function verify()
     {
+		header('Content-type: image/gif');
         $type	 =	 isset($_GET['type'])?$_GET['type']:'gif';
         import("@.ORG.Image");
         Image::buildImageVerify(4,1,$type);

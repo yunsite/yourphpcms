@@ -3,7 +3,7 @@ img{text-align:absmiddle; background-color:transparent}
 html, body, p, table{font: normal 12PX Tahoma,Verdana,Helvetica,Arial,sans-serif; }
 a{color:#444444;text-decoration:none;}
 a:hover{color:#BF0000; text-decoration:underline;}
-
+body{background:#FFF;height:100%}
 ul, ol { list-style:none;margin:0;padding:0;}
 p, li {	line-height:1.8em;}
 input, textarea, select, button, file {	font-size:12px;margin:0px;}
@@ -50,28 +50,39 @@ div.titlev{float:none; background:#FBFAF8; border:1px solid #d4d4d4; padding-top
 .table_border{border-bottom:1px #DDD solid;border-left:1px #DDD solid;}
 
 .search_table {margin:5px;height:30px;line-height:30px;}
-.header {overflow:hidden;zoom:1;height:80px;}
+.header {overflow:hidden;zoom:1;height:95px;background:#3A6EA5}
+.header_footer{width:100%;height:15px;line-height:15px;background:#E2E9EA;overflow:hidden;zoom:1;display:inline-block;zoom:1;*display:inline;}
 .f_r {float:right;}
 .f_l {float:left;}
-#main_top{background:#3A6EA5;padding:0;margin:0;}
-.logo {float:left;height:80px;width:180px;overflow:hidden;zoom:1;margin:5px 10px;}
-.topmenubox {float:left;}
+.logo {float:left;height:68px;width:190px;overflow:hidden;zoom:1;margin:12px 0 0 8px;_margin-left:4px;}
 .nav {color:#FFF;margin-top:15px;height:20px;line-height:20px;margin-left:10px;}
 .nav i {color:#4782B4;}
 .nav  a {color:#FFF;}
 #menu_bg {background:#F7FBFC;}
-.left_menu  {margin:5px 10px;}
-.left_menu tr th {width:180px;height:29px;line-height:29px;padding-left:10px; border-bottom:1px solid #d5dfe8;text-align:left; font-size:14px;}
-.left_menu tr td {width:180px;border-bottom:  #EAEFF4 1px solid;height:29px;line-height:29px;}
-.left_menu tr td span {margin-top:1px;CURSOR:pointer;padding-left:30px;float:left;width:160px;height:27px;line-height:27px;background:url(../Images/admin_dot.gif) no-repeat 15px 10px;}
-.left_menu tr td a {}
-.left_menu tr td span:hover ,.left_menu tr td.on span {background:#E2E9EA url(../Images/admin_dot.gif) no-repeat 15px 10px;}
+#lang {float:right;}
+
+#leftMenuBox {float:left;overflow:hidden; zoom:1;display:inline-block;zoom:1;*display:inline;}
+#leftMenu {float:left;background:#F7FBFC;width:200px;}
+#leftMenu {margin:0px;}
+#leftMenu dl dt {float:left;background:url(../Images/admin_left_menu.gif) no-repeat 12px 6px;width:155px;height:29px;padding-left:35px; line-height:29px;border-bottom:1px solid #d5dfe8;text-align:left; font-size:14px;font-weight:bold;}
+#leftMenu dl dd {margin:0;float:left;width:190px;border-bottom:  #EAEFF4 1px solid;height:29px;line-height:29px;}
+#leftMenu dl dd span {margin-top:1px;CURSOR:pointer;padding-left:30px;float:left;width:160px;height:27px;line-height:27px;background:url(../Images/admin_dot.gif) no-repeat 15px 10px;}
+#leftMenu dl dd a {}
+#leftMenu dl dd span:hover ,#leftMenu dl dd.on span {background:#E2E9EA url(../Images/admin_dot.gif) no-repeat 15px 10px;}
+
+
+#Main_content  {margin:0;padding:0;background:#E2E9EA;}
+#MainBox{ float:right;width:100%; margin-left:-224px;margin-right:12px;_margin-right:6px;}
+#MainBox .main_box{ margin-left:224px; overflow:hidden; zoom:1; }
+#MainBox #Main{ width:100%;border:none;}
+#Main_drop {float:left;margin-top:220px;width:12px;overflow:hidden; zoom:1;display:inline-block;zoom:1;*display:inline;}
+#Main_drop img {margin-left:1px;}
 
 .topmenu {overflow:hidden;zoom:1;float: left;font-size: 14px;font-weight: bold;color: #555555;margin-top:12px;margin-left:10px;}
 .topmenu ul {margin: 0px;padding: 0px;}
-.topmenu li {float: left;margin-right:2px;height: 35px;line-height:35px;}
-.topmenu span {display: block;float: left;padding-left:15px;background: url(../Images/admin_nav_bg.png);height: 35px;line-height:35px;color: #fff;}
-.topmenu span a {display: block;float: left;color: #fff;background: url(../Images/admin_nav_bg.png) no-repeat right 0;height: 35px;padding-right:15px;height: 35px;line-height:35px;}
+.topmenu li {float: left;margin-right:2px;height: 34px;line-height:34px;}
+.topmenu span {display: block;float: left;padding-left:15px;background: url(../Images/admin_nav_bg.png);height: 34px;line-height:34px;color: #fff;}
+.topmenu span a {display: block;float: left;color: #fff;background: url(../Images/admin_nav_bg.png) no-repeat right 0;height: 34px;padding-right:15px;height: 34px;line-height:34px;}
 .topmenu .current {display: block;float:left;background:url(../Images/admin_nav_bg.png) 0 -43px; border-bottom: none;}
 .topmenu .current a {color: #367ABB;background: url(../Images/admin_nav_bg.png) no-repeat right -43px;}
 
@@ -80,7 +91,11 @@ div.titlev{float:none; background:#FBFAF8; border:1px solid #d4d4d4; padding-top
 .mainnav_title a {color:#004499;margin:0 5px;padding:4px 7px;background:#EFEFEF;}
 .mainnav_title a:hover ,.mainnav_title a.on{background:#498CD0;color:#FFF;}
 .mainbox {margin:5px 10px;overflow:hidden;zoom:1;_margin:5px;}
-#lang {float:right;}
+
+
+.footer{ clear:both;margin:0;height:22px;line-height:22px; padding:4px 0px; width:100%; text-align:center; font:normal 11px Verdana,Geneva,Arial,Helvetica,sans-serif; background-color:#E2E9EA;}
+.footer a{color:#4B82BB;}
+.footer a:hover{color:silver; text-decoration:none; border-bottom:1px dotted} 
 
 .table-list td , .table-list th {padding-left:10px;_padding-left:5px;}
 .table-list td img {vertical-align:middle;}
@@ -160,8 +175,12 @@ select{ vertical-align:middle;background:none repeat scroll 0 0 #F9F9F9;border-c
 .style_bold {margin-top:0px;border:none;}
 
 
-#bootline {height:42px;}
+#bootline {height:42px;overflow:hidden;zoom:1;line-height:42px;}
 #btnbox{position:fixed;width:100%;left:0;margin:0;padding-left:150px;border-top:1px solid #EBEBEB;bottom:0;}
+
+
+#btnbox{_position:absolute;left:expression(eval(document.documentElement.scrollLeft));top:expression(eval(document.documentElement.scrollTop))} 
+#btnbox{_position:absolute;left:expression(eval(document.documentElement.scrollLeft+document.documentElement.clientWidth-this.offsetWidth)-(parseInt(this.currentStyle.marginLeft,10)||0)-(parseInt(this.currentStyle.marginRight,10)||0)+130);top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)))}
 
 .editor_box {position:relative;overflow:visible;}
 .editor_box .editor_bottom  {position:absolute;bottom:0;_bottom:10px;left:150px;z-index:199;height:27px;color:#666666;}
