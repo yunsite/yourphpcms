@@ -68,14 +68,15 @@ class UserAction extends AdminbaseAction {
 
 	function update(){
 		$user=$this->dao;
+		$_POST['password'] = $_POST['pwd'] ? sysmd5($_POST['pwd']) : $_POST['opwd'];
 		if($data=$user->create()){
 			if(!empty($data['id'])){
-				$opwd=$_POST['opwd'];
-				$user->password=empty($user->password)?$opwd:sysmd5($user->password);
 				if(false!==$user->save()){
+					$ru['user_id']=$_POST['id'];
 					$ru['role_id']=$_POST['groupid'];
 					$roleuser=M('RoleUser');
-					$roleuser->where('user_id='.$user->id)->save($ru);
+					$roleuser->where('user_id='.$_POST['id'])->delete();
+					$roleuser->where('user_id='.$_POST['id'])->add($ru);
 					$this->success(L('edit_ok'));
 				}else{
 					$this->error(L('edit_error').$user->getDbError());

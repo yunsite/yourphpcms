@@ -378,6 +378,8 @@ INSERT INTO `yourphp_node` VALUES ('153', 'upload', '上传文件', '1', '', '0'
 INSERT INTO `yourphp_node` VALUES ('154', 'filelist', '浏览文件', '1', '', '0', '151', '3', '0');
 INSERT INTO `yourphp_node` VALUES ('155', 'delfile', '删除文件', '1', '', '0', '151', '3', '0');
 INSERT INTO `yourphp_node` VALUES ('156', 'cleanfile', '清理文件', '1', '', '0', '151', '3', '0');
+INSERT INTO `yourphp_node` VALUES ('158', 'testmail', '邮件测试', '1', '', '0', '3', '3', '2');
+INSERT INTO `yourphp_node` VALUES ('157', 'dosite', '保存配置', '1', '', '0', '3', '3', '2');
 
 -- 
 -- 导出`yourphp_page`表中的数据 `yourphp_page`

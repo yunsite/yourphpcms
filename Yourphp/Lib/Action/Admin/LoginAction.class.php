@@ -108,7 +108,12 @@ class LoginAction extends Action{
 
            // 缓存访问权限
             RBAC::saveAccessList();
-			$this->ajaxReturn($authInfo,L('login_ok'),1);
+			if($_POST['ajax']){
+				$this->ajaxReturn($authInfo,L('login_ok'),1);
+			}else{
+				$this->assign('jumpUrl',U('Index/index'));
+				$this->success(L('login_ok'));
+			}
 		}
 
     }
