@@ -10,6 +10,7 @@
  * @version        	YourPHP企业网站管理系统 v2.1 2012-01-09 yourphp.cn $
  * @此注解信息不能修改或删除,请尊重我们的劳动成果,你的修改请注解在此注解下面。
  */
+if(!defined("Yourphp")) exit("Access Denied");
 class Alipay extends Think {
 	public $config = array()  ;
 

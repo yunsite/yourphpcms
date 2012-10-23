@@ -9,22 +9,23 @@
  * @license         http://www.yourphp.cn/license.txt
  * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
  */
-if(!defined("YOURPHP")) exit("Access Denied"); 
+if(!defined("Yourphp")) exit("Access Denied");
 class TagsAction extends BaseAction
 {
     public function index()
     {
-		$slug = $tag ? $tag : $_REQUEST['tag'];
-		$module = $_REQUEST['module'] ? ucfirst($_REQUEST['module']) : '';
+		$slug = $tag ? $tag :get_safe_replace($_REQUEST['tag']);
+		$module = get_safe_replace($_REQUEST['module']);
+		$module = 	$module ? ucfirst($module) : '';
 		if(C('URL_MODEL')==0){
-			$module = $_REQUEST['moduleid'] ? $this->module[$_REQUEST['moduleid']]['name'] : '';
-			$module = $_REQUEST['module'] ? $_REQUEST['module'] : $module;
+			$moduleid = intval($_REQUEST['moduleid']);
+			$module_name = $moduleid ? $this->module[$moduleid]['name'] : '';
+			$module =$module ? $module : $module_name;
 			$p= max(intval($_REQUEST[C('VAR_PAGE')]),1);
 		}elseif($this->mod[ucfirst($slug)]){
 			$module=ucfirst($slug);
 			unset($slug);
 		}
-
 
 		$prefix=C( "DB_PREFIX" );
 		$Tags=M('Tags');
@@ -38,20 +39,22 @@ class TagsAction extends BaseAction
 			$this->assign ('seo_title',$data['name']);
 			$this->assign ('seo_keywords',$data['name']);
 			$this->assign ('seo_description',$data['name']);
-			$tagid=$data['id'];
-			$this->assign ('data',$data);
-			$mtable=$prefix.strtolower($module);
-			$count = $Tags_data->table($prefix.'tags_data as a')->join($mtable." as b on a.id=b.id ")->where("a.tagid=".$tagid)->count();
-			if($count){
-				import ( "@.ORG.Page" );
-				$listRows =  C('PAGE_LISTROWS'); //C('PAGE_LISTROWS')
-				$page = new Page ( $count, $listRows,$p );
-				$page->urlrule = TAGURL($data,1);
-				$pages = $page->show();
-				$field =  'b.id,b.catid,b.userid,b.url,b.username,b.title,b.keywords,b.description,b.thumb,b.createtime';
-				$list = $Tags_data->field($field)->table($prefix.'tags_data as a')->join($mtable." as b on a.id=b.id")->where($where." and a.tagid=".$tagid)->order('b.listorder desc,b.id desc')->limit($page->firstRow . ',' . $page->listRows)->select();
-				$this->assign('pages',$pages);
-				$this->assign('list',$list);
+			if($data){
+				$tagid=$data['id'];
+				$this->assign ('data',$data);
+				$mtable=$prefix.strtolower($module);
+				$count = $Tags_data->table($prefix.'tags_data as a')->join($mtable." as b on a.id=b.id ")->where("a.tagid=".$tagid)->count();
+				if($count){
+					import ( "@.ORG.Page" );
+					$listRows =  C('PAGE_LISTROWS'); //C('PAGE_LISTROWS')
+					$page = new Page ( $count, $listRows,$p );
+					$page->urlrule = TAGURL($data,1);
+					$pages = $page->show();
+					$field =  'b.id,b.catid,b.userid,b.url,b.username,b.title,b.keywords,b.description,b.thumb,b.createtime';
+					$list = $Tags_data->field($field)->table($prefix.'tags_data as a')->join($mtable." as b on a.id=b.id")->where($where." and a.tagid=".$tagid)->order('b.listorder desc,b.id desc')->limit($page->firstRow . ',' . $page->listRows)->select();
+					$this->assign('pages',$pages);
+					$this->assign('list',$list);
+				}
 			}
 		}else{
 			$moduleid=$this->mod[$module];

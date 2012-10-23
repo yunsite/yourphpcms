@@ -27,10 +27,12 @@ function setcookie(name,value){
     document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();   
 }
 
-function getcookie(name){   
-    var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));    
-    if(arr != null){   
-        return unescape(arr[2]);   
+function getcookie(name){  
+    var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+    if(arr != null){
+		name1=unescape(arr[2]);
+		var name = name1.replace(/[\',\"]/g,"");	
+        return name;   
     }else{   
         return "";   
     }   

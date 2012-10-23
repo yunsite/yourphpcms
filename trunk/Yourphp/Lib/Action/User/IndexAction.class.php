@@ -7,9 +7,9 @@
  * @author          liuxun QQ:147613338 <admin@yourphp.cn>
  * @copyright     	Copyright (c) 2008-2011  (http://www.yourphp.cn)
  * @license         http://www.yourphp.cn/license.txt
- * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
+ * @version        	YourPHP企业网站管理系统 v2.1 2012-10-08 yourphp.cn $
  */
-if(!defined("YOURPHP")) exit("Access Denied");
+if(!defined("Yourphp")) exit("Access Denied");
 class IndexAction extends BaseAction
 {
 
@@ -19,6 +19,7 @@ class IndexAction extends BaseAction
 		if(!$this->_userid){
 			$this->assign('jumpUrl',U('User/Login/index'));
 			$this->error(L('nologin'));
+			exit;
 		}
 		$this->dao = M('User');
 		$this->assign('bcid',0);
@@ -28,6 +29,7 @@ class IndexAction extends BaseAction
 		unset($_POST['groupid']);
 		unset($_POST['amount']);
 		unset($_POST['point']);
+		$_GET =get_safe_replace($_GET);
     }
 
     public function index()
@@ -38,6 +40,7 @@ class IndexAction extends BaseAction
 	public function profile()
     {	 
 		if($_POST['dosubmit']){
+			
 			$_POST['id']=$this->_userid;
 			if(!$this->dao->create($_POST)) {
 				$this->error($this->dao->getError());
@@ -91,8 +94,7 @@ class IndexAction extends BaseAction
     }
 
 	public function password()
-    {	 
-		
+    {
 		if($_POST['dosubmit']){
 
 			if(md5($_POST['verify']) != $_SESSION['verify']) {
@@ -102,12 +104,8 @@ class IndexAction extends BaseAction
 				$this->error(L('password_repassword'));
 			}
 			$map	=	array();
-			$map['password']= sysmd5($_POST['oldpassword']);
-			if(isset($this->_userid)) {
-				$map['id']		=	$this->_userid;
-			}elseif(isset($this->_username)) {
-				$map['username']	 =	 $this->_username;
-			}
+			$map['password']= array('eq',sysmd5($_POST['oldpassword']));
+			$map['id']		=	$this->_userid;
 			//检查用户
 			if(!$this->dao->where($map)->field('id')->find()) {
 				$this->error(L('error_oldpassword'));

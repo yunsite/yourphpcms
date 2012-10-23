@@ -8,7 +8,7 @@
 			<input type="hidden" name="m" value="{$Think.MODULE_NAME}" />
 			<input type="hidden" name="a" value="{$Think.ACTION_NAME}" />
 
-			<input id="title" type="text" class="input-text" name="keyword" value="{$Think.get.keyword}" />
+			<input id="title" type="text" size="14" class="input-text" name="keyword" value="{$Think.get.keyword}" />
 			<select name="searchtype">
 			<if condition="$fields['name']"><option value="title" <eq  name="searchtype" value='name'>selected="selected"</eq>>{:L('name')}</option></if>
 			<if condition="$fields['title']"><option value="title" <eq name="searchtype" value='title'>selected="selected"</eq>>{:L('title')}</option></if>

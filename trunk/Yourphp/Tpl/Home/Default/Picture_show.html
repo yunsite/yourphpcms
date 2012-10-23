@@ -4,9 +4,9 @@
 <load href="../Public/js/yourphp.pics.js"/>
 
 <div class="left" style="width:920px;">
-		<div class="pos">{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> > <YP:catpos  catid="catid" space=" > " /></div>
+		<div class="pos">{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> &gt <YP:catpos  catid="catid" space=" &gt; " /></div>
 		<div id="content">
-		<h1>{$title}</h1>
+		<h1 class="tit">{$title}</h1>
 
 
 <div class="picviewbox">
@@ -52,7 +52,7 @@
 						<div class="posit_pic">
 						<h3>{:L(Picture_other_list)}</h3>
 						<ul class="pic">
-						<YP:list   order="id desc" catid="$catid" limit="3">
+						<YP:list   order="id desc" catid="catid" limit="3">
 									<li><span><a href="{$r.url}" target="_blank" title="{$r.title}"><img src="{$r[thumb]|thumb}" alt="{$r.title}"></a></span><a href="{$r.url}" target="_blank">{$r.title|str_cut=###,9}</a></li>
 						</YP:list>
 						</ul></div>
@@ -106,7 +106,6 @@ $(function(){
 		var title="{$title}",url="{$url}",createtime="{$createtime|toDate=###,'Y-m-d H:i'}",site_name="{$site_name}",site_url="{$site_url}",swfUrl= "";
 		hdPic({title:title,url:url,createtime:createtime,site_name:site_name,site_url:site_url,swfUrl:swfUrl});
 });
-
 </script>
 
 <include file="Home:footer"/>

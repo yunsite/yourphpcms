@@ -83,6 +83,11 @@
 		<td>{:Form::select(array('field'=>'HOME_ISHTML','options'=>$openarr),$HOME_ISHTML)}</td>
 	</tr>
 	<tr>
+		<th>{:L('ADMIN_VERIFY')}:</th>
+		<td>{:Form::select(array('field'=>'ADMIN_VERIFY','options'=>$openarr),$ADMIN_VERIFY)}</td>
+	</tr>
+ 
+	<tr>
 		<th>{:L('COOKIE_PATH')}:</th>
 		<td><input name="COOKIE_PATH" type="text" class="input-text" id="COOKIE_PATH" value="{$COOKIE_PATH}"> </td>
 	</tr>

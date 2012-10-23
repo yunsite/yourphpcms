@@ -7,9 +7,9 @@
  * @author          liuxun QQ:147613338 <admin@yourphp.cn>
  * @copyright     	Copyright (c) 2008-2011  (http://www.yourphp.cn)
  * @license         http://www.yourphp.cn/license.txt
- * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
+ * @version        	YourPHP企业网站管理系统 v2.1 2012-10-08 yourphp.cn $
  */
-if(defined('APP_NAME')!='Yourphp' && !defined("YOURPHP"))  exit("Access Denied");
+if(!defined("Yourphp")) exit("Access Denied");
 class AttachmentAction extends  Action {
 
 	protected $lang,$dao,$Config,$sysConfig,$isadmin=0,$userid=0,$groupid=0;
@@ -145,10 +145,10 @@ class AttachmentAction extends  Action {
 			$data['catid'] = 0;
 			$data['userid'] = $_REQUEST['userid'];
 			$data['filename'] = $uploadList[0]['name'];
-			$data['filepath'] = __ROOT__.substr($uploadList[0]['savepath'].$uploadList[0]['savename'],1);
+			$data['filepath'] = __ROOT__.substr($uploadList[0]['savepath'].strtolower($uploadList[0]['savename']),1);
 			$data['filesize'] = $uploadList[0]['size']; 
-			$data['fileext'] = $uploadList[0]['extension']; 
-			$data['isimage'] = in_array($uploadList[0]['extension'],$imagearr) ? 1 : 0;
+			$data['fileext'] = strtolower($uploadList[0]['extension']); 
+			$data['isimage'] = in_array($data['fileext'],$imagearr) ? 1 : 0;
 			$data['isthumb'] = intval($_REQUEST['isthumb']);
 			$data['createtime'] = time();
 			$data['uploadip'] = get_client_ip();

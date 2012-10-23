@@ -76,5 +76,8 @@ return array(
 	'URL_SHOW_URLRULE'=> '内容页',
 	'URL_LIST_URLRULE'=> '列表页',
 	'LAYOUT_ON'=>'布局模板',
+	'ADMIN_VERIFY'=>'后台登陆验证码',
+	'COOKIE_PATH'=>'cookie路径',
+	'COOKIE_DOMAIN'=>'cookie域名',
 );
 ?>

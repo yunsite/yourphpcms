@@ -7,8 +7,8 @@ class Online extends Think {
    public function __construct(&$params='') {
 		$this->lifeTime = C('EXPIRE_TIME') ?  C('EXPIRE_TIME') : 1800;
 
-		if($_COOKIE['YP_onlineid']){
-			$this->sessionid = $_COOKIE['YP_onlineid'];
+		if(cookie('onlineid')){
+			$this->sessionid = cookie('onlineid');
 		}else{
 			$this->sessionid = substr(MD5(session_id()), 0, 32);
 			cookie('onlineid',$this->sessionid,0);
@@ -35,11 +35,11 @@ class Online extends Think {
 
    public function write($sessID,$sessData) {
 		$ip = get_client_ip();
-		$username = $_COOKIE['YP_username'] ? $_COOKIE['YP_username'] : '';
-		$groupid = $_COOKIE['YP_groupid'] ? intval($_COOKIE['YP_groupid']) : 4;
+		$username = cookie('username') ? cookie('username') : '';
+		$groupid = cookie('groupid') ? intval(cookie('groupid')) : 4;
 		$sessiondata = array(
 							'sessionid'=>$sessID,
-							'userid'=>intval($_COOKIE['YP_userid']),
+							'userid'=>intval(cookie('userid')),
 							'username'=>$username,
 							'ip'=>$ip,
 							'lastvisit'=>time(),

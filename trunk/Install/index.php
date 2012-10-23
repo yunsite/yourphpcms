@@ -1,16 +1,17 @@
 <?php
-if (file_exists('../install.lock')){
+if (file_exists('../Cache/config.php')){
         echo '
 		<html>
         <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         </head>
         <body>
-        你已经安装过该系统，如果想重新安装，请先删除站点根目录下的 install.lock 文件，然后再安装。
+        你已经安装过该系统，如果想重新安装，请先删除站点Cache目录下的config.php 文件，然后再安装。
         </body>
         </html>';
         exit;
 }
+define('Yourphp', true);
 @set_time_limit(1000);
 if(phpversion() <= '5.3.0') set_magic_quotes_runtime(0);
 if('5.2.0' > phpversion() ) exit('您的php版本过低，不能安装本软件，请升级到5.2.0或更高版本再安装，谢谢！');
@@ -45,6 +46,9 @@ switch($step)
 
 
 case '1':
+	 
+	$dir = explode('/',$_SERVER['REQUEST_URI']);
+	if(strtolower($dir[1])=='yourphp'){ echo '程序不能安装在yourphp目录下，请更改为其他目录！';exit;} 
     include_once ("./templates/s1.html");
     exit ();
 
@@ -200,13 +204,19 @@ case '4':
 			$sqldata = file_get_contents(SITEDIR.'Install/yourphp_area.sql');
 			sql_execute($sqldata, $dbPrefix);
 	 
-
+			
+			$indexcode = file_get_contents(SITEDIR.'index.php');
+			$indexcode = str_replace('if(!is_file(\'./config.php\'))header("location: ./Install");','',$indexcode);			
 			if( $_POST['lang']){
 				$langsql = file_get_contents(SITEDIR.'Install/yourphp_lang.sql');
 				sql_execute($langsql, $dbPrefix);
+				$indexcode = str_replace('define(\'APP_LANG\',false);', 'define(\'APP_LANG\',true);', $indexcode);
+				$indexcode = @file_put_contents(SITEDIR.'index.php',$indexcode);
 			}else{
-				@unlink(SITEDIR.'index.php');
-				@copy(SITEDIR.'Install/index_one.php',SITEDIR.'index.php');
+				$indexcode = str_replace('define(\'APP_LANG\',true);', 'define(\'APP_LANG\',false);', $indexcode);
+				$indexcode = @file_put_contents(SITEDIR.'index.php',$indexcode);
+				//@unlink(SITEDIR.'index.php');
+				//@copy(SITEDIR.'Install/index_one.php',SITEDIR.'index.php');
 				mysql_query("UPDATE `{$dbPrefix}menu` SET  `status` ='0'   WHERE model='Lang' ");
 			}
 
@@ -225,7 +235,7 @@ case '4':
 			$strConfig = str_replace('#DB_PWD#', $dbPwd, $strConfig);
 			$strConfig = str_replace('#DB_PORT#', $dbPort, $strConfig);
 			$strConfig = str_replace('#DB_PREFIX#', $dbPrefix, $strConfig);
-			@file_put_contents(SITEDIR.'/'.$configFile, $strConfig);
+			@file_put_contents(SITEDIR.'/Cache/'.$configFile, $strConfig);
 			$code=md5(time());
 			$query = "UPDATE `{$dbPrefix}config` SET value='$code' WHERE varname='ADMIN_ACCESS'";
 			mysql_query($query);
@@ -252,7 +262,8 @@ case '5':
 	$domain = empty ($_SERVER['HTTP_HOST']) ?  $_SERVER['HTTP_HOST']  : $_SERVER['SERVER_NAME'] ;
 	$domain = $domain.$rootpath;
 	include_once ("./templates/s5.html");
-	@touch('../install.lock');
+	@mkdir(SITEDIR.'/Cache/',0755,true);
+	@touch(SITEDIR.'/Cache/install.lock');
     exit ();
 }
 

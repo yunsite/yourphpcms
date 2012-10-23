@@ -30,7 +30,8 @@
 			<ul>
 			<li><label>{:L('account')}:</label><input type="text" id="username" class="input-text" name="username" size="16"></li>
 			<li><label>{:L('password')}:</label><input type="password"  class="input-text" name="password" size="16"></li>
-			<li><label>{:L('verify')}:</label><input name="verifyCode" class="input-text"  class="inputbox" id="verifyCode"  size="6" value="" maxlength="4" /><img src="{:U('Home/Index/verify')}" onclick="javascript:resetVerifyCode();" class="checkcode" align="absmiddle"  title="{:L('resetVerifyCode')}" id="verifyImage"/></li>
+			{if $admin_verify}
+			<li><label>{:L('verify')}:</label><input name="verifyCode" class="input-text"  class="inputbox" id="verifyCode"  size="6" value="" maxlength="4" /><img src="{:U('Home/Index/verify')}" onclick="javascript:resetVerifyCode();" class="checkcode" align="absmiddle"  title="{:L('resetVerifyCode')}" id="verifyImage"/></li>{/if}
 			<li><label></label><input type="hidden" name="ajax" value="1"><input type="submit" value="{:L('login')}" class="button"> <input type="reset" name="reset" value="{:L('reset')}" class="button" id="reset" /></li> 
 			</ul>
 		</div>
@@ -49,6 +50,7 @@ jQuery(document).ready(function($){
 		dataType: 'json'
 	});
 
+
 });
 function complete(data){
         if (data.status==1)
@@ -65,6 +67,7 @@ function reload(){
 	if(self!=top){
 	 window.top.location.href = '{:U("Login/index")}';
 	}
+	resetVerifyCode();
 }
 
 </script><style>

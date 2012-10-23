@@ -35,7 +35,9 @@
 			<input type="button"  class="button"  name="" value="检查" onclick="myform.action='{:U($module_name.'/docommand?do=check')}';$('#myform').submit();">
 			<input type="button"  class="button"  name="" value="分析" onclick="myform.action='{:U($module_name.'/docommand?do=analyze')}';$('#myform').submit();" >       
 			 <input type="button"  class="button"  name="" value="结构" onclick="myform.action='{:U($module_name.'/docommand?do=show')}';$('#myform').submit();">
+			 分卷大小：<input type="text" name="sizelimit" value="2048" class="input-text" size=4>
 			 <input type="button" class="button"  name="" value="执行备份" onclick="myform.action='{:U($module_name.'/backup')}';$('#myform').submit();">
 			<span style="float:right;color:#FB0000">数据库大小：{$totalSize|byte_format}</span>
 		</div>  
+		 
 	</form>

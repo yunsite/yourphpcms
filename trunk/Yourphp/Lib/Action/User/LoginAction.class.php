@@ -9,7 +9,7 @@
  * @license         http://www.yourphp.cn/license.txt
  * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
  */
-if(!defined("YOURPHP")) exit("Access Denied");
+if(!defined("Yourphp")) exit("Access Denied");
 class LoginAction extends BaseAction
 {
 	
@@ -32,10 +32,9 @@ class LoginAction extends BaseAction
  
 	function dologin()
 	{
-		
-		$username = trim($_POST['username']);
-        $password = trim($_POST['password']);
-        $verifyCode = trim($_POST['verifyCode']);
+		$username = get_safe_replace($_POST['username']);
+        $password = get_safe_replace($_POST['password']);
+        $verifyCode = get_safe_replace($_POST['verifyCode']);
 
         if(empty($username) || empty($password)){
            $this->error(L('empty_username_empty_password'));
@@ -54,7 +53,7 @@ class LoginAction extends BaseAction
             	$this->error(L('password_error'));
             }
 
-			$cookietime =  $_REQUEST['cookietime'];
+			$cookietime =  intval($_REQUEST['cookietime']);
 			$cookietime = $cookietime ? $cookietime : 0;
 
 			$yourphp_auth_key = sysmd5($this->sysConfig['ADMIN_ACCESS'].$_SERVER['HTTP_USER_AGENT']);
@@ -114,6 +113,7 @@ class LoginAction extends BaseAction
 			}else{
 				$this->error(L('check_url_error'));
 			}
+			exit;
 		
 		}
 		$code = str_replace(' ','+',$_REQUEST['code']);
@@ -124,8 +124,8 @@ class LoginAction extends BaseAction
 
 	function sendmail(){
 		$verifyCode = trim($_POST['verifyCode']);
-		$username = trim($_POST['username']);
-		$email = trim($_POST['email']);
+		$username = get_safe_replace($_POST['username']);
+		$email = get_safe_replace($_POST['email']);
 
 
         if(empty($username) || empty($email)){
@@ -163,7 +163,7 @@ class LoginAction extends BaseAction
 		if(!$this->_userid && !$this->_username && !$this->_groupid && !$this->_email){
 			$this->assign('forward','');
 			$this->assign('jumpUrl',U('User/Login/index'));
-			$this->success(L('noogin'));
+			$this->success(L('noogin'));exit;
 		}
 
 		if($_REQUEST['resend']){
@@ -203,7 +203,7 @@ class LoginAction extends BaseAction
 				$ru['role_id']=3;
 				$roleuser=M('RoleUser');
 				$roleuser->where("user_id=".$userid)->save($ru);
-				$this->assign('jumpUrl',U('User/login/index'));
+				$this->assign('jumpUrl',U('User/Login/index'));
 				$this->assign('waitSecond',10);
 				$this->success(L('do_regcheckemail_success'));
 			}else{

@@ -7,8 +7,9 @@
  * @author          liuxun QQ:147613338 <web@yourphp.cn>
  * @copyright     	Copyright (c) 2008-2011  (http://www.yourphp.cn)
  * @license         http://www.yourphp.cn/license.txt
- * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
+ * @version        	YourPHP企业网站管理系统 v2.1 2012-10-08 yourphp.cn $
  */
+if(!defined("Yourphp")) exit("Access Denied");
 class CategoryAction extends AdminbaseAction
 {
     protected $dao,$categorys,$module;
@@ -34,8 +35,10 @@ class CategoryAction extends AdminbaseAction
 			foreach($this->categorys as $r) {
 				if($r['module']=='Page'){
 					$r['str_manage'] = '<a href="?g=Admin&m=Page&a=edit&id='.$r['id'].'">'.L('edit_page').'</a> | ';
-				}else{
+				}elseif($r['module']==''){
 					$r['str_manage'] = '';
+				}else{
+					$r['str_manage'] = '<a href="?g=Admin&m='.$r['module'].'&a=add&catid='.$r['id'].'">'.L('add_content').'</a> | ';
 				}
 				$r['str_manage'] .= '<a href="'.U('Category/add',array( 'parentid' => $r['id'],'type'=>$r['type'])).'">'.L('add_catname').'</a> | <a href="'.U('Category/edit',array( 'id' => $r['id'],'type'=>$r['type'])).'">'.L('edit').'</a> | <a href="javascript:confirm_delete(\''.U('Category/delete',array( 'id' => $r['id'])).'\')">'.L('delete').'</a> ';
 				$r['modulename']=$this->module[$r['moduleid']]['title'] ? $this->module[$r['moduleid']]['title'] : L('Module_url');
@@ -52,7 +55,8 @@ class CategoryAction extends AdminbaseAction
 						<td align='center'>\$str_manage</td>
 					</tr>";
 			import ( '@.ORG.Tree' );
-			$tree = new Tree ($array);	
+			$tree = new Tree ($array);
+			unset($array);
 			$tree->icon = array('&nbsp;&nbsp;&nbsp;'.L('tree_1'),'&nbsp;&nbsp;&nbsp;'.L('tree_2'),'&nbsp;&nbsp;&nbsp;'.L('tree_3'));
 			$tree->nbsp = '&nbsp;&nbsp;&nbsp;';
 			$categorys = $tree->get_tree(0, $str);
@@ -114,10 +118,11 @@ class CategoryAction extends AdminbaseAction
 
 	 
 
-		$_POST['module'] = $this->module[$_POST['moduleid']]['name'];
-		if(APP_LANG)$_POST['lang']=LANG_ID; 
+		$_POST['module'] = $this->module[$_POST['moduleid']]['name'] ? $this->module[$_POST['moduleid']]['name'] : '';
+		$_POST['moduleid']= intval($_POST['moduleid']);
+		if(APP_LANG)$_POST['lang']=LANG_ID;
         if($this->dao->create())
-        {  
+        {
 			$id = $this->dao->add();
             if($id)
             {

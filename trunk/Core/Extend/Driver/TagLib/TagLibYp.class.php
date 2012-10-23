@@ -13,7 +13,6 @@ if(defined('APP_NAME')!='Yourphp' && !defined("YOURPHP"))  exit("Access Denied")
 class TagLibYp extends TagLib
 {
 	protected $tags   =  array(
-        // 标签定义：
         //attr 属性列表 close 是否闭合（0 或者1 默认1） alias 标签别名 level 嵌套层次
         'list'=>array('attr'=>'name,field,limit,order,catid,thumb,posid,where,sql,key,page,mod,id,ids,status','level'=>3),
 		'subcat'=>array('attr'=>'catid,type,self,key,id','level'=>3),
@@ -25,7 +24,39 @@ class TagLibYp extends TagLib
 		'block' => array('attr'=>'blockid,pos,key,id','close'=>0),
 		'flash' => array('attr'=>'flashid,key,mod,id','close'=>0),
 		'tags' => array('attr'=>'keywords,list,key,mod,moduleid,id,limit,order','close'=>3),
+		'pre' => array('attr'=>'blank,msg','close'=>0),
+		'next' => array('attr'=>'blank,msg','close'=>0),
     );
+
+	public function _pre($attr,$content) {
+		$tag    = $this->parseXmlAttr($attr,'tags');
+		$msg    = !empty($tag['msg'])?$tag['msg']:'';
+		$target = !empty($tag['blank'])? ' target="_blank" ' :'';
+
+		$m = $this->tpl->get('module');
+		$id = $this->tpl->get('id');
+		$catid = $this->tpl->get('catid');
+		$r = M($m)->where("catid=$catid and id<$id")->order("id DESC")->find();
+
+		//下面拼接输出语句
+		$parsestr  = $r ? '<a class="pre_a" href="'.$r['url'].'"'.$target.'>'.$r['title'].'</a>' : $msg; 
+		return  $parsestr;
+	}
+
+	public function _next($attr,$content) {
+		$tag    = $this->parseXmlAttr($attr,'tags');
+		$msg    = !empty($tag['msg'])?$tag['msg']:'';
+		$target = !empty($tag['blank'])? ' target="_blank" ' :'';
+
+		$m = $this->tpl->get('module');
+		$id = $this->tpl->get('id');
+		$catid = $this->tpl->get('catid');
+		$r = M($m)->where("catid=$catid and id>$id")->order("id ASC")->find();
+
+		//下面拼接输出语句
+		$parsestr  = $r ? '<a class="next_a" href="'.$r['url'].'"'.$target.'>'.$r['title'].'</a>' : $msg; 
+		return  $parsestr;
+	}
 
 	public function _tags($attr,$content) {
 		$tag    = $this->parseXmlAttr($attr,'tags');
@@ -60,7 +91,9 @@ class TagLibYp extends TagLib
  
 		if(APP_LANG){
 			$lang=$this->tpl->get('langid');
-			$where= APP_LANG ?  " lang=".$lang : 1 ;
+			$where= " lang=".$lang;
+		}else{
+			$where = ' 1 ';
 		}
 		$where .= $moduleid ? ' and moduleid='.$moduleid : '';
 		$where .= $keywords ? " and name in($keywords)" : '';
@@ -229,7 +262,7 @@ class TagLibYp extends TagLib
 			import ( '@.ORG.Tree' );
 			$tree = new Tree ($array);
 			$parsestr = $tree->get_nav($catid,$level,$id,$class,$homefont,FALSE,'',$enhomefont,$lang);
-		}
+		}unset($category_arr);
 		return  $parsestr;
 	}
 
@@ -269,20 +302,26 @@ class TagLibYp extends TagLib
 
 	public function _catpos($attr) {
 		$tag        = $this->parseXmlAttr($attr,'catpos');
-		$space		= $tag['space'];
+		$space		= !empty($tag['space']) ? $tag['space'] : '';
  		if(is_numeric($tag['catid'])){
             $catid   = intval($tag['catid']);
+			$category_arr = $this->tpl->get('Categorys');
+			if(!isset($category_arr[$catid])) return '';
+			$arrparentid = array_filter(explode(',', $category_arr[$catid]['arrparentid'].','.$catid));
+			foreach($arrparentid as $cid) {
+				$parsestr[] = '<a href="'.$category_arr[$cid]['url'].'">'.$category_arr[$cid]['catname'].'</a>';
+			}unset($category_arr);
+			return implode($space,$parsestr);
 		}else{
-			$catid   = $this->tpl->get($tag['catid']);
+			//下面拼接输出语句
+			$parsestr  = '';
+			$parsestr .= '<?php  $arrparentid = array_filter(explode(\',\', $Categorys[$'.$tag['catid'].'][\'arrparentid\'].\',\'.$'.$tag['catid'].'));';
+			$parsestr .= 'foreach($arrparentid as $cid):';
+			$parsestr .= '$parsestr[] = \'<a href="\'.$Categorys[$cid][\'url\'].\'">\'.$Categorys[$cid][\'catname\'].\'</a>\';?>';
+			$parsestr .= '<?php endforeach;echo implode("'.$space.'",$parsestr);?>';
+			return  $parsestr;
 		}
-
-		$category_arr = $this->tpl->get('Categorys');
-		if(!isset($category_arr[$catid])) return '';
-		$arrparentid = array_filter(explode(',', $category_arr[$catid]['arrparentid'].','.$catid));
-		foreach($arrparentid as $cid) {
-			$parsestr[] = '<a href="'.$category_arr[$cid]['url'].'">'.$category_arr[$cid]['catname'].'</a>';
-		}
-		return implode($space,$parsestr);
+		
 	}
 	public function _link($attr,$content) {
 		$tag    = $this->parseXmlAttr($attr,'link');
@@ -464,6 +503,7 @@ class TagLibYp extends TagLib
 					if(is_numeric($catid)){
 						$category_arr = $this->tpl->get('Categorys');
 						$module = $category_arr[$catid]['module'];
+						if(!$module) return '';
 						if($category_arr[$catid]['child']){
 							$where .= " AND catid in(".$category_arr[$catid]['arrchildid'].")";
 						}else{
@@ -472,10 +512,10 @@ class TagLibYp extends TagLib
 					}elseif($onezm=='$') {
 						$where .=  ' AND catid in('.$tag['catid'].')';
 					}else{
-							$where .=  ' AND catid in('.strip_tags($tag['catid']).')';
+						$where .=  ' AND catid in('.strip_tags($tag['catid']).')';
 					}
 				}
-
+				unset($category_arr);
 
 				if($tag['posid']){
 					$posid = $tag['posid'];
@@ -493,6 +533,7 @@ class TagLibYp extends TagLib
 				if($tag['thumb']){
 					$where .=  ' AND  thumb !=\'\' ';
 				}
+				
 				$sql  = "M(\"{$module}\")->field(\"{$field}\")->where(\"{$where}\")->order(\"{$order}\")->limit(\"{$limit}\")->select();";
 			}else{
 				if (!$tag['sql']) return ''; //排除没有指定model名称，也没有指定sql语句的情况

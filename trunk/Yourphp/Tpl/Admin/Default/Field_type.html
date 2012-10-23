@@ -92,6 +92,15 @@
 	<case value="editor">
 		<table cellpadding="2" cellspacing="1" width="100%">
 		<tr>
+		  <td width="140">编辑器类型：</td>
+		  <td><select name="setup[edittype]">
+			<option value="kindeditor"<if condition="$edittype=='kindeditor'"> selected</if>>kindeditor</option>
+			<option value="Xheditor"<if condition="$edittype=='Xheditor'"> selected</if>>Xheditor</option>
+			<option value="ckeditor"<if condition="$edittype=='ckeditor'"> selected</if>>ckeditor</option>
+		  </select></td>
+		</tr>
+		
+		<tr>
 		  <td width="140">编辑器样式：</td>
 		  <td><input type="radio" name="setup[toolbar]" value="basic" <if condition="$toolbar=='basic'"> checked</if>> 简洁型  <input type="radio" name="setup[toolbar]" value="full" <if condition="$toolbar=='full'"> checked</if>> 标准型 </td>
 		</tr>

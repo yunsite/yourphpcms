@@ -10,7 +10,7 @@
 	<meta name="author" content="{$site_name}--Powered by yourphp">
 	<meta name="generator" content="Yourphp 2.0" />
 	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
-	<title>{$seo_title}-{$site_name}-Powered by Yourphp</title>
+	<title>{$seo_title}-{$site_name}{if YP_KEY==1} -Powered by Yourphp{else} -Powered by {$site_name}{/if} </title>
 	<link href="__ROOT__/index.php?m=Format&a=rss" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
 	<script src="__PUBLIC__/Js/jquery.min.js"></script>
 	<script src="__PUBLIC__/Js/jquery.validate.js"></script>
@@ -18,9 +18,16 @@
 	<link rel="stylesheet" type="text/css" href="../Public/css/member.css" />
 </head>
 <body>
-
+ 
 
 <div id="user_header"> <div class="box">
-	<div class="logined">{if  $_COOKIE['YP_username']}{$_COOKIE['YP_username']}{else}{:L(guest)}{/if} ,{:L(welcome_return)}  |  <a href="{:URL('User-Login/index?forward=')}{$forward|urlencode}">{:L(user_login)}</a> | <a href="{:URL('User-Register/index?forward=')}{$forward|urlencode}" target="_top" />{:L(REGISTER)}</a></div>
-	<div class="logo"><img src="http://www.yourphp.cn/Public/Images/logo.gif"></div>
+	<div class="logined">{if  $_COOKIE['YP_username']}{:cookie('username')}{else}{:L(guest)}{/if} ,{:L(welcome_return)} |   
+	
+	{if  $_COOKIE['YP_username']}<a id="logout_url" href="{:URL('User-Login/logout')}">{:L(logout)}</a>  
+	{else}	
+	<a href="{:URL('User-Login/index')}&forward={$forward|urlencode}">{:L(user_login)}</a> | 
+	<a href="{:URL('User-Register/index')}&forward={$forward|urlencode}" target="_top" />{:L(REGISTER)}</a>
+	{/if}
+	</div>
+	<div class="logo"><img src="{$logo}"></div>
 </div></div>

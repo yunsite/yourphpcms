@@ -7,8 +7,9 @@
  * @author          liuxun QQ:147613338 <admin@yourphp.cn>
  * @copyright     	Copyright (c) 2008-2011  (http://www.yourphp.cn)
  * @license         http://www.yourphp.cn/license.txt
- * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
+ * @version        	YourPHP企业网站管理系统 v2.1 2012-10-08 yourphp.cn $
  */
+if(!defined("Yourphp")) exit("Access Denied");
 class UserAction extends AdminbaseAction {
 
     public $dao,$usergroup;
@@ -69,9 +70,8 @@ class UserAction extends AdminbaseAction {
 	function update(){
 		$user=$this->dao;
 		$_POST['password'] = $_POST['pwd'] ? sysmd5($_POST['pwd']) : $_POST['opwd'];
-		if($data=$user->create()){
-			if(!empty($data['id'])){
-				if(false!==$user->save()){
+		if(!empty($_POST['id'])){
+				if(false!==$user->save($_POST)){
 					$ru['user_id']=$_POST['id'];
 					$ru['role_id']=$_POST['groupid'];
 					$roleuser=M('RoleUser');
@@ -81,12 +81,10 @@ class UserAction extends AdminbaseAction {
 				}else{
 					$this->error(L('edit_error').$user->getDbError());
 				}
-			}else{
-				$this->error(L('do_error'));
-			}
 		}else{
-			$this->error($user->getError());
+				$this->error(L('do_error'));
 		}
+		 
 	}
  
 

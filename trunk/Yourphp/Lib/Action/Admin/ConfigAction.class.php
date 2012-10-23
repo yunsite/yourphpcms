@@ -8,8 +8,9 @@
  * @author          liuxun QQ:147613338 <admin@yourphp.cn>
  * @copyright     	Copyright (c) 2008-2011  (http://www.yourphp.cn)
  * @license         http://www.yourphp.cn/license.txt
- * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
+ * @version        	YourPHP企业网站管理系统 v2.1 2012-10-08 yourphp.cn $
  */
+if(!defined("Yourphp")) exit("Access Denied");
 class ConfigAction extends AdminbaseAction {
 	
 	protected $dao, $config,$seo_config ,$user_config, $site_config, $mail_config, $attach_config;
@@ -52,7 +53,7 @@ class ConfigAction extends AdminbaseAction {
 		$this->assign('yesorno',array(0 => L('no'),1  => L('yes')));
 		$this->assign('openarr',array(0 => L('close_select'),1  => L('open_select')));
 		$this->assign('enablearr',array(0 => L('disable'),1  => L('enable')));
-		$this->assign('urlmodelarr',array(0 => L('URL_MODEL0').'(m=module&a=action&id=1)',1  => L('URL_MODEL1').'(index.php/Index_index_id_1)',2 => L('URL_MODEL2').'(Index_index_id_1)' ,3=>L("URL_MODEL3") ));
+		$this->assign('urlmodelarr',array(0 => L('URL_MODEL0').'(m=module&a=action&id=1)',1  => L('URL_MODEL1').'(index.php/Index_index_id_1)',2 => L('URL_MODEL2').'(Index_index_id_1)'));
 		$this->assign('readtypearr', array(0=>'readfile',1=> 'redirect'));
 		$this->assign($sysconfig);
 		$this->display();
@@ -63,6 +64,24 @@ class ConfigAction extends AdminbaseAction {
 		$this->display();
 	}
 
+	public function delete() {		
+		
+		$name = MODULE_NAME;
+		$model = M ( $name );
+		$id = $_REQUEST ['varname'];
+		if (isset ( $id )) {
+			if(false!==$model->where("varname='$id'")->delete()){
+				if(in_array($name,$this->cache_model)) savecache($name);
+				$this->success(L('delete_ok'));
+			}else{
+				$this->error(L('delete_error').': '.$model->getDbError());
+			}
+		}else{
+			$this->error (L('do_empty'));
+		}
+		 
+	}
+
 	public function insert() {
 
 		if(APP_LANG)$_POST['lang']=LANG_ID; 
@@ -70,7 +89,6 @@ class ConfigAction extends AdminbaseAction {
 		if (false === $this->dao->create ()) {
 			$this->error ( $this->dao->getError () );
 		}
-		//保存当前数据对象
 		$list=$this->dao->add ();
 		savecache('Config');
 		if ($list!==false) {

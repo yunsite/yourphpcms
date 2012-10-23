@@ -7,9 +7,9 @@
  * @author          liuxun QQ:147613338 <web@yourphp.cn>
  * @copyright     	Copyright (c) 2008-2011  (http://www.yourphp.cn)
  * @license         http://www.yourphp.cn/license.txt
- * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
+ * @version        	YourPHP企业网站管理系统 v2.1 2012-10-08 yourphp.cn $
  */
-if(!defined("YOURPHP")) exit("Access Denied");
+if(!defined("Yourphp")) exit("Access Denied");
 class LoginAction extends Action{
     private $adminid ,$groupid ,$sysConfig ,$cache_model,$Config,$menudata ;
     function _initialize()
@@ -27,11 +27,7 @@ class LoginAction extends Action{
      */
     public function index()
     {
-		//dir_delete(RUNTIME_PATH.'Html/');
-		//dir_delete(RUNTIME_PATH.'Cache/');
-		if(is_file(RUNTIME_PATH.'~app.php'))@unlink(RUNTIME_PATH.'~app.php');
-		if(is_file(RUNTIME_PATH.'~runtime.php'))@unlink(RUNTIME_PATH.'~runtime.php');
-		if(is_file(RUNTIME_PATH.'~allinone.php'))@unlink(RUNTIME_PATH.'~allinone.php');	
+		if(is_file(RUNTIME_FILE))@unlink(RUNTIME_FILE);
 		$this->menudata = F('Menu');
 		$this->cache_model=array('Lang','Menu','Config','Module','Role','Category','Posid','Field','Type','Urlrule','Dbsource');
 		if(empty($this->sysConfig['ADMIN_ACCESS']) || empty($this->menudata)){
@@ -45,6 +41,7 @@ class LoginAction extends Action{
 			$this->assign('jumpUrl',U('Index/index'));
 			$this->success(L('logined'));
 		}
+		$this->assign ( 'admin_verify', $this->sysConfig['ADMIN_VERIFY'] );
         $this->display();
     }
 
@@ -54,22 +51,28 @@ class LoginAction extends Action{
      */
     public function doLogin()
     {
-		
-		$dao = M('User');
-		if(C('TOKEN_ON') && !$dao->autoCheckToken($_POST))$this->error (L('_TOKEN_ERROR_'));
-      
+
+		$dao = M('User');  
+		$ip =get_client_ip();
 
 		if(empty($this->sysConfig['ADMIN_ACCESS'])) $this->error(L('NO SYSTEM CONFIG FILE'));
-		$username = trim($_POST['username']);
-        $password = trim($_POST['password']);
+		$username = get_safe_replace(trim($_POST['username']));
+        $password = get_safe_replace(trim($_POST['password']));
         $verifyCode = trim($_POST['verifyCode']);
 
         if(empty($username) || empty($password)){
            $this->error(L('empty_username_empty_password'));
-        }elseif(md5($verifyCode) != $_SESSION['verify']){
+        }elseif($_SESSION['verify'] && $this->sysConfig['ADMIN_VERIFY'] &&  md5($verifyCode) != $_SESSION['verify']){
            $this->error(L('error_verify'));
         }
 
+		$time =time();
+		$logwhere=array();
+		$logwhere['time']=array('EGT',$time-1800);
+		$logwhere['ip']=array('eq',$ip);
+		$logwhere['error'] =1;
+		$lognum= M('Log')->where($logwhere)->count();
+		if($lognum>=5)$this->error(L('Login_error_count'));
 
         $condition = array();
         $condition['username'] =array('eq',$username);
@@ -78,9 +81,23 @@ class LoginAction extends Action{
         $authInfo = RBAC::authenticate($condition);
         //使用用户名、密码和状态的方式进行认证
         if(false === $authInfo) {
+			$data=array();
+			$data['username']=$username;
+			$data['ip']=$ip;
+			$data['time']=$time;
+			$data['note']=L('empty_userid');
+			$data['error'] =1;
+			M('Log')->add($data);
             $this->error(L('empty_userid'));
         }else {
-            if($authInfo['password'] != sysmd5($_POST['password'])) {
+            if($authInfo['password'] != sysmd5($password)) {
+				$data=array();
+				$data['username']=$username;
+				$data['ip']=$ip;
+				$data['time']=$time;
+				$data['note']=L('password_error').':'.$password;
+				$data['error'] =1;
+				M('Log')->add($data);
             	$this->error(L('password_error'));
             }
 
@@ -101,13 +118,21 @@ class LoginAction extends Action{
 			
 			$data = array();
 			$data['id']	=	$authInfo['id'];
-			$data['last_logintime']	=	time();
+			$data['last_logintime']	=	$time;
 			$data['last_ip']	=	 get_client_ip();
 			$data['login_count']	=	array('exp','login_count+1');
 			$dao->save($data);
 
            // 缓存访问权限
             RBAC::saveAccessList();
+
+				$data=array();
+				$data['username']=$username;
+				$data['ip']=$ip;
+				$data['time']=$time;
+				$data['note']=L('login_ok');
+				M('Log')->add($data);
+
 			if($_POST['ajax']){
 				$this->ajaxReturn($authInfo,L('login_ok'),1);
 			}else{

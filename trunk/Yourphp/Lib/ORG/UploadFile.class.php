@@ -241,9 +241,9 @@ class UploadFile extends Think
             if(!empty($file['name'])) {
                 //登记上传文件的扩展信息
                 $file['key']          =  $key;
-                $file['extension']  = $this->getExt($file['name']);
+                $file['extension']  = strtolower($this->getExt($file['name']));
                 $file['savepath']   = $savePath;
-                $file['savename']   = $this->getSaveName($file);
+                $file['savename']   = strtolower($this->getSaveName($file));
 
                 // 自动检查附件
                 if($this->autoCheck) {

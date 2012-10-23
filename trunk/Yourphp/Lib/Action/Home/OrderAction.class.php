@@ -9,7 +9,7 @@
  * @license         http://www.yourphp.cn/license.txt
  * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
  */
-if(!defined("YOURPHP")) exit("Access Denied");
+if(!defined("Yourphp")) exit("Access Denied");
 class OrderAction extends BaseAction
 {
 	protected   $dao , $sessionid;
@@ -17,7 +17,7 @@ class OrderAction extends BaseAction
     {
 		parent::_initialize();
 		$this->dao=M('Cart');
-		$this->sessionid = $_COOKIE['YP_onlineid'];
+		$this->sessionid =  cookie('onlineid');
     }
 
 
@@ -51,7 +51,7 @@ class OrderAction extends BaseAction
 		if($this->_userid)
 			$user_address = M('User_address')->where("userid='{$this->_userid}'")->select();
 		else
-			if($_COOKIE['YP_guest_address'])$default_address = unserialize($_COOKIE['YP_guest_address']);
+			if( cookie('guest_address'))$default_address = unserialize( cookie('guest_address'));
 
 		$Area = M('Area')->getField('id,name');
 		$shipping = M('Shipping')->where("status=1")->select();
@@ -78,11 +78,13 @@ class OrderAction extends BaseAction
 
 	public function ajax(){ 
 		$id = intval($_REQUEST['id']);
-		$num = intval($_REQUEST['num']);		
-		$module =  $this->module[$_REQUEST['moduleid']]['name'];
+		$num = intval($_REQUEST['num']);
+		$moduleid = intval($_REQUEST['moduleid']);
+		$module =  $this->module[$moduleid]['name'];
 		$do = $_REQUEST['do']; 
-			
+		
 		if($do=='add'){
+			if(!$module){$res['msg']='error';echo json_encode($res); exit;}	
 			$session_info = M('Online')->find($this->sessionid);
 			$r=M($module)->find($id);
 			$cart = $this->dao->where("product_id='{$id}' and sessionid='{$this->sessionid}'")->find();
@@ -99,7 +101,7 @@ class OrderAction extends BaseAction
 				$data['product_url']=$r['url'];
 				$data['product_name']=$r['title'];
 				$data['product_price'] =$r['price'];
-				$data['moduleid']=intval($_REQUEST['moduleid']);	
+				$data['moduleid']=$moduleid;	
 				$data['number']=$num;
 				$data['price']= $data['product_price']*$data['number'];
 				$rs = $this->dao->add($data);
@@ -145,15 +147,17 @@ class OrderAction extends BaseAction
 
 		 /* 检查收货人信息是否完整 */
 		if($this->Config['use_address']){
-			if($this->_userid){
+			if($userid){
 				$address = M('User_address')->where("userid='$this->_userid' AND isdefault='1' ")->find();
 			}else{
-				$address = unserialize($_COOKIE['YP_guest_address']);
+				$address = unserialize( cookie('guest_address'));
 			}
 			if(!$address['province'] || !$address['city'] || !$address['area'] || !$address['address'] || !$address['consignee'] || !$address['mobile']){
 				$this->assign('jumpUrl',URL('Home-Order/checkout'));
 				$this->error ( L('SHIPPING_ADDRESS_NO_FULL'));
 			}
+		}else{
+			$address=$_POST;
 		}
 
 		$order=array();
@@ -203,16 +207,16 @@ class OrderAction extends BaseAction
 		$order['pay_status']= 0;
 		$order['shipping_status']= 0;
 
-		$order['consignee'] = $address['consignee'] ? $address['consignee'] : $_POST['consignee'];
+		$order['consignee'] = $address['consignee'];
 		$order['country'] =  intval($address['country']);
 		$order['province']  =  intval($address['province']);
 		$order['city'] =  intval($address['city']);
 		$order['area'] =  intval($address['area']);
-		$order['address'] =  $address['address'] ? $address['address'] : $_POST['address'];
-		$order['zipcode'] =  $address['zipcode'] ? $address['zipcode'] : $_POST['zipcode'];
-		$order['tel'] =  $address['tel'] ? $address['tel'] : $_POST['tel'];
-		$order['mobile'] =  $address['mobile'] ? $address['mobile'] :  $_POST['moblie'];
-		$order['email'] =  $address['email'] ? $address['email'] :  $_POST['email'];
+		$order['address'] =  $address['address'];
+		$order['zipcode'] =  $address['zipcode'];
+		$order['tel'] =  $address['tel'];
+		$order['mobile'] =  $address['mobile'];
+		$order['email'] =  $address['email'];
 
 		$order['shipping_id'] =  intval($Shipping['id']);
 		$order['shipping_name'] =  $Shipping['name'] ?  $Shipping['name'] : '';

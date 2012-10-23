@@ -18,17 +18,17 @@ class Page extends Think {
     // 页数跳转时要带的参数
     public $parameter  ;
     // 分页总页面数
-    protected $totalPages  ;
+    public $totalPages  ;
     // 总行数
-    protected $totalRows  ;
+    public $totalRows  ;
     // 当前页数
-    protected $nowPage    ;
+    public $nowPage    ;
     // 分页的栏的总页数
-    protected $coolPages   ;
+    public $coolPages   ;
     // 分页栏每页显示的页数
-    protected $rollPage   ;
+    public $rollPage   ;
 	// 分页url定制
-	protected $urlrule;
+	public $urlrule;
  
 
     /**
@@ -66,7 +66,6 @@ class Page extends Think {
 		if($this->totalRows == 0 OR $this->listRows == 0 OR $this->totalPages <= 1){
 			return '';
 		}
-
 		$urlrule =  str_replace('%7B%24page%7D','{$page}',$this->urlrule); //urldecode	
 		if(!$urlrule){		
 			$p = C('VAR_PAGE');			
