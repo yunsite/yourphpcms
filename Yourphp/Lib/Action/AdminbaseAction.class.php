@@ -7,10 +7,9 @@
  * @author          liuxun QQ:147613338 <admin@yourphp.cn>
  * @copyright     	Copyright (c) 2008-2011  (http://www.yourphp.cn)
  * @license         http://www.yourphp.cn/license.txt
- * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
+ * @version        	YourPHP企业网站管理系统 v2.1 2012-10-08 yourphp.cn $
  */
-if(!defined("YOURPHP")) exit("Access Denied");
-if(defined('APP_PATH')!='./Yourphp') exit("Access Denied");
+if(!defined("Yourphp")) exit("Access Denied");
 class AdminbaseAction extends Action
 {
 	protected   $mod,$Config,$sysConfig,$nav,$menudata,$cache_model,$categorys,$module,$moduleid,$Type,$Urlrule,$Lang;
@@ -235,32 +234,32 @@ class AdminbaseAction extends Action
 		$this->assign($_REQUEST);
 
 		//取得满足条件的记录总数
-		$count = $model->where ( $map )->count ( $id );//echo $model->getLastsql();
-
+		$count = $model->where ( $map )->count ( $id );
 		if ($count > 0) {
 			import ( "@.ORG.Page" );
 			//创建分页对象
 			if (! empty ( $_REQUEST ['listRows'] )) {
 				$listRows = $_REQUEST ['listRows'];
 			}
-			$p = new Page ( $count, $listRows );
+			$page = new Page ( $count, $listRows );
 			//分页查询数据
 
 			$field=$this->module[$this->moduleid]['listfields'];
 			$field= (empty($field) || $field=='*') ? '*' : 'id,catid,url,posid,title,thumb,title_style,userid,username,hits,createtime,updatetime,status,listorder' ;
-			$voList = $model->field($field)->where($map)->order( "`" . $order . "` " . $sort)->limit($p->firstRow . ',' . $p->listRows)->select ( );
+			$voList = $model->field($field)->where($map)->order( "`" . $order . "` " . $sort)->limit($page->firstRow . ',' . $page->listRows)->select ( );
 			//分页跳转的时候保证查询条件
 			foreach ( $map as $key => $val ) {
 				if (! is_array ( $val )) {
-					$p->parameter .= "$key=" . urlencode ( $val ) . "&";
+					$page->parameter .= "$key=" . urlencode ( $val ) . "&";
 				}
 			}
 
 			$map[C('VAR_PAGE')]='{$page}';
+			unset($map['lang']);
+			$map['lang']=LANG_ID;
 			$page->urlrule = U($modelname.'/index', $map);
-
 			//分页显示
-			$page = $p->show ();
+			$page = $page->show ();
 			//列表排序显示
 			$sortImg = $sort; //排序图标
 			$sortAlt = $sort == 'desc' ? '升序排列' : '倒序排列'; //排序提示
@@ -321,7 +320,7 @@ class AdminbaseAction extends Action
 		$name = MODULE_NAME;
 		$model = M ( $name );
 		$pk=ucfirst($model->getPk ());
-		$id = $_REQUEST [$model->getPk ()];
+		$id = intval($_REQUEST [$model->getPk ()]);
 		if(empty($id))   $this->error(L('do_empty'));
 		$do='getBy'.$pk;
 		$vo = $model->$do ( $id );
@@ -366,9 +365,17 @@ class AdminbaseAction extends Action
 		$pk = $model->getPk ();
 		$id = $_REQUEST [$pk];
 		if (isset ( $id )) {
+			if($this->moduleid)$olddata  = $model->field('keywords')->find($id);
 			if(false!==$model->delete($id)){
 				if(in_array($name,$this->cache_model)) savecache($name);
-				if($this->moduleid)delattach(array('moduleid'=>$this->moduleid,'id'=>$id));
+				if($this->moduleid){
+					delattach(array('moduleid'=>$this->moduleid,'id'=>$id));
+					$where['name']=array('in',$olddata['keywords']);
+					$where['moduleid']=array('eq',$this->moduleid);
+					$where['lang']=array('eq',LANG_ID);
+					M('Tags')->where($where)->setDec('num');
+					M('Tags_data')->where("id=".$id)->delete();
+				}
 				if($name=='Order')M('Order_data')->where('order_id='.$id)->delete();
 				$this->success(L('delete_ok'));
 			}else{
@@ -391,9 +398,20 @@ class AdminbaseAction extends Action
 		$ids=$_POST['ids'];
 		if(!empty($ids) && is_array($ids)){
 			$id=implode(',',$ids);
+			if($this->moduleid)$olddata  = $model->field('keywords')->where("id in($id)")->select();
 			if(false!==$model->delete($id)){
 				if(in_array($name,$this->cache_model)) savecache($name);
-				if($this->moduleid)delattach("moduleid=$this->moduleid and id in($id)");
+				if($this->moduleid){
+					delattach("moduleid=$this->moduleid and id in($id)");
+					foreach((array)$olddata as $r){
+							$where['name']=array('in',$r['keywords']);
+							$where['moduleid']=array('eq',$this->moduleid);
+							$where['lang']=array('eq',LANG_ID);
+							M('Tags')->where($where)->setDec('num');
+					}
+					M('Tags_data')->where("id in($id)")->delete();
+					M('Tags')->where('num<=0')->delete();
+				}
 				if($name=='Order')M('Order_data')->where('order_id in('.$id.')')->delete();
 				$this->success(L('delete_ok'));
 			}else{
@@ -428,6 +446,7 @@ class AdminbaseAction extends Action
 	public function status(){
 		$name = MODULE_NAME;
 		$model = D ($name);
+		$_GET = get_safe_replace($_GET);
 		if($model->save($_GET)){
 			savecache(MODULE_NAME);
 			$this->success(L('do_ok'));
@@ -443,8 +462,19 @@ class AdminbaseAction extends Action
 	public function index() {
         $name = MODULE_NAME;
 		$model = M ($name);
-        $list = $model->where($_REQUEST['where'])->select();
+		$id=$model->getPk ();
+		$count = $model->where($_REQUEST['where'])->count();
+		import ( "@.ORG.Page" );
+		$p = new Page ( $count, 15 );
+		unset($_GET[C('VAR_PAGE')]);
+		$map=$_GET;
+		$map[C('VAR_PAGE')]='{$page}';
+		$p->urlrule = U($name.'/index',$map);
+		$page = $p->show ();
+
+        $list = $model->where($_REQUEST['where'])->order("$id desc")->limit($p->firstRow . ',' . $p->listRows)->select();
         $this->assign('list', $list);
+		$this->assign ( 'page', $page );
         $this->display();
     }
 
@@ -457,6 +487,7 @@ class AdminbaseAction extends Action
 
 		
 		if(APP_LANG){
+			C('TMPL_CACHFILE_SUFFIX','_'.LANG_NAME.'.php');
 			$lang =  C('URL_LANG')!=LANG_NAME ? $lang = LANG_NAME.'/' : '';
 			L(include LANG_PATH.LANG_NAME.'/common.php');
 			$T = F('config_'.LANG_NAME,'', './Yourphp/Tpl/Home/'.$this->sysConfig['DEFAULT_THEME'].'/');
@@ -579,6 +610,7 @@ class AdminbaseAction extends Action
 		C('TMPL_FILE_NAME',str_replace('Admin/Default','Home/'.$this->sysConfig['DEFAULT_THEME'],C('TMPL_FILE_NAME')));
 
 		if(APP_LANG){
+			C('TMPL_CACHFILE_SUFFIX','_'.LANG_NAME.'.php');
 			$lang =  C('URL_LANG')!=LANG_NAME ? $lang = LANG_NAME.'/' : '';
 			L(include LANG_PATH.LANG_NAME.'/common.php');
 			$T = F('config_'.LANG_NAME,'', './Yourphp/Tpl/Home/'.$this->sysConfig['DEFAULT_THEME'].'/'); 
@@ -717,7 +749,9 @@ class AdminbaseAction extends Action
 		C('DEFAULT_THEME_NAME',$this->sysConfig['DEFAULT_THEME']);
 		C('TMPL_FILE_NAME',str_replace('Admin/Default','Home/'.$this->sysConfig['DEFAULT_THEME'],C('TMPL_FILE_NAME')));
 
+
 		if(APP_LANG){
+			C('TMPL_CACHFILE_SUFFIX','_'.LANG_NAME.'.php');
 			$lang =  C('URL_LANG')!=LANG_NAME ? $lang = LANG_NAME.'/' : '';
 			L(include LANG_PATH.LANG_NAME.'/common.php');
 			$T = F('config_'.LANG_NAME,'', './Yourphp/Tpl/Home/'.$this->sysConfig['DEFAULT_THEME'].'/'); 

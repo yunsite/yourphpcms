@@ -7,8 +7,9 @@
  * @author          liuxun QQ:147613338 <admin@yourphp.cn>
  * @copyright     	Copyright (c) 2008-2011  (http://www.yourphp.cn)
  * @license         http://www.yourphp.cn/license.txt
- * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
+ * @version        	YourPHP企业网站管理系统 v2.1 2012-10-08 yourphp.cn $
  */
+if(!defined("Yourphp")) exit("Access Denied");
 class CreatehtmlAction extends AdminbaseAction {
 	
     protected  $module;
@@ -18,9 +19,9 @@ class CreatehtmlAction extends AdminbaseAction {
         foreach ((array)$this->module as $rw){
 			if($rw['type']==1  && $rw['status']==1)  $data['module'][$rw['id']] = $rw;
         }
-		
 		$this->module=$data['module'];
 		$this->assign('module',$this->module);
+		$this->assign('menuid',intval($_GET['menuid']));
     }
 
     public function index()
@@ -36,12 +37,12 @@ class CreatehtmlAction extends AdminbaseAction {
 	}
 
  	public function createlist()
-    { 
- 
+    {
+		$moduleid = intval($_GET['moduleid']);
 			if($this->categorys){
 				foreach ($this->categorys as $r){
 					if($r['type']==1 && $r['ishtml']==0) continue;
-					if($_GET['moduleid'] && $r['moduleid'] !=  $_GET['moduleid']) continue;
+					if($moduleid && $r['moduleid'] !=  $moduleid) continue;
 					if(ACTION_NAME=='Updateurl' && $r['module']=='Page') continue;
 					if(ACTION_NAME=='Createlist' && $r['ishtml']!=1) continue;
 					if((ACTION_NAME=='Createshow' && $r['ishtml']!=1) || (ACTION_NAME=='Createshow' && $r['module']=='Page')) continue;				
@@ -90,8 +91,7 @@ class CreatehtmlAction extends AdminbaseAction {
 					$this->assign ( 'jumpUrl', $forward);
 					$this->success(L('create_update_success'));
 			}else{
-					$id = $catids[$doid];
-					
+					$id = $catids[$doid];					
 					if(empty($count)){
 						$module = $this->categorys[$id]['module'];
 						$dao= M($module);
@@ -158,9 +158,82 @@ class CreatehtmlAction extends AdminbaseAction {
 	public function doUpdateurl()
     {
 		$this->assign ( 'waitSecond', 2);
-			extract($_GET,EXTR_SKIP);
-			$moduleid = intval($_GET['moduleid']);
-			if($moduleid){
+		$moduleid = intval($_GET['moduleid']);
+		extract($_GET,EXTR_SKIP);
+		if($moduleid<=0 && $catids[0] <= 0){
+				
+			if($this->module && !$_SESSION['moduleids']){
+					foreach($this->module as $moduleid=>$r){
+						$tablename=C('DB_PREFIX').$this->module[$moduleid]['name'];
+						$db=D('');
+						$db =   DB::getInstance();
+						$tables = $db->getTables();			
+						$Fields=$db->getFields($tablename); 
+						foreach ( $Fields as $key =>$r){
+							if($key=='url') $_SESSION['moduleids'][] = $moduleid;
+						}
+					}
+			}
+			$doid = $doid ? intval($doid) : 0;
+			if(!isset($_SESSION['moduleids'][$doid])){
+					unset($_SESSION['moduleids']);
+					$forward = U("Createhtml/updateurl");
+					$this->assign ( 'jumpUrl', $forward);
+					$this->success(L('create_update_success'));
+			}else{
+					$moduleid = $_SESSION['moduleids'][$doid];
+					$module=$this->module[$moduleid]['name'];
+					$dao = M($module);
+					$p = max(intval($p), 1);
+					$start = $pagesize*($p-1);
+					if(!isset($count)){
+						$count = $dao->where($where)->count();
+					}
+					$pages = ceil($count/$pagesize);
+						
+					if($count){
+						$list = $dao->field('id,catid,url')->where($where)->limit($start . ',' . $pagesize)->select();		 
+						foreach($list as $r) {
+							if($r['islink']) continue;
+							$url = geturl($this->categorys[$r['catid']],$r,$this->Urlrule);
+							unset($r['catid']);
+							$r['url'] = $url['0'];
+							$dao->save($r);
+						}					 
+					}
+
+					if($pages > $p) {
+							$p++;
+							$creatednum = $start + count($list);
+							$percent = round($creatednum/$count, 2)*100;
+							$urlarray=array(
+								'doid' => $doid,
+								'dosubmit' => 1,
+								'count' => $count,
+								'pages' => $pages,
+								'p' => $p,
+								'pagesize' => $pagesize,
+							);
+							 
+							$message = L('updating').$this->module[$moduleid]['title'].L('create_update_count').$count.L('create_update_num').$creatednum.L('items').$percent.L('items1');
+							$forward = U("Createhtml/".ACTION_NAME,$urlarray);
+							$this->assign ( 'jumpUrl', $forward);
+							$this->success($message);
+						} else {
+							$doid++;
+							$urlarray=array(
+								'doid' => $doid,
+								'dosubmit' => 1,
+								'p' => 1,
+								'pagesize' => $pagesize,
+							);
+							$message = L('start_updating').$this->module[$moduleid]['title']." ...";
+							$forward = U("Createhtml/".ACTION_NAME,$urlarray);
+							$this->assign ( 'jumpUrl', $forward);
+							$this->success($message);
+						}
+				}
+			}elseif($moduleid){
 				$module=$this->module[$moduleid]['name'];
 				$dao = M($module);
 
@@ -168,21 +241,21 @@ class CreatehtmlAction extends AdminbaseAction {
 				$start = $pagesize*($p-1);
 
 				if(is_array($catids) && $catids[0] > 0){
-					$catids = implode(',',$catids);
-					$where = " catid IN($catids) ";
+					$cids = implode(',',$catids);
+					$where = " catid IN($cids) ";
 					$_SESSION['catids'] = $catids;					
 				}
-				if($_SESSION['catids']){
-					$catids = $_SESSION['catids'];
+				if(!$catids && $_SESSION['catids'] && $_SESSION['catids'][0] > 0){
+					$catids = implode(',',$_SESSION['catids']);;
 					$where = " catid IN($catids) ";
 				}
 				if(!isset($count)){
 					$count = $dao->where($where)->count();
 				}
 				$pages = ceil($count/$pagesize);
-				
+					
 				if($count){
-					$list = $dao->field('id,catid,url')->where($where)->limit($start . ',' . $pagesize)->select();				 
+					$list = $dao->field('id,catid,url')->where($where)->limit($start . ',' . $pagesize)->select();		 
 					foreach($list as $r) {
 						if($r['islink']) continue;
 						$url = geturl($this->categorys[$r['catid']],$r,$this->Urlrule);
@@ -215,7 +288,6 @@ class CreatehtmlAction extends AdminbaseAction {
 					$this->assign ( 'jumpUrl', $forward);
 					$this->success(L('create_update_success'));
 				}
-
 			}else{
 				//按照栏目更新url
 				extract($_GET,EXTR_SKIP);
@@ -229,21 +301,25 @@ class CreatehtmlAction extends AdminbaseAction {
 					}
 					$_SESSION['catids'] = $catids;
 				}else{
-					$catids =$_SESSION['catids'];				
+					$catids =$_SESSION['catids'];	
 				}
 				if(!isset($catids[$doid])){
 					unset($_SESSION['catids']);
 					$forward = U("Createhtml/updateurl");
 					$this->assign ( 'jumpUrl', $forward);
 					$this->success(L('create_update_success'));
+				}elseif($catids[$doid]<=0){
+					$forward = U("Createhtml/updateurl");
+					$this->assign ( 'jumpUrl', $forward);
+					$this->success(L('create_update_success'));
+				
 				}else{
-					$id = $catids[$doid];
+					$id = $catids[$doid];					
 					$module=$this->categorys[$id]['module'];
 					$dao = M($module);
 					$where = "catid=$id";
 					$p = max(intval($p), 1);
 					$start = $pagesize*($p-1);
-
 					if(!isset($count)){
 						$count = $dao->where($where)->count();
 					}
@@ -296,7 +372,8 @@ class CreatehtmlAction extends AdminbaseAction {
 
 	public function updateurl()
     {
- 				
+			$moduleid = intval($_GET['moduleid']);
+			$this->assign('moduleid',$moduleid);
 			if($this->categorys){
 				foreach ($this->categorys as $r){
 					if($r['type']==1 && $r['ishtml']==0) continue;
@@ -322,12 +399,13 @@ class CreatehtmlAction extends AdminbaseAction {
 		 
     }
 
-	public function createshow($_GET)
+	public function createshow()
     { 
+		$moduleid = intval($_GET['moduleid']);
 			if($this->categorys){
 				foreach ($this->categorys as $r){
 					if($r['type']==1 && $r['ishtml']==0) continue;
-					if($_GET['moduleid'] && $r['moduleid'] !=  $_GET['moduleid']) continue;
+					if($moduleid && $r['moduleid'] !=  $moduleid) continue;
 					if(ACTION_NAME=='Updateurl' && $r['module']=='Page') continue;
 					if(ACTION_NAME=='Createlist' && $r['ishtml']!=1) continue;
 					if((ACTION_NAME=='Createshow' && $r['ishtml']!=1) || (ACTION_NAME=='Createshow' && $r['module']=='Page')) continue;				

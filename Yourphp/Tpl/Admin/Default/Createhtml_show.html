@@ -3,7 +3,6 @@
 
 .table-list {margin:20px 10px;}
 </style>
-
  
 
 <div class="table-list"> 
@@ -13,6 +12,7 @@
   <input type="hidden" name="g" value="Admin"> 
   <input type="hidden" name="m" value="{$module_name}"> 
   <input type="hidden" name="a" value="do{$action_name}">
+   <input type="hidden" name="moduleid" value="{$moduleid}">
  <input type="hidden" name="iscreatehtml" value="1">
 <thead> 
 <tr> 
@@ -43,14 +43,14 @@
 
       <td><input type="submit" style="margin:20px;" name="dosubmit" value="{:L($action_name)}" class="button" ></td>
     </tr>
-	</tbody> 
+	</tbody>
 	</form> 
 </table> 
  
 </div>
 <script>
 function change_model(moduleid){
- window.location.href = "{:U('Createhtml/'.$action_name)}&moduleid="+moduleid;
+ window.location.href = "{:U('Createhtml/'.$action_name)}&moduleid="+moduleid+"&menuid="+{$menuid};
 }
 $("#moduleid").attr("value",'{.moduleid}');
 </script>

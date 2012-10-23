@@ -9,14 +9,13 @@
  * @license         http://www.yourphp.cn/license.txt
  * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
  */
-if(!defined("YOURPHP")) exit("Access Denied");
+if(!defined("Yourphp")) exit("Access Denied");
 class OrderAction extends BaseAction
 {
 
 	function _initialize()
     {	
 		parent::_initialize();
-
 		$this->dao = M('Order');
 		$this->assign('bcid',0);
 		$user =  M('User')->find($this->_userid);
@@ -27,7 +26,7 @@ class OrderAction extends BaseAction
     {
 
 		if($_REQUEST['sn']){
-		$sn = $_REQUEST['sn'];
+		$sn = get_safe_replace($_REQUEST['sn']);
 		unset($_REQUEST['sn']);
 		}
 		import('@.Action.Adminbase');
@@ -84,8 +83,10 @@ class OrderAction extends BaseAction
 	function ajax(){
 		
 		$model= M('Order');
-		$order = $model->find($_POST['id']);
+		$id=intval($_POST['id']);
+		$order = $model->find($id);
 		if($order['userid']!=$this->_userid)die(json_encode(array('msg'=>L('do_empty'))));
+		$_POST = get_safe_replace($_POST);
 		if($_GET['do']=='saveaddress'){
 			$r = $model->save($_POST);
 			die(json_encode(array('id'=>1)));

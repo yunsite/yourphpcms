@@ -29,7 +29,7 @@ class Form extends Think {
 		$moduleid =$info['moduleid'];
 		foreach ($Category as $r){
 				$postgroup = explode(',',$r['postgroup']);
-				if( ($this->isadmin && $_SESSION['groupid']!=1 && !in_array($_SESSION['groupid'],$postgroup)) ||  (empty($this->isadmin) && !in_array($_COOKIE['YP_groupid'],$postgroup)) ) continue;
+				if( ($this->isadmin && $_SESSION['groupid']!=1 && !in_array($_SESSION['groupid'],$postgroup)) ||  (empty($this->isadmin) && !in_array( cookie('groupid'),$postgroup)) ) continue;
 				//if($r['type']==1) continue;
 				$arr= explode(",",$r['arrchildid']);
 				$show=0;
@@ -58,7 +58,6 @@ class Form extends Think {
 		$id = $field = $info['field'];
 	    $validate = getvalidate($info);
 		$value = $value ? $value : $this->data[$field];
-
 
 		$title_style = explode(';',$this->data['title_style']);
 		$style_color = explode(':',$title_style[0]);
@@ -309,7 +308,7 @@ class Form extends Think {
 
 
 	public function editor($info,$value){
- 
+		
 		$info['setup']=is_array($info['setup']) ? $info['setup'] : string2array($info['setup']);
 		$id = $field = $info['field'];
 		$validate = getvalidate($info);
@@ -318,6 +317,7 @@ class Form extends Think {
         }else{
 			$value = $value ? $value : $this->data[$field];
         }
+		 //$value = stripslashes(htmlspecialchars_decode($value));
 		 $textareaid = $field;
 		 $toolbar = $info['setup']['toolbar'];
 		 $moduleid = $info['moduleid'];
@@ -342,10 +342,10 @@ class Form extends Think {
 		$yourphp_auth = authcode("$this->isadmin-1-0-$alowuploadlimit-$alowuploadexts-$file_size-$moduleid", 'ENCODE',$yourphp_auth_key);
 
 		$str ='';
-		$str .= '<div class="editor_box"><div style="display:none;" id="'.$field.'_aid_box"></div><textarea name="'.$field.'" class="'.$info['class'].'"  id="'.$id.'"  boxid="'.$id.'" '.$validate.' >'.$value.'</textarea>';
+		$str .= '<div class="editor_box"><div style="display:none;" id="'.$field.'_aid_box"></div><textarea name="'.$field.'" class="'.$info['class'].'"  id="'.$id.'"  boxid="'.$id.'" '.$validate.'  style="width:99%;height:'.$height.'px;visibility:hidden;">'.$value.'</textarea>';
 
 		$show_page =  $show_page ?  1 :  0;
-		
+		//$info['setup']['edittype']='kindeditor';
 		if($info['setup']['edittype']=='ckeditor'){
 			if($toolbar == 'basic') {
 				$toolbar = "['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink' ]\r\n";
@@ -384,7 +384,9 @@ class Form extends Think {
 			if($info['setup']['show_auto_thumb']) $str .='<input type="checkbox" name="auto_thumb" value="1" checked /> '.L('auto_thumb').' 
 				<input type="text" name="auto_thumb_no" value="1" size="1" />'.L('auto_thumb_no'); 
 			$str .= '</div></div>';
-		}else{
+		}elseif ($info['setup']['edittype']=='Xheditor'){
+			
+
 			if($toolbar=='basic'){
 				$modtools = 'simple';
 			} elseif($toolbar == 'full') {
@@ -393,12 +395,7 @@ class Form extends Think {
 				$modtools = 'mini';
 			} else {
 				$modtools = '';
-			}
-
-			//$str .="<script type=\"text/javascript\" src=\"".__ROOT__."/Public/Xheditor/xheditor_plugins/SyntaxHighlighter/shCore.js\"></script>  \r\n"; 
-			//$csspath = __ROOT__."/Public/Xheditor/xheditor_plugins/SyntaxHighlighter/SyntaxHighlighter.css";
-
-
+			} 
 
 			$str .="<script type=\"text/javascript\" src=\"".__ROOT__."/Public/Xheditor/xheditor-zh-cn.min.js\"></script>";
 			$str .="<script type=\"text/javascript\"> \r\n"; 
@@ -426,7 +423,44 @@ class Form extends Think {
 			if($info['setup']['show_add_description']) $str .='<input type="checkbox" class="input_radio" name="add_description" value="1" checked /> '.L('add_description').' <input type="text"  name="description_length" value="200" style="width:24px;" size="3" />'.L('description_length');
 			if($info['setup']['show_auto_thumb']) $str .='<input type="checkbox" class="input_radio" name="auto_thumb" value="1" checked /> '.L('auto_thumb').'<input   type="text" name="auto_thumb_no" value="1" size="1" />'.L('auto_thumb_no'); 
 			$str .= '</div></div>';
+
+		}else{
+
+
 			
+			$upurl= __ROOT__."/index.php?g=Admin&m=Attachment&a=index&isadmin=$this->isadmin&more=1&isthumb=0&file_limit=$alowuploadlimit&file_types=$Config[attach_allowext]&file_size=$file_size&moduleid=$moduleid&auth=$attach_auth&l=$this->lang";
+
+			$yourphp_auth = authcode("$this->isadmin-1-0-1-gif,jpg,jpeg,png,bmp-$file_size-$moduleid", 'ENCODE',$yourphp_auth_key);
+			$upImgUrl =__ROOT__."/index.php?g=Admin&m=Attachment&a=index&isadmin=$this->isadmin&more=1&isthumb=0&file_limit=1&file_types=gif,jpg,jpeg,png,bmp&file_size=$file_size&moduleid=$moduleid&auth=$yourphp_auth&l=$this->lang";
+				
+			$yourphp_auth = authcode("$this->isadmin-1-0-1-swf,flv-$file_size-$moduleid", 'ENCODE',$yourphp_auth_key);
+			$upFlashUrl=__ROOT__."/index.php?g=Admin&m=Attachment&a=index&isadmin=$this->isadmin&more=1&isthumb=0&file_limit=1&file_types=swf,flv&file_size=$file_size&moduleid=$moduleid&auth=$yourphp_auth&l=$this->lang";
+
+			$yourphp_auth = authcode("$this->isadmin-1-0-1-mpg,wmv,avi,wma,mp3,mid,asf,rm,rmvb,wav,wma,mp4-$file_size-$moduleid", 'ENCODE',$yourphp_auth_key);
+			$upMediaUrl=__ROOT__."/index.php?g=Admin&m=Attachment&a=index&isadmin=$this->isadmin&more=1&isthumb=0&file_limit=1&file_types=mpg,wmv,avi,wma,mp3,mid,asf,rm,rmvb,wav,wma,mp4&file_size=$file_size&moduleid=$moduleid&auth=$yourphp_auth&l=$this->lang";
+
+			$str .="<script type=\"text/javascript\" src=\"".__ROOT__."/Public/Kindeditor/kindeditor-min.js\"></script>";
+			$str .= "<script type=\"text/javascript\">\r\n";		
+			$str .= "KindEditor.ready(function(K) {\r\n";
+			$str .= "K.create('#".$id."', {\r\n";
+			$str .= "cssPath : '".__ROOT__."/Public/Kindeditor/plugins/code/prettify.css',";
+			//$str .= "uploadJson : '$upurl',";
+			$str .= "fileManagerJson:'$upurl',";
+			$str .= "editorid:'$id',";
+			$str .= "upImgUrl:'$upImgUrl',";
+			$str .= "upFlashUrl:'$upFlashUrl',";
+			$str .= "upMediaUrl:'$upMediaUrl',";
+			$str .= "allowFileManager : true\r\n";
+
+			$str .= "});\r\n";
+			$str .= "});\r\n";
+			$str .= '</script>';
+			$str .='<div  class=\'editor_bottom2\'>';
+			if($info['setup']['show_add_description']) $str .='<input type="checkbox" name="add_description" value="1" checked /> '.L('add_description').' 
+				<input type="text" name="description_length" value="200" style="width:24px;" size="3" />'.L('description_length');
+			if($info['setup']['show_auto_thumb']) $str .='<input type="checkbox" name="auto_thumb" value="1" checked /> '.L('auto_thumb').' 
+				<input type="text" name="auto_thumb_no" value="1" size="1" />'.L('auto_thumb_no'); 
+			$str .= '</div></div>';
 		}
 
 
@@ -516,7 +550,7 @@ class Form extends Think {
         $options=array();
         $options[0]= L('please_chose');
         foreach($templates as $key=>$r) {
-            if(strstr($r['value'],'_show')){
+            if(strstr($r['value'],'show')){
                 $options[$r['value']]=$r['filename'];
             }
 		}

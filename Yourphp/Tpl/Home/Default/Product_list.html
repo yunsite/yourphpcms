@@ -1,10 +1,7 @@
-
-
 <div class="left">
-		<div class="pos">{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> > <YP:catpos  catid="catid" space=" > " /></div>
+		<div class="pos"><b></b><span>{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> &gt <YP:catpos  catid="catid" space=" &gt; " /></span></div>
 		 
-		<div class="list">
-		
+		<div class="list">		
 		<volist name="list" id="r">
 		<dl class="img">
 		<dd class="pic"><span><a href="{$r.url}" target="_blank"><img src="{$r['thumb']|thumb}" align="absmiddle" ></a></span></dd>
@@ -17,7 +14,3 @@
 		<div id="pages" class="page">{$pages}</div>
 		<br>
 </div>
-
-
-
-

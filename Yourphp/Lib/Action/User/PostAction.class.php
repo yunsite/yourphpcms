@@ -9,7 +9,7 @@
  * @license         http://www.yourphp.cn/license.txt
  * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
  */
-if(!defined("YOURPHP")) exit("Access Denied");
+if(!defined("Yourphp")) exit("Access Denied");
 class PostAction extends BaseAction
 {
     protected  $dao,$fields;
@@ -21,7 +21,7 @@ class PostAction extends BaseAction
 			$this->error(L('nologin'));
 		}
 		$this->assign('bcid',0);
-		$this->moduleid=$_REQUEST['moduleid'];
+		$this->moduleid=intval($_REQUEST['moduleid']);
 
 		if(!in_array($this->_groupid,explode(',',$this->module[$this->moduleid]['postgroup']))) $this->error (L('add_no_postgroup'));
 		if($this->moduleid){
@@ -107,7 +107,7 @@ class PostAction extends BaseAction
 		if(!$this->_userid){
 			$this->error(L('nologin'));
 		}
-		$id = $_REQUEST ['id'];		
+		$id = intval($_REQUEST ['id']);		
 		$vo = $this->dao->getById ( $id );
  		$form=new Form($vo);
 		$form->isadmin=0;
@@ -126,11 +126,11 @@ class PostAction extends BaseAction
      */
     public function insert()
     {
-		if(!in_array($this->_groupid,explode(',',$this->categorys[$_POST['catid']]['postgroup']))) $this->error (L('add_no_postgroup'));
+		if($this->moduleid!=6 && !in_array($this->_groupid,explode(',',$this->categorys[$_POST['catid']]['postgroup']))) $this->error (L('add_no_postgroup'));
 		$c=A('Admin/Content');
 		$_POST['ip'] = get_client_ip();
 		$userid = $this->_userid;
-		$username =  $this->_username ;
+		$username =  $this->_username ?  $this->_username : get_safe_replace($_POST['username']);
 		$c->insert($this->module[$this->moduleid]['name'],$this->fields,$userid, $username,$this->_groupid);
     }
 
@@ -139,7 +139,7 @@ class PostAction extends BaseAction
 		if(!$this->_userid){
 			$this->error(L('nologin'));
 		}
-		if(!in_array($this->_groupid,explode(',',$this->categorys[$_POST['catid']]['postgroup']))) $this->error (L('add_no_postgroup'));
+		if($this->moduleid!=6 && !in_array($this->_groupid,explode(',',$this->categorys[$_POST['catid']]['postgroup']))) $this->error (L('add_no_postgroup'));
 
 		$c=A('Admin/Content');
 		$c->update($this->module[$this->moduleid]['name'],$this->fields);

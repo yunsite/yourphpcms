@@ -119,15 +119,13 @@ CREATE TABLE `yourphp_category` (
 -- 
 
 CREATE TABLE `yourphp_config` (
-  `id` smallint(8) unsigned NOT NULL AUTO_INCREMENT,
   `varname` varchar(20) NOT NULL DEFAULT '',
   `info` varchar(100) NOT NULL DEFAULT '',
   `groupid` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `value` text NOT NULL,
   `lang` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
   KEY `varname` (`varname`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 --
 -- 表的结构 `yourphp_dbsource`
 -- 
@@ -822,4 +820,15 @@ CREATE TABLE `yourphp_shipping` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-		
+CREATE TABLE `yourphp_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `error` tinyint(1)  unsigned  NOT NULL default '0',
+  `userid` int(11) unsigned NOT NULL DEFAULT '0',
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `note` varchar(50) NOT NULL DEFAULT '',
+  `ip` char(15) NOT NULL DEFAULT '',
+  `time` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY (`ip`,`time`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+

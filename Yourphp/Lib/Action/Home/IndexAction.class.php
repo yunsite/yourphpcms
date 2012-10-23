@@ -9,7 +9,7 @@
  * @license         http://www.yourphp.cn/license.txt
  * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
  */
-if(!defined("YOURPHP")) exit("Access Denied"); 
+if(!defined("Yourphp")) exit("Access Denied");
 class IndexAction extends BaseAction
 {
     public function index()

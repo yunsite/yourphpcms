@@ -1,9 +1,9 @@
 
 <div class="left">
-	<div class="pos">{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> > <YP:catpos  catid="catid" space=" > " /></div>
+	<div class="pos"><b></b><span>{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> &gt <YP:catpos  catid="catid" space=" &gt; " /></span></div>
 
 	<div id="content">
-	<h1>{$title}<br><span>{:L(time)}: {$createtime|toDate} &nbsp;&nbsp;&nbsp;&nbsp;{:L(copyfrom)}: {if  $copyfrom}{$copyfrom}{else}{$site_name}{/if}</span></h1> 
+	<h1 class="tit">{$title}<br><span>{:L(time)}: {$createtime|toDate} &nbsp;&nbsp;&nbsp;&nbsp;{:L(copyfrom)}: {if  $copyfrom}{$copyfrom}{else}{$site_name}{/if}</span></h1> 
 	<span class="content">{$content}</span>
 	<div id="pages" class="page">{$pages}</div>
 	{if $keywords}

@@ -8,7 +8,7 @@
  * @license         http://www.yourphp.cn/license.txt
  * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
  */
-if(!defined("YOURPHP")) exit("Access Denied");
+if(!defined("Yourphp")) exit("Access Denied");
 class PayAction extends BaseAction
 {
 
@@ -43,7 +43,7 @@ class PayAction extends BaseAction
     }
 	public function respond()
 	{
-		$pay_code = !empty($_REQUEST['code']) ? trim($_REQUEST['code']) : '';	
+		$pay_code = !empty($_REQUEST['code']) ? get_safe_replace($_REQUEST['code']) : '';	
 		$pay_code = ucfirst($pay_code);
 		$Payment = M('Payment')->getByPayCode($pay_code);
 		if(empty($Payment))$this->error(L('PAY CODE EROOR!'));

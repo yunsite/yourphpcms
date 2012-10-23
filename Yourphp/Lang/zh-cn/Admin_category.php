@@ -43,5 +43,6 @@ return array(
 	'yuan'=>'元',
 	'tian'=>'天',
 	'urlrule'=>'URL规则',
+	'add_content'=>'添加内容',
 );
 ?>

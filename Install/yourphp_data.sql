@@ -24,58 +24,59 @@ INSERT INTO `yourphp_category` VALUES ('19', '在线留言', 'Guestbook', '', '0
 -- 
 -- 导出`yourphp_config`表中的数据 `yourphp_config`
 --
-INSERT INTO `yourphp_config` VALUES ('1', 'site_name', '网站名称', '2', 'Yourphp网站内容管理系统', '1');
-INSERT INTO `yourphp_config` VALUES ('2', 'site_url', '网站网址', '2', 'http://www.yourphp.cn', '1');
-INSERT INTO `yourphp_config` VALUES ('3', 'logo', '网站LOGO', '2', '/Public/Images/logo.gif', '1');
-INSERT INTO `yourphp_config` VALUES ('4', 'site_email', '站点邮箱', '2', 'admin@yourphp.cn', '1');
-INSERT INTO `yourphp_config` VALUES ('5', 'seo_title', '网站标题', '2', 'yourphp企业网站管理系统-企业建站-企业网站-行业网站建设-门户网站建设', '1');
-INSERT INTO `yourphp_config` VALUES ('6', 'seo_keywords', '关键词', '2', 'Yourphp网站内容管理系统,php企业建站', '1');
-INSERT INTO `yourphp_config` VALUES ('7', 'seo_description', '网站简介', '2', 'Yourphp网站管理系统,是一款完全开源免费的PHP+MYSQL系统.核心采用了Thinkphp框架等众多开源软件,同时核心功能也作为开源软件发布', '1');
-INSERT INTO `yourphp_config` VALUES ('8', 'mail_type', '邮件发送模式', '4', '1', '0');
-INSERT INTO `yourphp_config` VALUES ('9', 'mail_server', '邮件服务器', '4', 'smtp.qq.com', '0');
-INSERT INTO `yourphp_config` VALUES ('10', 'mail_port', '邮件发送端口', '4', '25', '0');
-INSERT INTO `yourphp_config` VALUES ('11', 'mail_from', '发件人地址', '4', 'admin@yourphp.cn', '0');
-INSERT INTO `yourphp_config` VALUES ('12', 'mail_auth', 'AUTH LOGIN验证', '4', '1', '0');
-INSERT INTO `yourphp_config` VALUES ('13', 'mail_user', '验证用户名', '4', 'admin@yourphp.cn', '0');
-INSERT INTO `yourphp_config` VALUES ('14', 'mail_password', '验证密码', '4', '', '0');
-INSERT INTO `yourphp_config` VALUES ('15', 'attach_maxsize', '允许上传附件大小', '5', '5200000', '0');
-INSERT INTO `yourphp_config` VALUES ('16', 'attach_allowext', '允许上传附件类型', '5', 'jpg,jpeg,gif,png,doc,docx,rar,zip,swf', '0');
-INSERT INTO `yourphp_config` VALUES ('17', 'watermark_enable', '是否开启图片水印', '5', '1', '0');
-INSERT INTO `yourphp_config` VALUES ('18', 'watemard_text', '水印文字内容', '5', 'YourPHP', '0');
-INSERT INTO `yourphp_config` VALUES ('19', 'watemard_text_size', '文字大小', '5', '18', '0');
-INSERT INTO `yourphp_config` VALUES ('20', 'watemard_text_color', 'watemard_text_color', '5', '#FFFFFF', '0');
-INSERT INTO `yourphp_config` VALUES ('21', 'watemard_text_face', '字体', '5', 'elephant.ttf', '0');
-INSERT INTO `yourphp_config` VALUES ('22', 'watermark_minwidth', '图片最小宽度', '5', '300', '0');
-INSERT INTO `yourphp_config` VALUES ('23', 'watermark_minheight', '水印最小高度', '5', '300', '0');
-INSERT INTO `yourphp_config` VALUES ('24', 'watermark_img', '水印图片名称', '5', 'mark.png', '0');
-INSERT INTO `yourphp_config` VALUES ('25', 'watermark_pct', '水印透明度', '5', '80', '0');
-INSERT INTO `yourphp_config` VALUES ('26', 'watermark_quality', 'JPEG 水印质量', '5', '100', '0');
-INSERT INTO `yourphp_config` VALUES ('27', 'watermark_pospadding', '水印边距', '5', '10', '0');
-INSERT INTO `yourphp_config` VALUES ('28', 'watermark_pos', '水印位置', '5', '9', '0');
-INSERT INTO `yourphp_config` VALUES ('29', 'PAGE_LISTROWS', '列表分页数', '6', '15', '0');
-INSERT INTO `yourphp_config` VALUES ('30', 'URL_MODEL', 'URL访问模式', '6', '0', '0');
-INSERT INTO `yourphp_config` VALUES ('31', 'URL_PATHINFO_DEPR', '参数分割符', '6', '/', '0');
-INSERT INTO `yourphp_config` VALUES ('32', 'URL_HTML_SUFFIX', 'URL伪静态后缀', '6', '.html', '0');
-INSERT INTO `yourphp_config` VALUES ('33', 'TOKEN_ON', '令牌验证', '6', '1', '0');
-INSERT INTO `yourphp_config` VALUES ('34', 'TOKEN_NAME', '令牌表单字段', '6', '__hash__', '0');
-INSERT INTO `yourphp_config` VALUES ('35', 'TMPL_CACHE_ON', '模板编译缓存', '6', '0', '0');
-INSERT INTO `yourphp_config` VALUES ('36', 'TMPL_CACHE_TIME', '模板缓存有效期', '6', '-1', '0');
-INSERT INTO `yourphp_config` VALUES ('37', 'HTML_CACHE_ON', '静态缓存', '6', '0', '0');
-INSERT INTO `yourphp_config` VALUES ('38', 'HTML_CACHE_TIME', '缓存有效期', '6', '60', '0');
-INSERT INTO `yourphp_config` VALUES ('39', 'HTML_READ_TYPE', '缓存读取方式', '6', '0', '0');
-INSERT INTO `yourphp_config` VALUES ('40', 'HTML_FILE_SUFFIX', '静态文件后缀', '6', '.html', '0');
-INSERT INTO `yourphp_config` VALUES ('41', 'ADMIN_ACCESS', 'ADMIN_ACCESS', '6', '2c6b9aacbae102a84fe5bab0a027975c', '0');
-INSERT INTO `yourphp_config` VALUES ('42', 'DEFAULT_THEME', '默认模板', '6', 'Default', '0');
-INSERT INTO `yourphp_config` VALUES ('43', 'HOME_ISHTML', '首页生成html', '6', '1', '0');
-INSERT INTO `yourphp_config` VALUES ('44', 'URL_URLRULE', 'URL', '6', '{$catdir}/show/{$id}.html|{$catdir}/show/{$id}_{$page}.html:::{$catdir}/|{$catdir}/{$page}.html', '0');
-INSERT INTO `yourphp_config` VALUES ('45', 'DEFAULT_LANG', '默认语言', '6', 'cn', '0');
-INSERT INTO `yourphp_config` VALUES ('46', 'member_register', '允许新会员注册', '3', '0', '1');
-INSERT INTO `yourphp_config` VALUES ('47', 'member_emailcheck', '新会员注册需要邮件验证', '3', '0', '1');
-INSERT INTO `yourphp_config` VALUES ('48', 'member_registecheck', '新会员注册需要审核', '3', '1', '1');
-INSERT INTO `yourphp_config` VALUES ('49', 'member_login_verify', '注册登陆开启验证码', '3', '1', '1');
-INSERT INTO `yourphp_config` VALUES ('50', 'member_emailchecktpl', '邮件认证模板', '3', ' 欢迎您注册成为yourphp用户，您的账号需要邮箱认证，点击下面链接进行认证：{click}\r\n或者将网址复制到浏览器：{url}', '1');
-INSERT INTO `yourphp_config` VALUES ('51', 'member_getpwdemaitpl', '密码找回邮件内容', '3', '尊敬的用户{username}，请点击进入<a href="{url}">重置密码</a>,或者将网址复制到浏览器：{url}（链接3天内有效）。<br>感谢您对本站的支持。<br>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　{sitename}<br>此邮件为系统自动邮件，无需回复。', '1');
-INSERT INTO `yourphp_config` VALUES ('65', 'LAYOUT_ON', '布局模板', '6', '1', '0');
+INSERT INTO `yourphp_config` VALUES ('site_name', '网站名称', '2', 'Yourphp网站内容管理系统', '1');
+INSERT INTO `yourphp_config` VALUES ('site_url', '网站网址', '2', 'http://www.yourphp.cn', '1');
+INSERT INTO `yourphp_config` VALUES ('logo', '网站LOGO', '2', '/Public/Images/logo.gif', '1');
+INSERT INTO `yourphp_config` VALUES ('site_email', '站点邮箱', '2', 'admin@yourphp.cn', '1');
+INSERT INTO `yourphp_config` VALUES ('seo_title', '网站标题', '2', 'yourphp企业网站管理系统-企业建站-企业网站-行业网站建设-门户网站建设', '1');
+INSERT INTO `yourphp_config` VALUES ('seo_keywords', '关键词', '2', 'Yourphp网站内容管理系统,php企业建站', '1');
+INSERT INTO `yourphp_config` VALUES ('seo_description', '网站简介', '2', 'Yourphp网站管理系统,是一款完全开源免费的PHP+MYSQL系统.核心采用了Thinkphp框架等众多开源软件,同时核心功能也作为开源软件发布', '1');
+INSERT INTO `yourphp_config` VALUES ('mail_type', '邮件发送模式', '4', '1', '0');
+INSERT INTO `yourphp_config` VALUES ('mail_server', '邮件服务器', '4', 'smtp.qq.com', '0');
+INSERT INTO `yourphp_config` VALUES ('mail_port', '邮件发送端口', '4', '25', '0');
+INSERT INTO `yourphp_config` VALUES ('mail_from', '发件人地址', '4', 'admin@yourphp.cn', '0');
+INSERT INTO `yourphp_config` VALUES ('mail_auth', 'AUTH LOGIN验证', '4', '1', '0');
+INSERT INTO `yourphp_config` VALUES ('mail_user', '验证用户名', '4', 'admin@yourphp.cn', '0');
+INSERT INTO `yourphp_config` VALUES ('mail_password', '验证密码', '4', '', '0');
+INSERT INTO `yourphp_config` VALUES ('attach_maxsize', '允许上传附件大小', '5', '5200000', '0');
+INSERT INTO `yourphp_config` VALUES ('attach_allowext', '允许上传附件类型', '5', 'jpg,jpeg,gif,png,doc,docx,rar,zip,swf', '0');
+INSERT INTO `yourphp_config` VALUES ('watermark_enable', '是否开启图片水印', '5', '1', '0');
+INSERT INTO `yourphp_config` VALUES ('watemard_text', '水印文字内容', '5', 'YourPHP', '0');
+INSERT INTO `yourphp_config` VALUES ('watemard_text_size', '文字大小', '5', '18', '0');
+INSERT INTO `yourphp_config` VALUES ('watemard_text_color', 'watemard_text_color', '5', '#FFFFFF', '0');
+INSERT INTO `yourphp_config` VALUES ('watemard_text_face', '字体', '5', 'elephant.ttf', '0');
+INSERT INTO `yourphp_config` VALUES ('watermark_minwidth', '图片最小宽度', '5', '300', '0');
+INSERT INTO `yourphp_config` VALUES ('watermark_minheight', '水印最小高度', '5', '300', '0');
+INSERT INTO `yourphp_config` VALUES ('watermark_img', '水印图片名称', '5', 'mark.png', '0');
+INSERT INTO `yourphp_config` VALUES ('watermark_pct', '水印透明度', '5', '80', '0');
+INSERT INTO `yourphp_config` VALUES ('watermark_quality', 'JPEG 水印质量', '5', '100', '0');
+INSERT INTO `yourphp_config` VALUES ('watermark_pospadding', '水印边距', '5', '10', '0');
+INSERT INTO `yourphp_config` VALUES ('watermark_pos', '水印位置', '5', '9', '0');
+INSERT INTO `yourphp_config` VALUES ('PAGE_LISTROWS', '列表分页数', '6', '15', '0');
+INSERT INTO `yourphp_config` VALUES ('URL_MODEL', 'URL访问模式', '6', '0', '0');
+INSERT INTO `yourphp_config` VALUES ('URL_PATHINFO_DEPR', '参数分割符', '6', '/', '0');
+INSERT INTO `yourphp_config` VALUES ('URL_HTML_SUFFIX', 'URL伪静态后缀', '6', '.html', '0');
+INSERT INTO `yourphp_config` VALUES ('TOKEN_ON', '令牌验证', '6', '0', '0');
+INSERT INTO `yourphp_config` VALUES ('TOKEN_NAME', '令牌表单字段', '6', '__hash__', '0');
+INSERT INTO `yourphp_config` VALUES ('TMPL_CACHE_ON', '模板编译缓存', '6', '0', '0');
+INSERT INTO `yourphp_config` VALUES ('TMPL_CACHE_TIME', '模板缓存有效期', '6', '-1', '0');
+INSERT INTO `yourphp_config` VALUES ('HTML_CACHE_ON', '静态缓存', '6', '0', '0');
+INSERT INTO `yourphp_config` VALUES ('HTML_CACHE_TIME', '缓存有效期', '6', '60', '0');
+INSERT INTO `yourphp_config` VALUES ('HTML_READ_TYPE', '缓存读取方式', '6', '0', '0');
+INSERT INTO `yourphp_config` VALUES ('HTML_FILE_SUFFIX', '静态文件后缀', '6', '.html', '0');
+INSERT INTO `yourphp_config` VALUES ('ADMIN_ACCESS', 'ADMIN_ACCESS', '6', '2c6b9aacbae102a84fe5bab0a027975c', '0');
+INSERT INTO `yourphp_config` VALUES ('DEFAULT_THEME', '默认模板', '6', 'Default', '0');
+INSERT INTO `yourphp_config` VALUES ('HOME_ISHTML', '首页生成html', '6', '1', '0');
+INSERT INTO `yourphp_config` VALUES ('URL_URLRULE', 'URL', '6', '{$catdir}/show/{$id}.html|{$catdir}/show/{$id}_{$page}.html:::{$catdir}/|{$catdir}/{$page}.html', '0');
+INSERT INTO `yourphp_config` VALUES ('DEFAULT_LANG', '默认语言', '6', 'cn', '0');
+INSERT INTO `yourphp_config` VALUES ('member_register', '允许新会员注册', '3', '0', '1');
+INSERT INTO `yourphp_config` VALUES ('member_emailcheck', '新会员注册需要邮件验证', '3', '0', '1');
+INSERT INTO `yourphp_config` VALUES ('member_registecheck', '新会员注册需要审核', '3', '1', '1');
+INSERT INTO `yourphp_config` VALUES ('member_login_verify', '注册登陆开启验证码', '3', '1', '1');
+INSERT INTO `yourphp_config` VALUES ('member_emailchecktpl', '邮件认证模板', '3', ' 欢迎您注册成为yourphp用户，您的账号需要邮箱认证，点击下面链接进行认证：{click}\r\n或者将网址复制到浏览器：{url}', '1');
+INSERT INTO `yourphp_config` VALUES ('member_getpwdemaitpl', '密码找回邮件内容', '3', '尊敬的用户{username}，请点击进入<a href="{url}">重置密码</a>,或者将网址复制到浏览器：{url}（链接3天内有效）。<br>感谢您对本站的支持。<br>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　{sitename}<br>此邮件为系统自动邮件，无需回复。', '1');
+INSERT INTO `yourphp_config` VALUES ('LAYOUT_ON', '布局模板', '6', '1', '0');
+INSERT INTO `yourphp_config` VALUES ('ADMIN_VERIFY', '后台登陆验证码', '6', '1', '0');
 -- 
 -- 导出`yourphp_field`表中的数据 `yourphp_field`
 --
@@ -273,6 +274,7 @@ INSERT INTO `yourphp_menu` VALUES ('79', '4', 'Payment', 'index', '', '1', '1', 
 INSERT INTO `yourphp_menu` VALUES ('80', '79', 'Shipping', '', '', '1', '1', '0', '配送方式', '', '0');
 INSERT INTO `yourphp_menu` VALUES ('81', '79', 'Shipping', 'add', 'isajax=1', '1', '1', '0', '添加配送方式', '', '0');
 INSERT INTO `yourphp_menu` VALUES ('82', '58', 'Order', 'orderlist', '', '1', '1', '0', '单据管理', '', '0');
+INSERT INTO `yourphp_menu` VALUES ('83','1','Log','index','','1','1','0','后台登陆日志','','83');
 
 -- 
 -- 导出`yourphp_module`表中的数据 `yourphp_module`
@@ -433,7 +435,7 @@ INSERT INTO `yourphp_lang` VALUES ('2', '英文', 'en', 'en.gif', '1', '', '', '
 INSERT INTO `yourphp_block` VALUES ('1', 'about', '首页公司简介', '1', '<img src=\"Yourphp/Tpl/Home/Default/Public/images/cpbox.jpg\" alt=\"\" align=\"left\" height=\"160\" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Yourphp网站管理系统,是一款完全开源免费的PHP+MYSQL系统.核心采用了Thinkphp框架等众多开源软件,同时核心功能也作为开源软件发布。 集众多开源项目于一身的特点,使本系统从安全,效率,易用及可扩展性上更加突出.程序内置SEO优化机制，使企业网站更容易被推广.拥有企业网站常用的模块功能（企业简介模块、新闻模块、产品模块、下载模块、图片模块、招聘模块、在线留言、友情链接、会员与权限管理）。');
 INSERT INTO `yourphp_block` VALUES ('2', 'contact', '右侧联系我们', '1', '<li><label>电 &nbsp;&nbsp;话:</label>0317-5022625</li> <li><label>手 &nbsp;&nbsp;机:</label>13292793176</li> <li><label>联系人:</label>liuxun</li> <li><label>邮 &nbsp;&nbsp;箱:</label>admin@yourphp.cn</li> <li><label>网 &nbsp;&nbsp;址:</label>http://demo2.yourphp.cn</li> <li><label>地 &nbsp;&nbsp;址:</label>河北省沧州市肃宁县宅南村</li> ');
 INSERT INTO `yourphp_block` VALUES ('3', 'footer', '页底', '1', '<p>Powered by <a href=\"http://www.yourphp.cn\" target=\"_blank\"><span style=\"color:#000000;\">Yourphp</span></a> 版权所有 &copy; 2008-2011, All right reserved</p>');
-INSERT INTO `yourphp_slide` VALUES ('1', '首页幻灯片', '', '', '2', '920', '300', '', '1', '1');
+INSERT INTO `yourphp_slide` VALUES ('1', '首页幻灯片', '', '', '2', '920', '300', '0', '1', '1');
 INSERT INTO `yourphp_slide_data` VALUES ('1', '1', '图片1', '', 'http://www.yourphp.cn/Public/Images/flash1.jpg', 'http://www.yourphp.cn', '', '', '3', '1', '1');
 INSERT INTO `yourphp_slide_data` VALUES ('2', '1', '图片2', '', 'http://www.yourphp.cn/Public/Images/flash2.jpg', 'http://www.yourphp.cn', '', '', '1', '1', '1');
 INSERT INTO `yourphp_slide_data` VALUES ('3', '1', '图片3', '', 'http://www.yourphp.cn/Public/Images/flash3.jpg', 'http://www.yourphp.cn', '', '', '2', '1', '1');

@@ -7,15 +7,17 @@
  * @author          liuxun QQ:147613338 <web@yourphp.cn>
  * @copyright     	Copyright (c) 2008-2011  (http://www.yourphp.cn)
  * @license         http://www.yourphp.cn/license.txt
- * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
+ * @version        	YourPHP企业网站管理系统 v2.1 2012-10-08 yourphp.cn $
  */
+if(!defined("Yourphp")) exit("Access Denied");
 class ContentAction extends AdminbaseAction
 {
     protected  $dao,$fields;
     public function _initialize()
     {
         parent::_initialize();
-		$this->dao = D(MODULE_NAME);
+		$module =$this->module[$this->moduleid]['name'];
+		$this->dao = D($module);
 
 		$fields = F($this->moduleid.'_Field');
 		foreach($fields as $key => $res){
@@ -40,7 +42,9 @@ class ContentAction extends AdminbaseAction
 
 	public function add()
     {
-		$form=new Form();
+		$vo['catid']= intval($_GET['catid']);
+		$form=new Form($vo);
+		$form->isadmin=1;
 		$this->assign ( 'form', $form );
 		$template =  file_exists(THEME_PATH.MODULE_NAME.'_edit.html') ? MODULE_NAME.':edit' : 'Content:edit';
 		$this->display ( $template);
@@ -118,13 +122,21 @@ class ContentAction extends AdminbaseAction
 				$data['status']= '1';
 				$Attachment->where("aid in (".$aids.")")->save($data);
 			}
-
-			$data='';
-			$cat = $this->categorys[$catid];
-			$url = geturl($cat,$_POST,$this->Urlrule);
-			$data['id']= $id;
-			$data['url']= $url[0];
-			$model->save($data);
+			
+			$tablename=C('DB_PREFIX').$module;
+			$db=D('');
+			$db =   DB::getInstance();
+			$tables = $db->getTables();			
+			$Fields=$db->getFields($tablename); 
+			
+			if(isset($Fields['url'])){
+				$data='';
+				$cat = $this->categorys[$catid];
+				$url = geturl($cat,$_POST,$this->Urlrule);
+				$data['id']= $id;
+				$data['url']= $url[0];
+				$model->save($data);
+			}
 
 			
 			if($_POST['keywords'] && $module !='Page'){
@@ -208,33 +220,42 @@ class ContentAction extends AdminbaseAction
 		$_POST['url'] = geturl($cat,$_POST,$this->Urlrule);
 		$_POST['url'] =$_POST['url'][0];
 
-
+		$olddata = $model->find($_POST['id']);
 		if (false === $model->create ()) {
 			$this->error ( $model->getError () );
 		}
+		
+
 		// 更新数据
 		$list=$model->save ();
+
 		if (false !== $list) {
 			$id= $_POST['id'];
 			$catid = $module =='Page' ? $id : $_POST['catid'];
 
-			if($_POST['keywords']  && $module !='Page'){
-				$keywordsarr=explode(',',$_POST['keywords']);
-				$i=0;
+			if($olddata['keywords']!=$_POST['keywords']  && $module !='Page'){
+				 
+
+				$tagidarr=$tagdatas=$where=array();
+				$where['name']=array('in',$olddata['keywords']);
+				$where['moduleid']=array('eq',$cat['moduleid']);
+				$where['lang']=array('eq',$_POST['lang']);
+				M('Tags')->where($where)->setDec('num'); 
+
 				$tagsdata =M('Tags_data');
 				$tagsdata->where("id=".$id)->delete();
+
+				$keywordsarr=explode(',',$_POST['keywords']);			
 				foreach((array)$keywordsarr as $tagname){
 					if($tagname){
 						$tagidarr=$tagdatas=$where=array();
 						$where['name']=array('eq',$tagname);
 						$where['moduleid']=array('eq',$cat['moduleid']);
+						$where['lang']=array('eq',$_POST['lang']);
 						$tagid=M('Tags')->where($where)->field('id')->find();
 						$tagidarr['id']=$id;
 						if($tagid['id']>0){
-						
-							$num = $tagsdata->where("tagid=".$tagid[id])->count();
-							$tagdatas['num']=$num+1;
-							M('Tags')->where("id=".$tagid[id])->save($tagdatas);
+							M('Tags')->where("id=".$tagid[id])->setInc('num'); ;
 							$tagidarr['tagid']=$tagid['id'];
 						}else{
 							$tagdatas['moduleid']=$cat['moduleid'];
@@ -245,10 +266,10 @@ class ContentAction extends AdminbaseAction
 							$tagdatas['module']= $cat['module'];
 							$tagidarr['tagid']=M('Tags')->add($tagdatas);
 						}
-						$i++;
 						$tagsdata->add($tagidarr);
 					}
 				}
+				M('Tags')->where('num<=0')->delete();
 			}
 
 			if($_POST['aid']) {

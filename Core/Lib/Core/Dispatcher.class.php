@@ -8,30 +8,21 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-// $Id: Dispatcher.class.php 2840 2012-03-23 05:56:20Z liu21st@gmail.com $
 
 /**
- +------------------------------------------------------------------------------
  * ThinkPHP内置的Dispatcher类
  * 完成URL解析、路由和调度
- +------------------------------------------------------------------------------
  * @category   Think
  * @package  Think
- * @subpackage  Util
+ * @subpackage  Core
  * @author    liu21st <liu21st@gmail.com>
- * @version   $Id: Dispatcher.class.php 2840 2012-03-23 05:56:20Z liu21st@gmail.com $
- +------------------------------------------------------------------------------
  */
 class Dispatcher {
 
     /**
-     +----------------------------------------------------------
      * URL映射到控制器
-     +----------------------------------------------------------
      * @access public
-     +----------------------------------------------------------
      * @return void
-     +----------------------------------------------------------
      */
     static public function dispatch() {
         $urlMode  =  C('URL_MODEL');
@@ -55,8 +46,8 @@ class Dispatcher {
 
         // 开启子域名部署
         if(C('APP_SUB_DOMAIN_DEPLOY')) {
-            $rules = C('APP_SUB_DOMAIN_RULES');
-            $subDomain    = strtolower(substr($_SERVER['HTTP_HOST'],0,strpos($_SERVER['HTTP_HOST'],'.')));
+            $rules      = C('APP_SUB_DOMAIN_RULES');
+            $subDomain  = strtolower(substr($_SERVER['HTTP_HOST'],0,strpos($_SERVER['HTTP_HOST'],'.')));
             define('SUB_DOMAIN',$subDomain); // 二级域名定义
             if($subDomain && isset($rules[$subDomain])) {
                 $rule =  $rules[$subDomain];
@@ -67,15 +58,15 @@ class Dispatcher {
             }
             if(!empty($rule)) {
                 // 子域名部署规则 '子域名'=>array('分组名/[模块名]','var1=a&var2=b');
-                $array   =  explode('/',$rule[0]);
-                $module = array_pop($array);
+                $array  =   explode('/',$rule[0]);
+                $module =   array_pop($array);
                 if(!empty($module)) {
-                    $_GET[C('VAR_MODULE')] = $module;
-                    $domainModule   =  true;
+                    $_GET[C('VAR_MODULE')]  =   $module;
+                    $domainModule           =   true;
                 }
                 if(!empty($array)) {
-                    $_GET[C('VAR_GROUP')]  = array_pop($array);
-                    $domainGroup =  true;
+                    $_GET[C('VAR_GROUP')]   =   array_pop($array);
+                    $domainGroup            =   true;
                 }
                 if(isset($rule[1])) { // 传入参数
                     parse_str($rule[1],$parms);
@@ -100,8 +91,12 @@ class Dispatcher {
         $depr = C('URL_PATHINFO_DEPR');
         if(!empty($_SERVER['PATH_INFO'])) {
             tag('path_info');
+            $part =  pathinfo($_SERVER['PATH_INFO']);
+            define('__EXT__', isset($part['extension'])?strtolower($part['extension']):'');
             if(C('URL_HTML_SUFFIX')) {
-                $_SERVER['PATH_INFO'] = preg_replace('/\.'.trim(C('URL_HTML_SUFFIX'),'.').'$/i', '', $_SERVER['PATH_INFO']);
+                $_SERVER['PATH_INFO'] = preg_replace('/\.('.trim(C('URL_HTML_SUFFIX'),'.').')$/i', '', $_SERVER['PATH_INFO']);
+            }elseif(__EXT__) {
+                $_SERVER['PATH_INFO'] = preg_replace('/.'.__EXT__.'$/i','',$_SERVER['PATH_INFO']);
             }
             if(!self::routerCheck()){   // 检测路由规则 如果没有则按默认规则调度URL
                 $paths = explode($depr,trim($_SERVER['PATH_INFO'],'/'));
@@ -122,7 +117,7 @@ class Dispatcher {
                 }
                 $var[C('VAR_ACTION')]  =   array_shift($paths);
                 // 解析剩余的URL参数
-                $res = preg_replace('@(\w+)'.$depr.'([^'.$depr.'\/]+)@e', '$var[\'\\1\']=strip_tags(\'\\2\');', implode($depr,$paths));
+                preg_replace('@(\w+)\/([^\/]+)@e', '$var[\'\\1\']=strip_tags(\'\\2\');', implode('/',$paths));
                 $_GET   =  array_merge($var,$_GET);
             }
             define('__INFO__',$_SERVER['PATH_INFO']);
@@ -139,12 +134,11 @@ class Dispatcher {
         // 当前项目地址
         define('__APP__',strip_tags(PHP_FILE));
         // 当前模块和分组地址
-        $module = defined('P_MODULE_NAME')?P_MODULE_NAME:MODULE_NAME;
         if(defined('GROUP_NAME')) {
             define('__GROUP__',(!empty($domainGroup) || strtolower(GROUP_NAME) == strtolower(C('DEFAULT_GROUP')) )?__APP__ : __APP__.'/'.GROUP_NAME);
-            define('__URL__',!empty($domainModule)?__GROUP__.$depr : __GROUP__.$depr.$module);
+            define('__URL__',!empty($domainModule)?__GROUP__.$depr : __GROUP__.$depr.MODULE_NAME);
         }else{
-            define('__URL__',!empty($domainModule)?__APP__.'/' : __APP__.'/'.$module);
+            define('__URL__',!empty($domainModule)?__APP__.'/' : __APP__.'/'.MODULE_NAME);
         }
         // 当前操作地址
         define('__ACTION__',__URL__.$depr.ACTION_NAME);
@@ -153,13 +147,9 @@ class Dispatcher {
     }
 
     /**
-     +----------------------------------------------------------
      * 路由检测
-     +----------------------------------------------------------
      * @access public
-     +----------------------------------------------------------
      * @return void
-     +----------------------------------------------------------
      */
     static public function routerCheck() {
         $return   =  false;
@@ -169,52 +159,38 @@ class Dispatcher {
     }
 
     /**
-     +----------------------------------------------------------
      * 获得实际的模块名称
-     +----------------------------------------------------------
      * @access private
-     +----------------------------------------------------------
      * @return string
-     +----------------------------------------------------------
      */
     static private function getModule($var) {
         $module = (!empty($_GET[$var])? $_GET[$var]:C('DEFAULT_MODULE'));
         unset($_GET[$var]);
         if(C('URL_CASE_INSENSITIVE')) {
             // URL地址不区分大小写
-            define('P_MODULE_NAME',strtolower($module));
             // 智能识别方式 index.php/user_type/index/ 识别到 UserTypeAction 模块
-            $module = ucfirst(parse_name(P_MODULE_NAME,1));
+            $module = ucfirst(parse_name($module,1));
         }
         return strip_tags($module);
     }
 
     /**
-     +----------------------------------------------------------
      * 获得实际的操作名称
-     +----------------------------------------------------------
      * @access private
-     +----------------------------------------------------------
      * @return string
-     +----------------------------------------------------------
      */
     static private function getAction($var) {
         $action   = !empty($_POST[$var]) ?
             $_POST[$var] :
             (!empty($_GET[$var])?$_GET[$var]:C('DEFAULT_ACTION'));
         unset($_POST[$var],$_GET[$var]);
-        define('P_ACTION_NAME',$action);
         return strip_tags(C('URL_CASE_INSENSITIVE')?strtolower($action):$action);
     }
 
     /**
-     +----------------------------------------------------------
      * 获得实际的分组名称
-     +----------------------------------------------------------
      * @access private
-     +----------------------------------------------------------
      * @return string
-     +----------------------------------------------------------
      */
     static private function getGroup($var) {
         $group   = (!empty($_GET[$var])?$_GET[$var]:C('DEFAULT_GROUP'));

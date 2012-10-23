@@ -3,7 +3,7 @@
 <load href="__PUBLIC__/Js/jquery.validate.js"/>
 
 <div class="left">
-		<div class="pos">{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> > <YP:catpos  catid="catid" space=" > " /></div>
+		<div class="pos"><b></b><span>{:L(catpos)} <a href="{:URL()}">{:L(home_font)}</a> &gt <YP:catpos  catid="catid" space=" &gt; " /></span></div>
 
 		<style>
 		#content {margin:0;line-height:22px;}
@@ -12,7 +12,7 @@
 				<form name="myform" id="myform" action="{:URL('User-Post/insert')}" method="post">
 				<table cellpadding=0 cellspacing=0 class="table_form"  >
 				<input type="hidden" id="catid" name="catid" value="{$catid}" />
-				<input type="hidden" id="catid" name="moduleid" value="{$moduleid}" />
+				<input type="hidden" id="catid" name="moduleid" value="6" />
 				<input type="hidden"  name="lang" value="{$langid}" />
 				<volist name="fields" id="r">
 				<if condition="!empty($r['status']) && $r['ispost']">

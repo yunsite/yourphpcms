@@ -7,9 +7,9 @@
  * @author          liuxun QQ:147613338 <admin@yourphp.cn>
  * @copyright     	Copyright (c) 2008-2011  (http://www.yourphp.cn)
  * @license         http://www.yourphp.cn/license.txt
- * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
+ * @version        	YourPHP企业网站管理系统 v2.1 2012-10-08 yourphp.cn $
  */
-
+if(!defined("Yourphp")) exit("Access Denied");
 function fieldoption($fields,$value=null,$space=''){
 	$options = explode("\n",$fields['setup']['options']);
 	foreach($options as $r) {
@@ -35,6 +35,18 @@ function fieldoption($fields,$value=null,$space=''){
 	}else{
 		return $optionsarr;
 	}
+}
+
+function picstoarr($str=''){
+	$data=array();
+	$v = explode(":::",$str);
+	foreach((array)$v as $r){
+		$r=explode('|',$r);
+		$res['file']=$r[0];
+		$res['desc']=$r[1];
+		$data[]=$res;
+	}
+	return $data;
 }
 
 function get_arrparentid($pid, $array=array(),$arrparentid='') {
@@ -184,6 +196,14 @@ function dir_create($path, $mode = 0777) {
 	return is_dir($path);
 }
 
+function mk_dir($dir, $mode = 0777) {
+    if (is_dir($dir) || @mkdir($dir, $mode))
+        return true;
+    if (!mk_dir(dirname($dir), $mode))
+        return false;
+    return @mkdir($dir, $mode);
+}
+
 function dir_copy($fromdir, $todir) {
 	$fromdir = dir_path($fromdir);
 	$todir = dir_path($todir);
@@ -251,6 +271,7 @@ function toDate($time, $format = 'Y-m-d H:i:s') {
 	return date ($format, $time );
 }
 function savecache($name = '',$id='') {
+	unlink(RUNTIME_FILE);
 	$Model = M ( $name );
 	if($name=='Lang'){
 		$list = $Model->order('listorder')->select ();
@@ -309,6 +330,9 @@ function savecache($name = '',$id='') {
 			F('member.config',$memberconfig);
 			if(empty($data['HOME_ISHTML']))@unlink('./index.html');
 		}
+
+		$langs = M('Lang')->field('mark')->select();foreach((array)$langs as $r ) $lang1[]=$r['mark'];
+		$sysdata['LANG_LIST'] = 'zh-cn,'.implode(',',$lang1);
 		
 		F('sys.config',$sysdata);
 
@@ -386,45 +410,48 @@ function savecache($name = '',$id='') {
 }
 
 
-function checkfield($fields,$_POST){
-		foreach ( $_POST as $key => $val ) {
+function checkfield($fields,$postdata){
+		foreach ( $postdata as $key => $val ) {
 				$setup=$fields[$key]['setup'];
 
-				if(!empty($fields[$key]['required']) && empty($_POST[$key])) return '';
+				if(!empty($fields[$key]['required']) && empty($postdata[$key])) return '';
 
 				//$setup=string2array($fields[$key]['setup']);
 				if($setup['multiple'] || $setup['inputtype']=='checkbox' || $fields[$key]['type']=='checkbox'){
-					$_POST[$key] = implode(',',$_POST[$key]);		
+					$postdata[$key] =  safe_replace(strip_tags($postdata[$key]));
+					$postdata[$key] = implode(',',$postdata[$key]);		
 				}elseif($fields[$key]['type']=='datetime'){
-					$_POST[$key] =strtotime($_POST[$key]);
+					$postdata[$key] =strtotime($postdata[$key]);
 				}elseif($fields[$key]['type']=='textarea'){
-					$_POST[$key]=addslashes($_POST[$key]);
+					$postdata[$key]=addslashes_array($postdata[$key]);
 				}elseif($fields[$key]['type']=='images' || $fields[$key]['type']=='files'){
 					$name = $key.'_name';
 					$arrdata =array();
-					foreach($_POST[$key] as $k=>$res){
-						if(!empty($_POST[$key][$k])) $arrdata[]= $_POST[$key][$k].'|'.$_POST[$name][$k];
+					foreach($postdata[$key] as $k=>$res){
+						if(!empty($postdata[$key][$k])) $arrdata[]= safe_replace(strip_tags($postdata[$key][$k].'|'.$postdata[$name][$k]));
 					}
-					$_POST[$key]=implode(':::',$arrdata);
+					$postdata[$key]=implode(':::',$arrdata);
 				}elseif($fields[$key]['type']=='editor'){					
 					//自动提取摘要
-					if(isset($_POST['add_description']) && $_POST['description'] == '' && isset($_POST['content'])) {
-						$content = stripslashes($_POST['content']);
-						$description_length = intval($_POST['description_length']);
-						$_POST['description'] = str_cut(str_replace(array("\r\n","\t",'[page]','[/page]','&ldquo;','&rdquo;'), '', strip_tags($content)),$description_length);
-						$_POST['description'] = addslashes($_POST['description']);
+					if(isset($postdata['add_description']) && $postdata['description'] == '' && isset($postdata['content'])) {
+						$content = stripslashes($postdata['content']);
+						$description_length = intval($postdata['description_length']);
+						$postdata['description'] = str_cut(str_replace(array("\r\n","\t",'[page]','[/page]','&ldquo;','&rdquo;'), '', strip_tags($content)),$description_length);
+						$postdata['description'] = addslashes_array($postdata['description']);
 					}
 					//自动提取缩略图
-					if(isset($_POST['auto_thumb']) && $_POST['thumb'] == '' && isset($_POST['content'])) {
-						$content = $content ? $content : stripslashes($_POST['content']);
-						$auto_thumb_no = intval($_POST['auto_thumb_no']) * 3;
+					if(isset($postdata['auto_thumb']) && $postdata['thumb'] == '' && isset($postdata['content'])) {
+						$content = $content ? $content : stripslashes($postdata['content']);
+						$auto_thumb_no = intval($postdata['auto_thumb_no']) * 3;
 						if(preg_match_all("/(src)=([\"|']?)([^ \"'>]+\.(gif|jpg|jpeg|bmp|png))\\2/i", $content, $matches)) {
-							$_POST['thumb'] = $matches[$auto_thumb_no][0];
+							$postdata['thumb'] = $matches[$auto_thumb_no][0];
 						}
 					}
-				} 
+				}elseif($fields[$key]['type']=='title' || $fields[$key]['type']=='text'){
+					$postdata[$key] =  safe_replace(strip_tags($postdata[$key]));
+				}
 		}
-		return $_POST;
+		return $postdata;
 }
 
 function string2array($info) {
@@ -1275,4 +1302,36 @@ function order_pay_status($sn,$value){
 	$r = M('Order')->where("sn='{$sn}'")->save($cart);
 	return $r;
 }
+
+function addslashes_array($array){
+	if(get_magic_quotes_gpc())return $array;
+	if(!is_array($array))return addslashes($array);
+	foreach($array as $k => $val) $array[$k] = addslashes_array($val);
+	return $array;
+}
+
+function stripslashes_array($array) {
+	if(!is_array($array)) return stripslashes($array);
+	foreach($array as $k => $val) $array[$k] = stripslashes_array($val);
+	return $array;
+}
+
+function htmlspecialchars_array($array) {
+	if(!is_array($array)) return htmlspecialchars($array,ENT_QUOTES);
+	foreach($array as $k => $val) $array[$k] = htmlspecialchars_array($val);
+	return $array;
+}
+ 
+function safe_replace($string) {
+	$string = trim($string);
+	$string = str_replace(array('\\',';','\'','%2527','%27','%20','&', '"', '<', '>'), array('','','','','','','&amp;', '&quot;', '&lt;', '&gt;'), $string);
+	$string=nl2br($string); 
+	return $string;
+}	
+function get_safe_replace($array){
+	if(!is_array($array)) return safe_replace(strip_tags($array));
+	foreach($array as $k => $val) $array[$k] = get_safe_replace($val);
+	return $array;
+}
+
 ?>

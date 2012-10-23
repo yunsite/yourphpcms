@@ -9,7 +9,7 @@
  * @license         http://www.yourphp.cn/license.txt
  * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
  */
-if(!defined("YOURPHP")) exit("Access Denied");
+if(!defined("Yourphp")) exit("Access Denied");
 class SearchAction extends BaseAction
 {
 
@@ -21,10 +21,11 @@ class SearchAction extends BaseAction
     public function index()
     {
 		//搜索
-		$catid =  intval($_REQUEST['id']);
+		$_REQUEST['id'] = $catid =  intval($_REQUEST['id']);
 		$p= max(intval($_REQUEST[C('VAR_PAGE')]),1);
-		$keyword = $_REQUEST['keyword'];
-		$module =  $_REQUEST['module'] ? $_REQUEST['module'] : 'Article' ;
+		$_REQUEST['keyword'] = $keyword = get_safe_replace($_REQUEST['keyword']);
+		$_REQUEST['module'] = $module =  get_safe_replace($_REQUEST['module']);
+		$module =  $module ? $module  : 'Article' ;
 		$this->assign($_REQUEST);
 		$this->assign('bcid',0);
 		$where = " status=1 ";

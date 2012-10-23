@@ -53,7 +53,7 @@ class Tree extends Think {
 	function get_nav($bid,$maxlevel,$effected_id='navlist',$style='filetree ' ,$homefont='',$recursion=FALSE ,$child='',$enhomefont='',$lang='') {
 	
 		if($enhomefont) $indexen =  '<em>'.$enhomefont.'</em>';
-		if($homefont) $homefont='<li id="nav_0"><span class="fl_ico"></span><a href="'.URL().'"><span class="fl">'.L(HOME_FONT).'</span>'.$indexen.'</a></li>';
+		if($homefont) $homefont='<li id="nav_0"><span class="fl_ico"></span><a href="'.URL().'" title="'.L(HOME_FONT).'"><span class="fl">'.L(HOME_FONT).'</span>'.$indexen.'</a></li>';
 	 
 		$number=1;
 		if(!$child) $child = $this->getchild($bid);
@@ -78,10 +78,10 @@ class Tree extends Think {
 				$enzm = $enname ? '<em>'.$enname.'</em>' :  '<em>'.$catdir.'</em>';
 			}
             if($ischild && $level < $this->level){
-				$this->ret .= '<span class="fd_ico"></span><a href="'.$url.'"><span class="fd">'.$catname.'</span>'.$enzm.'</a>';
+				$this->ret .= '<span class="fd_ico"></span><a href="'.$url.'" title="'.$catname.'"><span class="fd">'.$catname.'</span>'.$enzm.'</a>';
                 $this->get_nav($id,$maxlevel,$effected_id,$style,'',TRUE,$ischild,$enhomefont,$lang);
             } else {
-			   $this->ret .= '<span class="fl_ico"></span><a href="'.$url.'"><span class="fl">'.$catname.'</span>'.$enzm.'</a>';
+			   $this->ret .= '<span class="fl_ico"></span><a href="'.$url.'" title="'.$catname.'"><span class="fl">'.$catname.'</span>'.$enzm.'</a>';
             }
            $this->ret .=$recursion ? '</li></ul>': '</li>';
 		   $number++;

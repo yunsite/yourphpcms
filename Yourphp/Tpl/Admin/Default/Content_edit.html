@@ -8,8 +8,8 @@
 		<volist name="fields" id="r">
 		<if condition="!empty($r['status'])">
 			<tr>
-				<td width="15%" ><if condition="$r['required']"><font color="red">*</font></if>{$r.name}</td>
-				<td width="85%" id="box_{$r['field']}">
+				<td width="10%" ><if condition="$r['required']"><font color="red">*</font></if>{$r.name}</td>
+				<td width="90%" id="box_{$r['field']}">
 				{$r|getform=$form,###}
 				</td>
 			</tr>

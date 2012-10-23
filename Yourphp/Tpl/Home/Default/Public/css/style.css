@@ -1,4 +1,4 @@
-body, dl, dt, dd, ol, ul, pre, form, field, input, p, blockquote, th, td, h1, h2, h3, h4, h5, h6 {margin:0; padding:0; color:#333; font-size:12px;}
+body, dl, dt, dd,pre,ul,ol, form, field, input, p, blockquote, th, td, h1, h2, h3, h4, h5, h6 {margin:0; padding:0; color:#333; font-size:12px;}
 body {font-family:Tahoma, Geneva, sans-serif,'宋体'; background:#E5E7E9;}
 
 a{color:#343434;text-decoration:none;}
@@ -8,7 +8,7 @@ ul, ol { list-style:none;}
 input, textarea, select, button, file {	font-size:12px;margin:0px;}
 img { border:none;vertical-align:middle;}
 input,select,textarea,.textarea_style{vertical-align:middle;}
-em,i {font-style: normal;font-weight:normal; }
+i  {font-style: normal;font-weight:normal; }
 .date{ color:#ccc; font-family:Arial, Helvetica, sans-serif; font-size:11px; margin-right:8px;}
 .c{overflow:hidden; clear:both ; height:0px;padding:0px;margin:0px;text-align:none;font-size:0px;font-style:normal;}
 
@@ -33,14 +33,15 @@ em,i {font-style: normal;font-weight:normal; }
 .pic li b {line-height:24px;overflow:hidden;zoom:1;font-size:12px;}
 
 
-h2 {background:#5A5A5A;line-height:33px;color:#FFF;padding:0 10px;}
-h2 span ,h3 span ,h4 span {float:right;font-size:12px;font-weight:normal;font-family:'宋体';}
-h2 a {color:#FFF;}
-h3 {height:43px;line-height:43px;font-family:'Microsoft YaHei';border-bottom:1px solid #E7E7E7;font-family:'Microsoft YaHei';padding-left:5px;}
-h3  b{font-size:14px;}
-h3  em {font-size:8px; text-transform:uppercase;margin-left:8px;color:#E3E3E3}
-h3 span a {color:#777;}
-h4 {border-bottom:1px solid #A04040;line-height:40px;padding-left:15px;background:url(../images/ico_3.gif) no-repeat 3px 16px;;}
+h2.tit em , h3.tit em ,h4.tit em ,h5.tit em ,h6.tit em  {font-style: normal;font-weight:normal; }
+h2.tit {background:#5A5A5A;line-height:33px;color:#FFF;padding:0 10px;}
+h2.tit span ,h3.tit  span ,h4.tit  span {float:right;font-size:12px;font-weight:normal;font-family:'宋体';}
+h2.tit a {color:#FFF;}
+h3.tit {height:43px;line-height:43px;font-family:'Microsoft YaHei';border-bottom:1px solid #E7E7E7;font-family:'Microsoft YaHei';padding-left:5px;}
+h3.tit b{font-size:14px;}
+h3.tit em {font-size:8px; text-transform:uppercase;margin-left:8px;color:#E3E3E3}
+h3.tit span a {color:#777;}
+h4.tit {border-bottom:1px solid #A04040;line-height:40px;padding-left:15px;background:url(../images/ico_3.gif) no-repeat 3px 16px;;}
  
 
 .warp {width:965px;margin:0px auto;zoom:1;overflow:hidden; background:url(../images/bg.jpg) repeat-y center;padding:0px 8px 0 7px;}
@@ -75,7 +76,7 @@ h4 {border-bottom:1px solid #A04040;line-height:40px;padding-left:15px;backgroun
 .ad {margin:1px 0;} 
 #flash_1 {width:920px;height:300px;}
 #flash_1 *{z-index:0;}
-
+.slide1 ul {padding:0;margin:0;}
 
  
 .icontact {line-height:26px;padding:20px;background:urL(box_bg.jpg) repeat-x;border:1px solid #ddd;overflow:hidden;}
@@ -86,9 +87,8 @@ h4 {border-bottom:1px solid #A04040;line-height:40px;padding-left:15px;backgroun
 .iProduct ul.pic li {float:left;margin:5px 10px;_margin:5px 8px;width:134px;}
 .iProduct ul.pic li span { width:132px;height:102px;}
 .iProduct ul.pic li span a {border:1px solid #FFF;width:130px;height:100px;*font-size: 85px;}
-.iProduct ul.pic li img  {max-height:100px;max-width:130px ;
-_width:expression(document.documentElement.clientWidth > 130  && document.documentElement.clientHeight<=document.documentElement.clientWidth  ? "130px" : "auto");
-_height:expression(document.documentElement.clientHeight > 100  && document.documentElement.clientHeight>=document.documentElement.clientWidth  ? "100px" : "auto");}
+.iProduct ul.pic li img  {max-height:100px;max-width:130px ;_width:expression(this.width > 130 && this.width > this.height ? 130 : true); _height:expression(this.height > 100 ? 100 : true);}
+
 
 
 .inews .ilist {overflow:HIDDEN;border:1px solid #ddd;overflow:hidden;MARGIN:0;padding:12px 0px;zoom:1;}
@@ -108,17 +108,13 @@ _height:expression(document.documentElement.clientHeight > 100  && document.docu
 .list ul.pic li {float:left;width:134px;margin:5px 8px;_margin:5px 6px;}
 .list ul.pic li span {width:132px;height:102px;}
 .list ul.pic li span a {width:130px;height:100px;*font-size: 85px;border:1px solid #FFF;}
-.list ul.pic li img  {max-height:100px;max-width:130px ;
-_width:expression(document.documentElement.clientWidth > 130  && document.documentElement.clientHeight<=document.documentElement.clientWidth  ? "130px" : "auto");
-_height:expression(document.documentElement.clientHeight > 100  && document.documentElement.clientHeight>=document.documentElement.clientWidth  ? "100px" : "auto");}
+.list ul.pic li img  {max-height:100px;max-width:130px ;_width:expression(this.width > 130 && this.width > this.height ? 130 : true); _height:expression(this.height > 100 ? 100 : true);}
 .list ul.pic {overflow:HIDDEN;MARGIN:0;}
 .list dl.img {float:left;width:280px;margin:10px 0 10px 12px;overflow:hidden;}
 .list dl.img dd.pic {float:left;width:134px;height:104px;margin-right:5px;}
 .list dl.img dd.pic span {width:132px;height:102px;}
 .list dl.img dd.pic span a {width:130px;height:100px;*font-size: 85px;border:1px solid #FFF;}
-.list dl.img dd.pic img {max-height:100px;max-width:130px ;
-_width:expression(document.documentElement.clientWidth > 130  && document.documentElement.clientHeight<=document.documentElement.clientWidth  ? "130px" : "auto");
-_height:expression(document.documentElement.clientHeight > 100  && document.documentElement.clientHeight>=document.documentElement.clientWidth  ? "100px" : "auto");}
+.list dl.img dd.pic img {max-height:100px;max-width:130px ;_width:expression(this.width > 130 && this.width > this.height ? 130 : true); _height:expression(this.height > 100 ? 100 : true);}
 .list dl.img dd {line-height:24px;}
 .list dl.img dd b {font-size:14px;color:#FB0000;}
 .list dl.img dt a{color:#BF0000;}
@@ -158,9 +154,7 @@ _height:expression(document.documentElement.clientHeight > 100  && document.docu
 .p_box {FLOAT:LEFT;width:266px;}
 #zoom_box  {display:table-cell;*display:block;zoom:1;width:260px;height:200px;text-align:center;border:1px solid #EEE;vertical-align:middle;font-size:170px;padding:0}
 #zoom_box img {margin:0;padding:0;}
-#zoom_box img.big_small {max-width:260px;max-height:200px;
-_width:expression(document.documentElement.clientWidth > 260  && document.documentElement.clientHeight<=document.documentElement.clientWidth  ? "260px" : "auto");
-_height:expression(document.documentElement.clientHeight > 200  && document.documentElement.clientHeight>=document.documentElement.clientWidth  ? "200px" : "auto");}
+#zoom_box img.big_small {max-width:260px;max-height:200px;_width:expression(this.width > 260 && this.width > this.height ? 260 : true); _height:expression(this.height > 200 ? 200 : true);}
 
 #zoom_list {width:262px;height:60px;background:#EFEFEF;}
 #zoom_list .pre{float:left;width:14px;height:54px;margin-top:2px;text-align:center;overflow:hidden;background:#EFEFEF url(../images/pre.gif) no-repeat -3px 18px;}
@@ -237,9 +231,7 @@ _height:expression(document.documentElement.clientHeight > 200  && document.docu
 #Main-C .smallPic div.f_l li {float:left;width:131px;height:97px;text-align:center;}
 #Main-C .smallPic div.f_l li span{width:114px;height:97px;margin:0 auto;overflow:hidden;margin-top:8px;border:none;}
 #Main-C .smallPic div.f_l li span a {width:112px;height:86px;*font-size: 72px;border:1px solid #AEAEAE;overflow:hidden;cursor:pointer;position:relative;margin:0 auto;}
-#Main-C .smallPic div.f_l li span   img {max-height:86px;max-width:112px;
-_width:expression(document.documentElement.clientWidth > 112  && document.documentElement.clientHeight<=document.documentElement.clientWidth  ? "112px" : "auto");
-_height:expression(document.documentElement.clientHeight > 86  && document.documentElement.clientHeight>=document.documentElement.clientWidth  ? "86px" : "auto");}
+#Main-C .smallPic div.f_l li span   img {max-height:86px;max-width:112px;_width:expression(this.width > 112 && this.width > this.height ? 112 : true); _height:expression(this.height > 86 ? 86 : true);}
 #Main-C .smallPic div.f_l li.on  a{border:none;}
 
 
@@ -282,13 +274,18 @@ _height:expression(document.documentElement.clientHeight > 86  && document.docum
 .down_info ul li label {float:left;width:65px;border-right:1px solid #EFEFEF;text-align:center;margin-right:5px;}
 .down_info ul li {line-height:28px;border-bottom:1px solid #EFEFEF;}
 
-#content {margin:15px;color:#3D1C10;line-height:30px;font-size:14px; }
-#content h1 {font-size:20px;font-family:'Microsoft YaHei';color:#333;text-align:center;margin:20px 0;}
-#content h1 span {font-size:14px;font-weight:normal;}
-#content .content *{font-size:12px;}
-#content .content img {max-width:590px;_width:expression(document.documentElement.clientWidth > 590 ? "590px" : "auto");}
+#content {margin:15px;color:#3D1C10;line-height:30px;font-size:14px;}
+#content h1.tit {font-size:20px;font-family:'Microsoft YaHei';color:#333;text-align:center;margin:20px 0;}
+#content h1.tit span {font-size:14px;font-weight:normal;}
+#content .content p{font-size:12px;}
+#content .content img {max-width:590px;_width:expression(this.width > 590 && this.width > this.height ? 590 : true); }
+#content .content strong{color:#000;}
+#content .content ol{ list-style-position: inside; margin:20px; }
+#content .content ul {list-style-position: inside; margin:20px; }
+#content .content ul li  {list-style-type : disc;}
+#content .content ol li  {list-style-type : decimal ;} 
+#content .content h1,#content .content h2,#content  .content h3,#content .content h4,#content .content h5,#content .content h6 {color:#000;font-size:100%;font-weight:bold;}
 
- 
 #pages { padding:10px 0 10px;text-align:center;font:12px '宋体';}
 #pages a { display:inline-block; padding:0px 8px; height:22px;font-size:12px;line-height:22px; background:#fff; border:1px solid #e3e3e3; text-align:center; color:#333}
 #pages a.a1 {padding:0px 12px; height:22px; line-height:22px;margin-top:0px;}
@@ -353,4 +350,6 @@ em.success {overflow:hidden;zoom:1;background:url("../Images/checked.gif") no-re
 .post_box {border:1px solid #eee;margin:15px;}
 .post_box h5 {line-height:35px;text-align:center;font-size:14px;border-bottom:1px solid #eee;height:35px;background:#E9E9EB;}
 /*user login*/
+
+
 

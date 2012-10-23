@@ -1,5 +1,5 @@
 <?php
-$database = require ('./config.php');
+$database = require (RUNTIME_PATH.'config.php');
 $sys_config =  include DATA_PATH.  'sys.config.php';
 if(empty($sys_config)){$sys_config=array();$sys_config['LAYOUT_ON']=1;}
 if($sys_config['URL_MODEL']) $RULES = include DATA_PATH.  'Routes.php';
@@ -14,7 +14,6 @@ $config	= array(
 		'URL_ROUTER_ON' => true,
 		'DEFAULT_LANG'   => 'cn',
 		'LANG_SWITCH_ON'		=> true,
-		'LANG_LIST'=>'cn,zh-cn,en',
 		'TAGLIB_LOAD' => true,
 		'TAGLIB_PRE_LOAD' => 'Yp',
 		'TMPL_ACTION_ERROR' => APP_PATH.'/Tpl/Home/Default/Public/success.html',

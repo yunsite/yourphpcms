@@ -9,7 +9,7 @@
  * @license         http://www.yourphp.cn/license.txt
  * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
  */
-if(!defined("YOURPHP")) exit("Access Denied"); 
+if(!defined("Yourphp")) exit("Access Denied");
 class AjaxAction extends BaseAction
 {
     public function index()
@@ -73,7 +73,7 @@ class AjaxAction extends BaseAction
     }
 
 	public function address(){
-		$do=$_REQUEST['do'];
+		$do=get_safe_replace($_REQUEST['do']);
 		$model = M('User_address');
 		$id = intval($_REQUEST['id']);
 		
@@ -121,7 +121,7 @@ class AjaxAction extends BaseAction
 			if($userid){	
 				$data=$model->find($id);
 			}else{
-				$data = unserialize($_COOKIE['YP_guest_address']);
+				$data = unserialize( cookie('guest_address'));
 			}
 			if($data){
 				die(json_encode($data));
@@ -134,7 +134,7 @@ class AjaxAction extends BaseAction
 	}
 
 	public function shipping(){
-		$do=$_REQUEST['do'];
+		$do=get_safe_replace($_REQUEST['do']);
 		$model = M('Shipping');
 		$id = intval($_REQUEST['id']); 
  

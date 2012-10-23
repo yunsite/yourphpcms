@@ -9,8 +9,7 @@
  * @license         http://www.yourphp.cn/license.txt
  * @version        	YourPHP企业网站管理系统 v2.1 2011-03-01 yourphp.cn $
  */
-if(defined('APP_PATH')!='./Yourphp' && !defined("YOURPHP"))  exit("Access Denied");
-
+if(!defined("Yourphp")) exit("Access Denied");
 class BaseAction extends Action
 {
 	protected   $Config ,$sysConfig,$categorys,$module,$moduleid,$mod,$dao,$Type,$Role,$_userid,$_groupid,$_email,$_username ,$forward ,$user_menu,$Lang,$member_config;
@@ -26,7 +25,7 @@ class BaseAction extends Action
 			if(APP_LANG){
 				$this->Lang = F('Lang');
 				$this->assign('Lang',$this->Lang);
-				if($_GET['l']){
+				if(get_safe_replace($_GET['l'])){
 					if(!$this->Lang[$_GET['l']]['status'])$this->error ( L ( 'NO_LANG' ) );
 					$lang=$_GET['l'];
 				}else{
@@ -38,16 +37,15 @@ class BaseAction extends Action
 				$this->Config = F('Config_'.$lang);
 				$this->assign('l',$lang);
 				$this->assign('langid',LANG_ID);
-				$T = F('config_'.$lang,'', './Yourphp/Tpl/Home/'.$this->sysConfig['DEFAULT_THEME'].'/');
-				C('TMPL_CACHFILE_SUFFIX',$lang.C('TMPL_CACHFILE_SUFFIX'));
+				$T = F('config_'.$lang,'', APP_PATH.'Tpl/Home/'.$this->sysConfig['DEFAULT_THEME'].'/');
+				C('TMPL_CACHFILE_SUFFIX','_'.$lang.'.php');
 				cookie('think_language',$lang);
 			}else{
-				$T = F('config_'.$this->sysConfig['DEFAULT_LANG'],'', './Yourphp/Tpl/Home/'.$this->sysConfig['DEFAULT_THEME'].'/');
+				$T = F('config_'.$this->sysConfig['DEFAULT_LANG'],'',  APP_PATH.'Tpl/Home/'.$this->sysConfig['DEFAULT_THEME'].'/');
 				$this->categorys = F('Category');
 				$this->Config = F('Config');
 				cookie('think_language',$this->sysConfig['DEFAULT_LANG']);
 			}
-
 			$this->assign('T',$T);
 			$this->assign($this->Config);
 			$this->assign('Role',$this->Role);
@@ -68,17 +66,15 @@ class BaseAction extends Action
 
 			import("@.ORG.Online");
 			$session = new Online();
- 
-
-			if($_COOKIE['YP_auth']){
+			if(cookie('auth')){
 				$yourphp_auth_key = sysmd5($this->sysConfig['ADMIN_ACCESS'].$_SERVER['HTTP_USER_AGENT']);
-				list($userid,$groupid, $password) = explode("-", authcode($_COOKIE['YP_auth'], 'DECODE', $yourphp_auth_key));
+				list($userid,$groupid, $password) = explode("-", authcode(cookie('auth'), 'DECODE', $yourphp_auth_key));
 				$this->_userid = $userid;
-				$this->_username = $_COOKIE['YP_username'];
+				$this->_username =  cookie('username');
 				$this->_groupid = $groupid; 
-				$this->_email = $_COOKIE['YP_email'];
+				$this->_email =  cookie('email');
 			}else{
-				$this->_groupid = $_COOKIE['YP_groupid']=4;
+				$this->_groupid = cookie('groupid') ?  cookie('groupid') : 4;
 				$this->_userid =0;
 			}
 
@@ -96,11 +92,12 @@ class BaseAction extends Action
 					$this->assign('jumpUrl',URL('User-Login/emailcheck'));
 					$this->assign('waitSecond',3);
 					$this->success(L('no_regcheckemail'));
+					exit;
 				}
 				$this->assign('header',TMPL_PATH.'Home/'.THEME_NAME.'/Home_header.html');
 			}
 			if($_GET['forward'] || $_POST['forward']){	
-				$this->forward = $_GET['forward'].$_POST['forward'];
+				$this->forward = get_safe_replace($_GET['forward'].$_POST['forward']);
 			}else{
 				if(MODULE_NAME!='Register' || MODULE_NAME!='Login' )
 				$this->forward =isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] :  $this->Config['site_url'];
@@ -157,7 +154,7 @@ class BaseAction extends Action
 				$pages = $page->show();
 				$field =  $this->module[$cat['moduleid']]['listfields'];
 				$field =  $field ? $field : '*';
-				$list = $this->dao->field($field)->where($where)->order('listorder desc,id desc')->limit($page->firstRow . ',' . $page->listRows)->select();
+				$list = $this->dao->field($field)->where($where)->order('createtime desc,id desc')->limit($page->firstRow . ',' . $page->listRows)->select();
 				$this->assign('pages',$pages);
 				$this->assign('list',$list);
 			}
@@ -223,7 +220,7 @@ class BaseAction extends Action
 						$pages = $page->show();
 						$field =  $this->module[$this->mod[$module]]['listfields'];
 						$field =  $field ? $field : 'id,catid,userid,url,username,title,title_style,keywords,description,thumb,createtime,hits';
-						$list = $this->dao->field($field)->where($where)->order('listorder desc,id desc')->limit($page->firstRow . ',' . $page->listRows)->select();
+						$list = $this->dao->field($field)->where($where)->order('createtime desc,id desc')->limit($page->firstRow . ',' . $page->listRows)->select();
 						$this->assign('pages',$pages);
 						$this->assign('list',$list);
 					}
@@ -360,7 +357,8 @@ class BaseAction extends Action
 
 		if(strpos($filepath, ':/')) { 
 			header("Location: $filepath");
-		} else {			
+		} else {	
+			$filepath = '.'.$filepath;
 			if(!$filename) $filename = basename($filepath);
 			$useragent = strtolower($_SERVER['HTTP_USER_AGENT']);
 			if(strpos($useragent, 'msie ') !== false) $filename = rawurlencode($filename);
@@ -399,8 +397,8 @@ class BaseAction extends Action
 	}
 	public function verify()
     {
-		header('Content-type: image/gif');
-        $type	 =	 isset($_GET['type'])?$_GET['type']:'gif';
+		header('Content-type: image/jpeg');
+        $type	 =	 isset($_GET['type'])? get_safe_replace($_GET['type']):'jpeg';
         import("@.ORG.Image");
         Image::buildImageVerify(4,1,$type);
     }
