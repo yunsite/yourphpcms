@@ -215,8 +215,6 @@ case '4':
 			}else{
 				$indexcode = str_replace('define(\'APP_LANG\',true);', 'define(\'APP_LANG\',false);', $indexcode);
 				$indexcode = @file_put_contents(SITEDIR.'index.php',$indexcode);
-				//@unlink(SITEDIR.'index.php');
-				//@copy(SITEDIR.'Install/index_one.php',SITEDIR.'index.php');
 				mysql_query("UPDATE `{$dbPrefix}menu` SET  `status` ='0'   WHERE model='Lang' ");
 			}
 
@@ -235,7 +233,7 @@ case '4':
 			$strConfig = str_replace('#DB_PWD#', $dbPwd, $strConfig);
 			$strConfig = str_replace('#DB_PORT#', $dbPort, $strConfig);
 			$strConfig = str_replace('#DB_PREFIX#', $dbPrefix, $strConfig);
-			@file_put_contents(SITEDIR.'/Cache/'.$configFile, $strConfig);
+			@file_put_contents(SITEDIR.'/Cache/setup.'.$configFile, $strConfig);
 			$code=md5(time());
 			$query = "UPDATE `{$dbPrefix}config` SET value='$code' WHERE varname='ADMIN_ACCESS'";
 			mysql_query($query);
@@ -256,14 +254,17 @@ case '4':
 	 exit();
 
 case '5':
-	dir_delete(SITEDIR.'/Cache');
+	@unlink(SITEDIR.'/Cache/~runtime.php');
+	$strConfig = file_get_contents(SITEDIR.'/Cache/setup.'.$configFile);
+	@file_put_contents(SITEDIR.'/Cache/'.$configFile, $strConfig);
+	@unlink(SITEDIR.'/Cache/setup.'.$configFile);
 	$scriptName = !empty ($_SERVER["REQUEST_URI"]) ?  $scriptName = $_SERVER["REQUEST_URI"] :  $scriptName = $_SERVER["PHP_SELF"];
     $rootpath = @preg_replace("/\/(I|i)nstall\/index\.php(.*)/", "", $scriptName);
 	$domain = empty ($_SERVER['HTTP_HOST']) ?  $_SERVER['HTTP_HOST']  : $_SERVER['SERVER_NAME'] ;
 	$domain = $domain.$rootpath;
 	include_once ("./templates/s5.html");
-	@mkdir(SITEDIR.'/Cache/',0755,true);
-	@touch(SITEDIR.'/Cache/install.lock');
+	//@mkdir(SITEDIR.'/Cache/',0755,true);
+	//@touch(SITEDIR.'/Cache/install.lock');
     exit ();
 }
 
