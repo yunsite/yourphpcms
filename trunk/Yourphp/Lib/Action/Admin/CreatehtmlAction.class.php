@@ -61,9 +61,9 @@ class CreatehtmlAction extends AdminbaseAction {
     }
 
 
-	public function doCreatelist($_GET)
+	public function doCreatelist()
     {
-			$this->assign ( 'waitSecond', 2);
+			$this->assign ( 'waitSecond', 0);
 			extract($_GET,EXTR_SKIP);
 			$moduleid = intval($_GET['moduleid']);
 			$doid = $doid ? intval($doid) : 0;
@@ -157,7 +157,7 @@ class CreatehtmlAction extends AdminbaseAction {
 
 	public function doUpdateurl()
     {
-		$this->assign ( 'waitSecond', 2);
+		$this->assign ( 'waitSecond', 0);
 		$moduleid = intval($_GET['moduleid']);
 		extract($_GET,EXTR_SKIP);
 		if($moduleid<=0 && $catids[0] <= 0){
@@ -427,10 +427,10 @@ class CreatehtmlAction extends AdminbaseAction {
 	}
 
 
-	public function doCreateshow($_GET)
+	public function doCreateshow()
     {
 		 
-			$this->assign ( 'waitSecond', 2);
+			$this->assign ( 'waitSecond', 0);
 			extract($_GET,EXTR_SKIP);
 			$moduleid = intval($_GET['moduleid']);
 			$doid = $doid ? intval($doid) : 0;

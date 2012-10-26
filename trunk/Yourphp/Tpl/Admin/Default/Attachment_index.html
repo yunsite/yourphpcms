@@ -4,10 +4,10 @@ html{_overflow-y:scroll}
 .swfupload {position: absolute;z-index: 1;}
 .mainnav_title {display:none;}
 </style>
-<link href="./Public/Js/swfupload/swfupload.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="./Public/Js/swfupload/swfupload.js"></script>
-<script type="text/javascript" src="./Public/Js/swfupload/fileprogress.js"></script>
-<script type="text/javascript" src="./Public/Js/swfupload/handlers.js"></script>
+<link href="__ROOT__/Public/Js/swfupload/swfupload.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__ROOT__/Public/Js/swfupload/swfupload.js"></script>
+<script type="text/javascript" src="__ROOT__/Public/Js/swfupload/fileprogress.js"></script>
+<script type="text/javascript" src="__ROOT__/Public/Js/swfupload/handlers.js"></script>
 <script type="text/javascript">
 		$.ajaxSetup ({ cache: false });
 
@@ -16,7 +16,7 @@ html{_overflow-y:scroll}
  		window.onload = function() {
 			
 			var settings = {
-				flash_url : "./Public/Js/swfupload/swfupload.swf?"+Math.random(),
+				flash_url : "__ROOT__/Public/Js/swfupload/swfupload.swf?"+Math.random(),
 				upload_url: "{:U('Attachment/upload')}",
 				file_post_name : "filedata",
 				post_params: {"PHPSESSID" : "<?php echo  $sessid;?>", "isadmin" : "<?php echo $isadmin;?>","userid":"<?php echo $userid?>","swf_auth_key": "<?php echo $swf_auth_key;?>","isthumb" : "<?php echo $isthumb;?>","moduleid" : "<?php echo $moduleid?>","addwater":"<?php echo intval($watermark_enable);?>","lang":"<?php echo $lang;?>"},
