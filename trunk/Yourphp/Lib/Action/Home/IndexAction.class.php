@@ -15,6 +15,7 @@ class IndexAction extends BaseAction
     public function index()
     {
 		$this->assign('bcid',0);//顶级栏目 
+		$this->assign('ishome','home');
         $this->display();
     }
  

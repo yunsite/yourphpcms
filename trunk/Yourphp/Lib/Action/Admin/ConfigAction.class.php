@@ -118,12 +118,13 @@ class ConfigAction extends AdminbaseAction {
  	public function dosite() {
 		if(C('TOKEN_ON') && !$this->dao->autoCheckToken($_POST))$this->error (L('_TOKEN_ERROR_'));
 	
-		if(APP_LANG && $_POST['site_name'])$where = ' and lang='.LANG_ID;
+		if(APP_LANG && (isset($_POST['site_name']) || isset($_POST['member_emailchecktpl'])))$where = ' and lang='.LANG_ID;
 		foreach($_POST as $key=>$value){			
 			$data['value']=$value;
 			$f = $this->dao->where("varname='".$key."'".$where)->save($data);				 
 		}
 		$f = savecache(MODULE_NAME);
+		if(isset($_POST['HOME_ISHTML']) && $_POST['HOME_ISHTML']=='')@unlink(__ROOT__.'index.html');
 		if($_POST['DEFAULT_LANG'])routes_cache($_POST['URL_URLRULE']);
 
 		if($f){

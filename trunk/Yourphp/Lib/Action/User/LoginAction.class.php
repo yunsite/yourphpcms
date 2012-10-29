@@ -52,6 +52,7 @@ class LoginAction extends BaseAction
             if($authInfo['password'] != sysmd5($_POST['password'])) {
             	$this->error(L('password_error'));
             }
+			if($authInfo['status'] != 1)$this->error(L('ACCOUNT_DISABLE'));
 
 			$cookietime =  intval($_REQUEST['cookietime']);
 			$cookietime = $cookietime ? $cookietime : 0;

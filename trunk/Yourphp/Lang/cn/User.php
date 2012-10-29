@@ -100,6 +100,7 @@ return array (
   'CATID'=>'栏目',
   'DESCRIPTION'=>'简介',
   'FROMLINK'=>'来源链接',
+  'ACCOUNT_DISABLE'=>'您的帐号已被禁用',
 
 );
 ?>
