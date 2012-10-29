@@ -101,5 +101,6 @@ return array (
   'CATID'=>'Category',
   'DESCRIPTION'=>'Description',
   'FROMLINK'=>'From link',
+  'ACCOUNT_DISABLE'=>'Your Account Disabled',
 );
 ?>

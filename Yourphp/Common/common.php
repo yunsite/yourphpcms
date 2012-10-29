@@ -803,10 +803,10 @@ function routes_cache($URL_URLRULE=''){
 }
 
 function HOMEURL($lang){
-	if(C('URL_M')==1)$index='/index.php/';
+	if(C('URL_M')==1)$index='/index.php';
 	$lang= C('URL_LANG')!=$lang ? $lang : '';
 	if(C('URL_M') > 0){
-		$url =$lang ? __ROOT__.$index.$lang.'/' :  __ROOT__.'/';
+		$url =$lang ? __ROOT__.$index.'/'.$lang.'/' :  __ROOT__.'/';
 	}else{
 		$url =$lang ?  __ROOT__.'/index.php?l='.$lang :  __ROOT__.'/';
 	}
