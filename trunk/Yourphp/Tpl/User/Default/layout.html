@@ -16,7 +16,7 @@ var PUBLIC = '__PUBLIC__';
 		   |  <a href="{$r.url}">{$r.catname}</a>
 	</YP:subcat>
 	<br>
-	Powered by {if YP_KEY==1}<a href="http://www.yourphp.cn">Yourphp {:VERSION} </a>{else}<a href="{$site_url}">{$site_name}</a>{/if}  © 2011  
+	Powered by {if !YP_KEY}<a href="http://www.yourphp.cn">Yourphp {:VERSION} </a>{else}<a href="{$site_url}">{$site_name}</a>{/if}  © 2011  
 	</div>
 </div>
 

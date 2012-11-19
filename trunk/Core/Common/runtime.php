@@ -155,15 +155,15 @@ function build_runtime_cache($append='') {
     if(C('APP_TAGS_ON')) {
         $content .= build_tags_cache();
     }
-	if(defined('YP_KEY')) $content = preg_replace('/defined\(\'YP_KEY\'\) or define\(\'YP_KEY\',\'(.+?)\'\)\;/','',$content);	
+	if(defined('YP_KEY')){ $content = preg_replace('/defined\(\'YP_KEY\'\) or define\(\'YP_KEY\',\'(.+?)\'\)\;/','',$content);exit;}
 	preg_match('/[\w][\w-]*\.(?:com\.cn|net\.cn|com|cn|co|net|org|gov|cc|biz|info)(\/|$)/isU', $_SERVER['SERVER_NAME'], $domain);
 	$domain = $domain[0];
 	if(is_file(__ROOT__.$domain.'.php')){	
 		include __ROOT__.$domain.'.php';
-		eval(base64_decode(authcode($code)));
-		$content .=  sha1( $domain.$key['key'])==$key['code'] ? ' defined(\'YP_KEY\') ?  exit : define(\'YP_KEY\',\''.$key['key'].'\');' : 'define(\'YP_KEY\',\'1\');';
+		eval(authcode(base64_decode($code)));
+		$content .=  sha1( $domain.$key['key'])==$key['code'] ? ' defined(\'YP_KEY\') ?  exit : define(\'YP_KEY\',true);' : 'define(\'YP_KEY\',false);';
 	}else{
-		$content .= 'define(\'YP_KEY\',\'1\');';
+		$content .= 'define(\'YP_KEY\',false);';
 	}
     $alias      = include THINK_PATH.'Conf/alias.php';
     $content   .= 'alias_import('.var_export($alias,true).');';

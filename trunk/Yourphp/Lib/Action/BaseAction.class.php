@@ -21,7 +21,6 @@ class BaseAction extends Action
 			$this->Type =F('Type');
 			$this->mod= F('Mod');
 			$this->moduleid=$this->mod[MODULE_NAME];
-
 			if(APP_LANG){
 				$this->Lang = F('Lang');
 				$this->assign('Lang',$this->Lang);
@@ -55,7 +54,7 @@ class BaseAction extends Action
 			import("@.ORG.Form");			
 			$this->assign ( 'form',new Form());
  
-
+			C('HOME_ISHTML',$this->sysConfig['HOME_ISHTML']);
 			C('PAGE_LISTROWS',$this->sysConfig['PAGE_LISTROWS']);
 			C('URL_M',$this->sysConfig['URL_MODEL']);
 			C('URL_M_PATHINFO_DEPR',$this->sysConfig['URL_PATHINFO_DEPR']);

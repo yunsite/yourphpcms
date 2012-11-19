@@ -275,7 +275,9 @@ INSERT INTO `yourphp_menu` VALUES ('80', '79', 'Shipping', '', '', '1', '1', '0'
 INSERT INTO `yourphp_menu` VALUES ('81', '79', 'Shipping', 'add', 'isajax=1', '1', '1', '0', '添加配送方式', '', '0');
 INSERT INTO `yourphp_menu` VALUES ('82', '58', 'Order', 'orderlist', '', '1', '1', '0', '单据管理', '', '0');
 INSERT INTO `yourphp_menu` VALUES ('83','1','Log','index','','1','1','0','后台登陆日志','','83');
-
+INSERT INTO `yourphp_menu` VALUES ('84','2','Upgrade','index','','1','1','0','在线升级','','0');
+INSERT INTO `yourphp_menu` VALUES ('85','84','Upgrade','checkfile','','1','1','0','文件校检','','0');
+INSERT INTO `yourphp_menu` VALUES ('86','6','Createhtml','createsitemap','','1','1','0','生成网站地图','','0');
 -- 
 -- 导出`yourphp_module`表中的数据 `yourphp_module`
 --

@@ -87,6 +87,7 @@ class SearchAction extends BaseAction
 		}
 		$this->dao= M($module);
 		$count = $this->dao->where($where)->count();
+		$this->assign('count',$count);
 		
 		if($count){
 			import ( "@.ORG.Page" );
@@ -101,7 +102,7 @@ class SearchAction extends BaseAction
 			$this->assign('pages',$pages);
 			$this->assign('list',$list);
 		}
-		
+
 		$this->display();
 
     } 

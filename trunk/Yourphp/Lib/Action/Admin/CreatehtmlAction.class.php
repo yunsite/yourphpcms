@@ -513,5 +513,66 @@ class CreatehtmlAction extends AdminbaseAction {
 
 		}
 
+		public function createsitemap()
+		{
+
+			foreach((array)$this->module as $r){
+					if($r['issearch'])$search_module[$r['name']] =  $r;
+			}
+			$this->assign('module',$search_module);
+
+			$xmlmap=file_exists('./sitemap.xml');
+			$htmlmap=file_exists('./sitemap.html');
+			$this->assign('siteurl',$this->Config['site_url']);
+			$this->assign('xmlmap',$xmlmap);
+			$this->assign('htmlmap',$htmlmap); 
+			$this->assign('yesorno',array(0 => L('no'),1  => L('yes')));
+			$this->display('Createhtml:sitemap');	 
+			 
+		}
+
+		public function docreatesitemap()
+		{
+			if($_GET['htmlmap']){
+				$r = $this->create_index(1);
+			}
+
+			if($_GET['xmlmap']){
+				import("@.ORG.Cxml");
+				$array=array();
+				
+ 
+				$array[0]['NodeName']['value'] ='url';
+				$array[0]['loc']['value']=$this->Config['site_url'];
+				$array[0]['lastmod']['value']= date('Y-m-d',time());
+				$array[0]['changefreq']['value'] ='weekly';
+				$array[0]['priority']['value'] =1;
+
+				foreach((array)$this->module as $r){
+					if($r['issearch']){
+						$num = intval($_GET[$r['name']]);
+						if(!$num) continue;
+						$data = M($r['name'])->field('id,title,url,createtime')->where("status=1")->order('id desc')->limit('0,'.$num)->select();
+						foreach($data as $key=> $res){
+							$arraya[$key]['NodeName']['value'] ='url';
+							$arraya[$key]['loc']['value'] = $this->Config['site_url'].$res['url'];					
+							$arraya[$key]['lastmod']['value'] = date('Y-m-d',$res['createtime']);					
+							$arraya[$key]['changefreq']['value'] ='weekly';
+							$arraya[$key]['priority']['value'] =0.7;
+						}
+						$array =array_merge($array,$arraya);						
+					}
+				}
+				
+				$Cxml = new Cxml();
+				$Cxml->root='urlset';
+				$Cxml->root_attributes=array('xmlns'=>'http://www.sitemaps.org/schemas/sitemap/0.9');
+				$xmldata = $Cxml->Cxml($array,'./sitemap.xml');
+				$d=file_exists('./sitemap.xml');;
+			}
+			if(($_GET['htmlmap'] && $r) || ($_GET['xmlmap']&& $d)){$this->success(L('DO_OK'));}else{$this->error(L('Create error.'));}
+			 
+		}
+
 }
 ?>

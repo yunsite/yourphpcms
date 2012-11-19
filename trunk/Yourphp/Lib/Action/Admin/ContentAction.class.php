@@ -123,7 +123,7 @@ class ContentAction extends AdminbaseAction
 				$Attachment->where("aid in (".$aids.")")->save($data);
 			}
 			
-			$tablename=C('DB_PREFIX').$module;
+			$tablename=C('DB_PREFIX').strtolower($module);
 			$db=D('');
 			$db =   DB::getInstance();
 			$tables = $db->getTables();			
@@ -178,13 +178,13 @@ class ContentAction extends AdminbaseAction
 			}
  
 			if($cat['ishtml'] && $_POST['status']){
-				if($module!='Page'   && $_POST['status'])	$this->create_show($id,$module);
-				if($this->sysConfig['HOME_ISHTML']) $this->create_index();
+				if($module!='Page'   && $_POST['status'])	$this->create_show($id,$module);				
 				$arrparentid = array_filter(explode(',',$cat['arrparentid'].','.$cat['id']));
 				foreach($arrparentid as $catid) {
 					if($this->categorys[$catid]['ishtml'])	$this->clisthtml($catid);					
 				}
  			}
+			if($this->sysConfig['HOME_ISHTML']) $this->create_index();
 			if(GROUP_NAME=='Admin'){
 				$this->assign ( 'jumpUrl', U($module.'/index') );
 			}elseif(GROUP_NAME=='User'){
@@ -282,13 +282,13 @@ class ContentAction extends AdminbaseAction
 			}
 			$cat = $this->categorys[$catid];
 			if($cat['ishtml']){
-				if($module!='Page'  && $_POST['status'])	$this->create_show($_POST['id'],$module);				
-				if($this->sysConfig['HOME_ISHTML']) $this->create_index();
+				if($module!='Page'  && $_POST['status'])	$this->create_show($_POST['id'],$module);
 				$arrparentid = array_filter(explode(',',$cat['arrparentid'].','.$cat['id']));
 				foreach($arrparentid as $catid) {
 					if($this->categorys[$catid]['ishtml'])	$this->clisthtml($catid);					
 				}
  			}
+			if($this->sysConfig['HOME_ISHTML']) $this->create_index();
 			$this->assign ( 'jumpUrl', $_POST['forward'] );
 			$this->success (L('edit_ok'));
 		} else {
