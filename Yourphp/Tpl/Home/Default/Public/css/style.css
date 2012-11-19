@@ -351,5 +351,9 @@ em.success {overflow:hidden;zoom:1;background:url("../Images/checked.gif") no-re
 .post_box h5 {line-height:35px;text-align:center;font-size:14px;border-bottom:1px solid #eee;height:35px;background:#E9E9EB;}
 /*user login*/
 
-
+/*sitemap*/
+.mapbox{border:1px solid #ccc;}
+.mapbox h4 {border:none;border-top:1px solid #ccc;margin-top:-1px;border-bottom:1px solid #eee;background:#EFEFEF;}
+.smallcat ul li {float:left;line-height:24px;}
+.smallcat ul li a {margin:0 8px;}
 

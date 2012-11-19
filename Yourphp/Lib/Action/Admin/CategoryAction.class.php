@@ -149,13 +149,13 @@ class CategoryAction extends AdminbaseAction
 
 
 				if($_POST['ishtml']){
-					$this->categorys = F('Category');
-					if($this->sysConfig['HOME_ISHTML']) $this->create_index();
+					$this->categorys = F('Category');				
 					$cat = $this->categorys[$id];					
 					$arrparentid = array_filter(explode(',',$cat['arrparentid'].','.$cat['id']));
 					foreach($arrparentid as $catid) {
 						if($this->categorys[$catid]['ishtml'])	$this->clisthtml($catid);					
 					}
+					if($this->sysConfig['HOME_ISHTML']) $this->create_index();
 				}
 				$this->assign ( 'jumpUrl', U(MODULE_NAME.'/index') );
                 $this->success(L('add_ok'));
@@ -264,11 +264,11 @@ class CategoryAction extends AdminbaseAction
 			savecache('Category');
 			if($_POST['ishtml']){
 				$cat=$this->categorys[$_POST['id']];
-				if($this->sysConfig['HOME_ISHTML']) $this->create_index();
 				$arrparentid = array_filter(explode(',',$cat['arrparentid'].','.$cat['id']));
 				foreach($arrparentid as $catid) {
 					if($this->categorys[$catid]['ishtml'])	$this->clisthtml($catid);					
 				}
+				if($this->sysConfig['HOME_ISHTML']) $this->create_index();
 			}
 			$this->assign ( 'jumpUrl', U(MODULE_NAME.'/index') );
 			$this->success (L('edit_ok'));

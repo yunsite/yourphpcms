@@ -26,5 +26,12 @@ return array(
 	'Createshow' => '开始更新内容页',
 	'Updateurl' => '开始更新URL',
 	'Createindex' => '生成首页HTML文件',
+	'Createsitemap' => '生成地图',
+	'YES_NO_CREATE'=>'是否生成',
+	'sitemap_info'=>'网站地图有助于确保搜索引擎了解您网站上的所有网页，包括在正常抓取过程中可能找不到的网址.<br> 建议每周生成一次 ',
+	'HTML_SITEMAP'=>'HTML地图',
+	'XML_SITEMAP'=>'XML地图',
+	'GOTO'=>'访问',
+	'MODULE_NUMBER'=>'模型信息生成数量',
 );
 ?>

@@ -26,7 +26,7 @@ class Phpzip extends Think {
 			if($file == '.' || $file == '..'){ continue; }                        
 			$pathSub    = preg_replace("*/{2,}*", "/", $path."/".$file);  // 替换多个反斜杠                
 			$fileList[] = is_dir($pathSub) ? $pathSub."/" : $pathSub;                
-			if(is_dir($pathSub)){ $this->visitFile($pathSub); } }            
+			if(is_dir($pathSub)){ self::visitFile($pathSub); } }            
 			$fdir->close();            
 			return $fileList;        
 	}
@@ -56,7 +56,7 @@ class Phpzip extends Think {
 	   private function addFile($data, $filename, $time = 0)        
 	   {            
 		     $filename = str_replace('\\', '/', $filename);                
-		     $dtime    = dechex($this->unix2DosTime($time));            
+		     $dtime    = dechex(self::unix2DosTime($time));            
 		     $hexdtime = '\x' . $dtime[6] . $dtime[7]  
 		     . '\x' . $dtime[4] . $dtime[5]. '\x' 
 		     . $dtime[2] . $dtime[3]. '\x' 
@@ -132,8 +132,7 @@ class Phpzip extends Think {
 		 	return; 
 		 }
 		 
-		 ob_end_clean();
-		 $filelist = $this->visitFile($dir);
+		 $filelist = self::visitFile($dir);
 		 if(count($filelist) == 0)
 		 { return; }
 		 
@@ -147,9 +146,9 @@ class Phpzip extends Think {
 			  // 2.如果存在/就删除(/file.txt删除/)  
 			  $file = substr($file, strlen($dir));                
 			  if(substr($file, 0, 1) == "\\" || substr($file, 0, 1) == "/"){ $file = substr($file, 1); }                                
-			  $this->addFile($content, $file);            
+			  self::addFile($content, $file);            
 			 }            
-			 $out = $this->file();                
+			 $out = self::file();                
 			 $fp = fopen($saveName, "wb");            
 			 fwrite($fp, $out, strlen($out));            
 			 fclose($fp);
@@ -165,10 +164,9 @@ class Phpzip extends Think {
 		   if(@!function_exists('gzcompress'))
 		   { 
 		   		return; 
-		   }                
-		   ob_end_clean();  
+		   }       
 		             
-		   $filelist = $this->visitFile($dir); 
+		   $filelist = self::visitFile($dir); 
 		              
 		   if(count($filelist) == 0)
 		   { return; } 
@@ -186,9 +184,9 @@ class Phpzip extends Think {
 			   if(substr($file, 0, 1) == "\\" || substr($file, 0, 1) == "/")
 			   { 
 		   	   	$file = substr($file, 1); }                                
-				$this->addFile($content, $file); 
+				self::addFile($content, $file); 
 			   }            
-				$out = $this->file(); 
+				$out = self::file(); 
 				@header('Content-Encoding: none');            
 				@header('Content-Type: application/zip');            
 				@header('Content-Disposition: attachment ; filename=Farticle'.date("YmdHis", time()).'.zip');            
@@ -290,7 +288,7 @@ class Phpzip extends Think {
 
 	private function ExtractFile($header, $to, $zip)        
 	{            
-		$header = $this->readfileheader($zip);                        
+		$header = self::readfileheader($zip);                        
 		if(substr($to, -1) != "/"){ $to .= "/"; }            
 		if(!@is_dir($to)){ @mkdir($to, 0777); }                        
 		$pth = explode("/", dirname($header['filename']));            
@@ -404,7 +402,7 @@ class Phpzip extends Think {
 		    	$ok  = 0;            
 		    	$zip = @fopen($zipfile, 'rb');            
 		    	if(!$zip){ return(-1); }                        
-		    	$cdir      = $this->ReadCentralDir($zip, $zipfile);            
+		    	$cdir      = self::ReadCentralDir($zip, $zipfile);            
 		    	$pos_entry = $cdir['offset'];                        
 		    	if(!is_array($index)){ $index = array($index); }            
 		    	for($i=0; $index[$i]; $i++)            
@@ -417,14 +415,14 @@ class Phpzip extends Think {
 		    	for($i=0; $i<$cdir['entries']; $i++)            
 		    	{                
 		    		@fseek($zip, $pos_entry);                
-		    		$header          = $this->ReadCentralFileHeaders($zip);                
+		    		$header          = self::ReadCentralFileHeaders($zip);                
 		    		$header['index'] = $i;                
 		    		$pos_entry       = ftell($zip);                
 		    		@rewind($zip);                
 		    		fseek($zip, $header['offset']);                
 		    		if(in_array("-1", $index) || in_array($i, $index))                
 		    		{                    
-		    			$stat[$header['filename']] = $this->ExtractFile($header, $to, $zip);                
+		    			$stat[$header['filename']] = self::ExtractFile($header, $to, $zip);                
 		    		}            
 		    	}                        
 		    	fclose($zip);            
@@ -447,13 +445,13 @@ class Phpzip extends Think {
 		      {            
 			      	$zip = @fopen($zipfile, 'rb');            
 			      	if(!$zip){ return(0); }            
-			      	$centd = $this->ReadCentralDir($zip, $zipfile);                        
+			      	$centd = self::ReadCentralDir($zip, $zipfile);                        
 			      	@rewind($zip);            
 			      	@fseek($zip, $centd['offset']);            
 			      	$ret = array();            
 			      	for($i=0; $i<$centd['entries']; $i++)            
 			      	{                
-			      		$header          = $this->ReadCentralFileHeaders($zip);                
+			      		$header          = self::ReadCentralFileHeaders($zip);                
 			      		$header['index'] = $i;                
 			      		$info = array(                    
 			      		'filename'        => $header['filename'], // 文件名                    
@@ -483,7 +481,7 @@ class Phpzip extends Think {
       {            
 	      $zip = @fopen($zipfile, 'rb');            
 	      if(!$zip){ return(0); }            
-	      $centd = $this->ReadCentralDir($zip, $zipfile);            
+	      $centd = self::ReadCentralDir($zip, $zipfile);            
 	      fclose($zip);            
 	      return $centd[comment];        
       }    

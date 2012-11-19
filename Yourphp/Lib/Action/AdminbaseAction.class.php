@@ -53,7 +53,8 @@ class AdminbaseAction extends Action
 		$this->assign('module_name',MODULE_NAME);
 		$this->assign('action_name',ACTION_NAME);
 		$this->cache_model=array('Lang','Menu','Config','Module','Role','Category','Posid','Field','Type','Urlrule','Dbsource');
-
+		
+		C('HOME_ISHTML',$this->sysConfig['HOME_ISHTML']);
 		C('PAGE_LISTROWS',$this->sysConfig['PAGE_LISTROWS']);
 		C('URL_LANG',$this->sysConfig['DEFAULT_LANG']);
 		C('URL_M',$this->sysConfig['URL_MODEL']);
@@ -743,7 +744,7 @@ class AdminbaseAction extends Action
 		if($r) return true;
 	}
 
-	public function create_index()
+	public function create_index($sitemap)
     {
 		C('HTML_FILE_SUFFIX',$this->sysConfig['HTML_FILE_SUFFIX']);
 		C('DEFAULT_THEME_NAME',$this->sysConfig['DEFAULT_THEME']);
@@ -767,15 +768,20 @@ class AdminbaseAction extends Action
  
 		
 		$this->assign ( 'form',new Form());
-		//cookie('think_template',$this->sysConfig['DEFAULT_THEME']);
-		if(!$this->sysConfig['HOME_ISHTML']) $this->error(L('NO_HOME_ISHTML'));
-		$this->assign('bcid',0);
 		$this->assign('Module',$this->module);
 		$this->assign('Type',$this->Type);
 		$this->assign($this->Config);
 		$this->assign('Categorys',$this->categorys);
  		//$r=$this->buildHtml('index','./','Home/Index_index');
-		$r=$this->buildHtml('index','./'.$lang,'./Yourphp/Tpl/Home/'.$this->sysConfig['DEFAULT_THEME'].'/Index_index'.C('TMPL_TEMPLATE_SUFFIX'));
+		if(empty($sitemap)){
+			$this->assign('ishome','home');
+			if(!$this->sysConfig['HOME_ISHTML']) $this->error(L('NO_HOME_ISHTML'));
+			$this->assign('bcid',0);
+			$r=$this->buildHtml('index','./'.$lang,'./Yourphp/Tpl/Home/'.$this->sysConfig['DEFAULT_THEME'].'/Index_index'.C('TMPL_TEMPLATE_SUFFIX'));
+		}else{
+			$this->assign('sitemap','1');
+			$r=$this->buildHtml('sitemap','./'.$lang,'./Yourphp/Tpl/Home/'.$this->sysConfig['DEFAULT_THEME'].'/Sitemap'.C('TMPL_TEMPLATE_SUFFIX'));
+		}
 		if($r) return true;
     }
 

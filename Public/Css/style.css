@@ -45,7 +45,7 @@ input,select,textarea,.textarea_style{border:1px solid #dcdcdc;vertical-align:mi
 
 
 input.ss{background-image:url(../Images/search_icon.gif)}
-div.titlev{float:none; background:#FBFAF8; border:1px solid #d4d4d4; padding-top:5px; padding-bottom:5px; padding-left:20px; width:97%; margin:5px 0px; text-align:left; font-size:14px; font-weight:bold; letter-spacing:4px; background:#F0F0FF; background-position:5px 40%}
+div.titlec{float:none; background:#FFFFEF; border:1px solid #FFBE7B;margin:10px 0;font-size:12px; }
 .table_border td{border-top:1px #DDD solid;border-right:1px #DDD solid;}
 .table_border{border-bottom:1px #DDD solid;border-left:1px #DDD solid;}
 

@@ -190,8 +190,8 @@ function dir_create($path, $mode = 0777) {
 	for($i=0; $i<$max; $i++) {
 		$cur_dir .= $temp[$i].'/';
 		if (@is_dir($cur_dir)) continue;
-		@mkdir($cur_dir, 0777,true);
-		@chmod($cur_dir, 0777);
+		@mkdir($cur_dir, $mode,true);
+		@chmod($cur_dir, $mode);
 	}
 	return is_dir($path);
 }
@@ -238,7 +238,7 @@ function dir_list($path, $exts = '', $list= array()) {
 	}
 	return $list;
 }
-
+  
 function dir_tree($dir, $parentid = 0, $dirs = array()) {
 	if ($parentid == 0) $id = 0;
 	$list = glob($dir.'*');
@@ -252,16 +252,19 @@ function dir_tree($dir, $parentid = 0, $dirs = array()) {
 	return $dirs;
 }
 
-function dir_delete($dir) {
-	$dir = dir_path($dir);
-	if (!is_dir($dir)) return FALSE;
-	$list = glob($dir.'*');
-	foreach((array)$list as $v) {
-		is_dir($v) ? dir_delete($v) : @unlink($v);
-	}
-    return @rmdir($dir);
-}
 
+function dir_delete($dir) {
+	//$dir = dir_path($dir);
+	if (!is_dir($dir)) return FALSE; 
+	$handle = opendir($dir); //打开目录
+	while(($file = readdir($handle)) !== false) {
+	        if($file == '.' || $file == '..')continue;
+			$d = $dir.DIRECTORY_SEPARATOR.$file;
+	        is_dir($d) ? dir_delete($d) : @unlink($d);
+	}
+	closedir($handle);
+	return @rmdir($dir);
+}
 
 function toDate($time, $format = 'Y-m-d H:i:s') {
 	if (empty ( $time )) {
@@ -803,12 +806,16 @@ function routes_cache($URL_URLRULE=''){
 }
 
 function HOMEURL($lang){
-	if(C('URL_M')==1)$index='/index.php';
+	if(C('URL_M')==1)$index='/index.php/';
 	$lang= C('URL_LANG')!=$lang ? $lang : '';
 	if(C('URL_M') > 0){
-		$url =$lang ? __ROOT__.$index.'/'.$lang.'/' :  __ROOT__.'/';
-	}else{
-		$url =$lang ?  __ROOT__.'/index.php?l='.$lang :  __ROOT__.'/';
+		$url =$lang ? __ROOT__.$index.$lang.'/' :  __ROOT__.'/';
+	}else{	
+		if(C('HOME_ISHTML')){
+			$url = $lang ? '/'.$lang.'/' : '/';
+		}else{
+			$url =$lang ?  __ROOT__.'/index.php?l='.$lang :  __ROOT__.'/';
+		}
 	}
 	return $url;
 }
@@ -1334,4 +1341,29 @@ function get_safe_replace($array){
 	return $array;
 }
 
+function  sql_split($sql,$tablepre) {
+
+	if($tablepre != "yourphp_") $sql = str_replace("yourphp_", $tablepre, $sql);
+	//$sql = preg_replace("/TYPE=(InnoDB|MyISAM|MEMORY)( DEFAULT CHARSET=[^; ]+)?/", "ENGINE=\\1 DEFAULT CHARSET=utf8",$sql);
+	
+	if($r_tablepre != $s_tablepre) $sql = str_replace($s_tablepre, $r_tablepre, $sql);
+	$sql = str_replace("\r", "\n", $sql);
+	$ret = array();
+	$num = 0;
+	$queriesarray = explode(";\n", trim($sql));
+	unset($sql);
+	foreach($queriesarray as $query)
+	{
+		$ret[$num] = '';
+		$queries = explode("\n", trim($query));
+		$queries = array_filter($queries);
+		foreach($queries as $query)
+		{
+			$str1 = substr($query, 0, 1);
+			if($str1 != '#' && $str1 != '-') $ret[$num] .= $query;
+		}
+		$num++;
+	}
+	return $ret;
+}
 ?>
